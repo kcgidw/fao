@@ -2,9 +2,13 @@
   "name": "fake-artist-online",
   "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "src/server/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack -w --debug --output-path-info",
+    "start": "node ./src/server/main.js",
+    "full": "webpack && npm run start"
   },
   "author": "",
   "license": "ISC",
@@ -14,5 +18,10 @@
     "lodash": "^4.17.10",
     "socket.io": "^2.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "source-map-loader": "^0.2.3",
+    "webpack": "^4.14.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.10"
+  }
 }

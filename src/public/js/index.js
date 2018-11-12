@@ -1,3 +1,6 @@
+const gameCanvas = require('../../common/game-canvas');
+const RelativePoint = gameCanvas.RelativePoint;
+
 var canvas = document.getElementById('drawingPad');
 var ctx = canvas.getContext('2d');
 
@@ -47,31 +50,4 @@ function drawStroke(stroke) {
 		ctx.lineTo(pt.x * CANVAS_WIDTH, pt.y * CANVAS_HEIGHT);
 	}
 	ctx.stroke();
-}
-
-
-/*
-X-Y points with values ranging (0,0) to (1.0,1.0)
-*/
-class RelativePoint {
-	constructor(x, y) {
-		this.x = x;
-		this.y = y;
-	}
-}
-
-class Stroke {
-	constructor(player, points) {
-		this.player = player;
-		this.points = points; // array of points to connect
-	}
-}
-
-class StrokeHistory {
-	constructor() {
-		this.strokes = [];
-	}
-	getStrokesByPlayer(player) {
-		return this.strokes.find((s) => (s.player === player));
-	}
 }

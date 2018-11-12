@@ -1,6 +1,6 @@
 
 /*
-X-Y points with values ranging (0,0) to (1.0,1.0)
+X-Y points with values ranging (0, 0) to (1.0, 1.0)
 */
 class RelativePoint {
 	constructor(x, y) {
@@ -16,11 +16,6 @@ class Stroke {
 	}
 }
 
-class StrokeHistory {
-	constructor() {
-		this.strokes = [];
-	}
-	getStrokesByPlayer(player) {
-		return this.strokes.find((s) => (s.player === player));
-	}
+export {
+	RelativePoint, Stroke
 }

@@ -1,4 +1,6 @@
 node_modules/
+.env
 *.log
 .vscode/
-.env
+*.bundle.js
+*.js.map
