@@ -17,28 +17,40 @@ const DRAW_STATE = {
 var curDrawState = DRAW_STATE.BEGIN;
 var stroke = [];
 
-canvas.onmousedown = function(e) {
-	curDrawState = DRAW_STATE.PAINT;
-	var mouseX = e.pageX - this.offsetLeft;
-	var mouseY = e.pageY - this.offsetTop;
-	stroke.push(new RelativePoint(mouseX / CANVAS_WIDTH, mouseY / CANVAS_HEIGHT));
-};
-canvas.onmouseup = function(e) {
-	curDrawState = DRAW_STATE.PREVIEW;
-	var mouseX = e.pageX - this.offsetLeft;
-	var mouseY = e.pageY - this.offsetTop;
-	stroke.push(new RelativePoint(mouseX / CANVAS_WIDTH, mouseY / CANVAS_HEIGHT));
-	drawStroke(stroke);
-	stroke = [];
-};
+function getRelativePointFromMouseEvent(canvasThis, e) {
+	var mouseX = e.pageX - canvasThis.offsetLeft;
+	var mouseY = e.pageY - canvasThis.offsetTop;
+	var pt = new RelativePoint(mouseX / CANVAS_WIDTH, mouseY / CANVAS_HEIGHT);
+	return pt;
+}
+
+$('#drawingPad').mousedown(function(e){
+	// if(curDrawState === DRAW_STATE.BEGIN) {
+		curDrawState = DRAW_STATE.PAINT;
+		var newPt = getRelativePointFromMouseEvent(this, e);
+		stroke.push(newPt);
+	// }
+});
 $('#drawingPad').mousemove(function(e){
 	if(curDrawState === DRAW_STATE.PAINT) {
-		var mouseX = e.pageX - this.offsetLeft;
-		var mouseY = e.pageY - this.offsetTop;
-		stroke.push(new RelativePoint(mouseX / CANVAS_WIDTH, mouseY / CANVAS_HEIGHT));
-		drawStroke(stroke);
+		var lastPt = stroke[stroke.length - 1];
+		var newPt = getRelativePointFromMouseEvent(this, e);
+		if(!lastPt.matches(newPt)) {
+			stroke.push(newPt);
+			drawStroke(stroke);
+		}
 	}
-  });
+});
+$('#drawingPad').mouseup(function(e){
+	if(curDrawState === DRAW_STATE.PAINT) {
+		curDrawState = DRAW_STATE.PREVIEW;
+		var newPt = getRelativePointFromMouseEvent(this, e);
+		stroke.push(newPt);
+		drawStroke(stroke);
+		stroke = [];
+	}
+});
+// TODO mouseout event
 
 function drawStroke(stroke) {
 	console.log(stroke);

@@ -7,6 +7,12 @@ class RelativePoint {
 		this.x = x;
 		this.y = y;
 	}
+	matches(other) {
+		return negligible(this.x, other.x) && negligible(this.y, other.y);
+	}
+}
+function negligible(a, b, thresh = 0.00001) {
+	return Math.abs(a - b) < thresh;
 }
 
 class Stroke {

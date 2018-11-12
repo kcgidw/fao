@@ -7,22 +7,16 @@ const GAME_STATE = {
 	'CLOSED': 'CLOSED'
 };
 
-class Player {
-	constructor(name, isHost = false, color) {
-		this.name = name;
-		this.isHost = isHost;
-		this.color = color;
-		this.isFaker = false; // TODO remove client-side visibility
-	}
-	setFaker(isFaker) {
-		this.isFaker = isFaker;
-	}
-}
-
 class GameRoom {
 	constructor() {
 		this.state = GAME_STATE.INVITE;
 		this.players = [];
+		this.turn = -1;
+	}
+	static fromJson(json) {
+		var room = new GameRoom();
+		Object.assign(room, json);
+		return room;
 	}
 	addPlayer(player) {
 		this.players.push(player);
@@ -37,13 +31,17 @@ class GameRoom {
 	findHost() {
 		return this.players.find((p) => (p.isHost === true));
 	}
-	resetGame() {
-		this.state = GAME_STATE.INVITE;
-	}
 	newRound() {
 		this.state = GAME_STATE.PLAY;
+		this.turn = 1;
+	}
+	whoseTurn() {
+		var idx = (this.turn % this.players.length) - 1;
+		return this.players[idx];
 	}
 	closeGame() {
 		this.state = GAME_STATE.CLOSED;
 	}
 }
+
+export { GAME_STATE, GameRoom };
