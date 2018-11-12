@@ -1,5 +1,16 @@
 html, body {
+	font-family: 'Noto Sans', sans-serif;
 	background-color: #eee;
 	color: #333;
 	margin: 0;
+	font-size: 18px;
+}
+
+#wrapper {
+	margin: auto;
+	text-align: center;
+}
+
+canvas {
+	background-color: white;
 }

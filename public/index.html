@@ -1,12 +1,29 @@
 <html>
+
 	<header>
 		<title>Fake Artist Online</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="style/normalize.css" />
 		<link rel="stylesheet" href="style/style.css" />
 	</header>
+
 	<body>
-		Hi
+		<div id="wrapper">
+			<h1>Fake Artist Online</h1>
+			<p class="desc">
+				Web-app clone of the tabletop game <em>A Fake Artist Goes to New York</em>.
+			</p>
+
+			<canvas id="drawingPad"></canvas>
+		</div>
+		
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.min.js"
+			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			crossorigin="anonymous"></script> <!-- TODO use slim? -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js" crossorigin></script>
 		<script src="./js/index.js" crossorigin></script>
 	</body>
+
 </html>
