@@ -1,27 +1,68 @@
+<!DOCTYPE html>
 <html>
 
-	<header>
+	<head>
 		<title>Fake Artist Online</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="description" content=
+			"An aid for Oink Games' tabletop game, A Fake Artist Goes to New York. Play online and draw with a mouse or phone" />
+		<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
 		<link rel="stylesheet" href="style/normalize.css" />
 		<link rel="stylesheet" href="style/style.css" />
-	</header>
+	</head>
 
 	<body>
 		<div id="wrapper">
-			<h1>Fake Artist Online</h1>
-			<p class="desc">
-				Web-app clone of the tabletop game <em>A Fake Artist Goes to New York</em>.
-			</p>
-
-			<canvas id="drawingPad"></canvas>
+			<div id="landing" class="view">
+				<h1>Fake Artist Online</h1>
+				<p class="desc">
+					An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.
+				</p>
+				<div id="menu">
+					<div id="first-prompt-menu" class="menu">
+						<button id="create-menu" class="btn big primary">New Game</button>
+						<div style="clear: both"></div>
+						<button id="join-menu" class="btn big primary">Join Game</button>
+					</div>
+					<div id="create-game-menu" class="menu">
+						<form id="create-game-form">
+							<input type="text" id="create-username" class="username-input" placeholder="Username" required/>
+							<div class="error"></div>
+							<button type="button" class="btn back secondary">Back</button>
+							<button type="submit" class="btn create primary" value="">Create</button>
+						</form>
+					</div>
+					<div id="join-game-menu" class="menu">
+						<form id="join-game-form">
+							<input type="text" id="join-username" class="username-input" placeholder="Username" required/>
+							<div style="clear: both"></div>
+							<input type="text" id="code" placeholder="Game Code" required/>
+							<div class="error"></div>
+							<button type="button" class="btn back secondary">Back</button>
+							<button type="submit" class="btn join primary">Join</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div id="loading-screen" class="view">
+				<h2>Loading</h2>
+			</div>
+			<div id="waiting-room" class="view">
+				<div>Your code is:</div>
+				<h1 class="game-code"></h1>
+				<ul class="users"></ul>
+				<button class="btn start">Start</button>
+			</div>
+			<div id="in-game" class="view">
+				<canvas id="drawingPad"></canvas>
+			</div>
 		</div>
 		
-		<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
 		<script
 			src="https://code.jquery.com/jquery-3.3.1.min.js"
 			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 			crossorigin="anonymous"></script> <!-- TODO use slim? -->
+		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js" crossorigin></script>
 		<script src="./js/index.bundle.js" crossorigin></script>
 	</body>

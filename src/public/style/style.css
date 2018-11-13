@@ -1,16 +1,111 @@
+:root {
+	--bg-color: hsl(45, 25%, 95%);
+	/* --bg-light: hsl(45, 33%, 100%); */
+	--artist: hsl(327, 100%, 45%);
+	--artist-light: hsl(327, 100%, 50%);
+	/* --artist-dark: hsl(327, 100%, 40%); */
+	--shade: hsl(45, 15%, 70%);
+	--light-shade: hsl(45, 15%, 88%);
+	/* --light-shade2: hsl(45, 15%, 93%); */
+	--standard-color: hsl(45, 15%, 40%);
+	--standard-dark: hsl(45, 15%, 25%);
+	--shadow-config: 0px 2px 4px 0px;
+}
+
 html, body {
+	height: 100%;
 	font-family: 'Noto Sans', sans-serif;
-	background-color: #eee;
-	color: #333;
-	margin: 0;
-	font-size: 18px;
+	background-color: var(--bg-color);
+	color: var(--standard-color);
+	margin: 0 0;
+	font-size: 14px;
+	font-weight: 500;
+}
+h1, h2 {
+	color: var(--standard-dark);
+	font-family: 'Comfortaa', sans-serif;
+}
+h1 {
+	font-size: 28px;
+	margin-top: 0px;
+}
+h2 {
+	font-size: 20px;
+}
+
+/* hide all views as page loads */
+.view, .menu {
+	display: none;
 }
 
 #wrapper {
-	margin: auto;
+	margin: 0 auto;
 	text-align: center;
+	height: 100%;
+	max-width: 1000px;
+	padding: 20px 20px;
+}
+p.desc {
+	width: calc(100% - 20px);
+	margin: auto;
+	margin-bottom: 40px;
+}
+p em {
+	white-space: nowrap;
 }
 
 canvas {
 	background-color: white;
+}
+
+button.btn, input[type="submit"].btn {
+	border-radius: 5px;
+	box-shadow: var(--shadow-config) var(--shade);
+	border: solid 2px var(--artist);
+	background-color: var(--bg-color);
+	color: var(--artist);
+	transition: background-color .2s, color .2s, box-shadow .2s;
+
+	min-width: 120px;
+	padding: 0 20px;
+	margin: 10px 5px;
+	line-height: 40px;
+	
+	cursor: pointer;
+
+	font-family: 'Comfortaa', cursive;
+	font-size: 16px;
+	font-weight: 600;
+}
+button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
+	background-color: var(--artist);
+	color: white;
+	box-shadow: 0 8px 8px 0 var(--shade);
+}
+button.btn:not(:disabled):active, input[type="submit"].btn:not(:disabled):active {
+	box-shadow: var(--shadow-config) var(--shade);
+}
+button.btn:disabled, input[type="submit"].btn:disabled { 
+	background-color: var(--light-shade);
+	box-shadow: none;
+	border: none;
+    color: hsl(45, 16%, 70%);
+    cursor: default;
+}
+button.btn.big {
+	min-width: 200px;
+}
+
+input[type="text"] {
+	border: solid 0;
+	border-bottom: solid 2px var(--standard-color);
+	background-color: var(--light-shade);
+	line-height: 40px;
+	text-align: center;
+	margin: 10px 0;
+	color: var(--standard-color);
+	font-weight: 500;
+}
+input[type="text"]:focus {
+	border-bottom: solid 2px var(--artist);
 }
