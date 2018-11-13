@@ -22,6 +22,6 @@ class Stroke {
 	}
 }
 
-export {
+module.exports = {
 	RelativePoint, Stroke
 }

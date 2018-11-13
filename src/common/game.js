@@ -12,6 +12,8 @@ class GameRoom {
 		this.state = GAME_STATE.INVITE;
 		this.players = [];
 		this.turn = -1;
+		this.keyword = undefined;
+		this.hint = undefined;
 	}
 	static fromJson(json) {
 		var room = new GameRoom();
@@ -34,6 +36,8 @@ class GameRoom {
 	newRound() {
 		this.state = GAME_STATE.PLAY;
 		this.turn = 1;
+		this.keyword = 'Keyword here';
+		this.hint = 'Hint here';
 	}
 	whoseTurn() {
 		var idx = (this.turn % this.players.length) - 1;
