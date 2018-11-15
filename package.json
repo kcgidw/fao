@@ -26,6 +26,7 @@
     "@types/node": "^10.5.1",
     "@types/socket.io": "^1.4.36",
     "@types/socket.io-client": "^1.4.32",
+    "esprima": "^4.0.1",
     "source-map-loader": "^0.2.3",
     "webpack": "^4.14.0",
     "webpack-cli": "^3.0.8",
