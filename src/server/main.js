@@ -2,12 +2,12 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
-const io = SocketIO(http);
 
 const app = express();
-const httpServer = new http.Server(app);
+const httpServer = http.createServer(app);
 const port = process.env.PORT || 3000;
 
+const io = SocketIO(httpServer);
 require('./lobby').handleSocketIO(io);
 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));

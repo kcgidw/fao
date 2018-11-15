@@ -3,6 +3,7 @@
 	/* --bg-light: hsl(45, 33%, 100%); */
 	--artist: hsl(327, 100%, 45%);
 	--artist-light: hsl(327, 100%, 50%);
+	--artist-faded: hsl(327, 50%, 45%, .3);
 	/* --artist-dark: hsl(327, 100%, 40%); */
 	--shade: hsl(45, 15%, 70%);
 	--light-shade: hsl(45, 15%, 88%);
@@ -21,47 +22,54 @@ html, body {
 	font-size: 14px;
 	font-weight: 500;
 }
-h1, h2 {
+
+h1, h2, h3 {
 	color: var(--standard-dark);
 	font-family: 'Comfortaa', sans-serif;
 }
 h1 {
 	font-size: 28px;
-	margin-top: 0px;
+	margin-top: 10px;
 }
 h2 {
-	font-size: 20px;
+	font-size: 18px;
+	margin: 5px 5px;
 }
-
-/* hide all views as page loads */
-.view, .menu {
-	display: none;
+h3 {
+	font-size: 16px;
+	margin: 5px 5px;
 }
 
 #wrapper {
 	margin: 0 auto;
 	text-align: center;
-	height: 100%;
+	height: calc(100% - 20px);
 	max-width: 1000px;
-	padding: 20px 20px;
+	padding: 20px 10px 0 10px;
 }
-p.desc {
-	width: calc(100% - 20px);
-	margin: auto;
-	margin-bottom: 40px;
+
+.view, .menu { /* hide all views as page loads */
+	display: none;
+}
+
+section {
+	margin-bottom: 30px;
+}
+
+p, ul {
+	margin: 5px auto;
 }
 p em {
 	white-space: nowrap;
 }
 
-canvas {
-	background-color: white;
-}
+/* ============================================================================
+	Buttons
+============================================================================ */
 
-button.btn, input[type="submit"].btn {
+.btn {
 	border-radius: 5px;
 	box-shadow: var(--shadow-config) var(--shade);
-	border: solid 2px var(--artist);
 	background-color: var(--bg-color);
 	color: var(--artist);
 	transition: background-color .2s, color .2s, box-shadow .2s;
@@ -75,7 +83,14 @@ button.btn, input[type="submit"].btn {
 
 	font-family: 'Comfortaa', cursive;
 	font-size: 16px;
+}
+.btn.primary {
+	border: solid 2px var(--artist);
 	font-weight: 600;
+}
+.btn.secondary {
+	border: solid 1px var(--artist);
+	font-weight: 500;
 }
 button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
 	background-color: var(--artist);
@@ -85,11 +100,10 @@ button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
 button.btn:not(:disabled):active, input[type="submit"].btn:not(:disabled):active {
 	box-shadow: var(--shadow-config) var(--shade);
 }
-button.btn:disabled, input[type="submit"].btn:disabled { 
-	background-color: var(--light-shade);
+button.btn:disabled, input[type="submit"].btn:disabled {
 	box-shadow: none;
-	border: none;
-    color: hsl(45, 16%, 70%);
+	border-color: var(--artist-faded);
+	color: var(--artist-faded);
     cursor: default;
 }
 button.btn.big {
@@ -108,4 +122,42 @@ input[type="text"] {
 }
 input[type="text"]:focus {
 	border-bottom: solid 2px var(--artist);
+}
+
+/* ============================================================================
+	Waiting room
+============================================================================ */
+
+section.users {
+	max-width: 250px;
+	margin-left: auto;
+	margin-right: auto;
+}
+ul.users {
+	list-style: none;
+	height: calc((16px + 3px) * 10); /* <li> size * number of rows */
+	padding-left: 0;
+}
+.username {
+	font-family: "Comfortaa", sans-serif;
+	font-weight: 600;
+}
+li {
+	margin-bottom: 3px;
+}
+
+/* ============================================================================
+	Canvas
+============================================================================ */
+
+canvas {
+	background-color: white;
+}
+
+/* ============================================================================
+	Misc
+============================================================================ */
+
+div.game-code {
+	margin-top: 10px;
 }

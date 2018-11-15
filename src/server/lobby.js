@@ -1,10 +1,196 @@
 const SocketIO = require('socket.io');
 const MESSAGE = require('../common/message').MESSAGE;
+const GameRoom = require('./game-room').GameRoom;
+const User = require('../common/user');
+const Util = require('../common/util');
 
 function handleSocketIO(io) {
-    io.on('connection', function(sock) {
-        console.log('connection: ' + sock.id);
-    });
+	io.on('connection', function(sock) {
+		console.log(`Connection: sockId = ${sock.id}`);
+
+		sock.on('disconnect', function() {
+			console.log(`Disconnect: sockId = ${sock.id}, name = ${sock.user && sock.user.name}`);
+			let user = sock.user;
+			if(user && user.gameRoom) {
+				let rm = user.gameRoom;
+				evictUser(user);
+				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
+					username: user.name,
+					roomState: rm.compileGameState(),
+				});
+			}
+		});
+
+		sock.on(MESSAGE.LEAVE_GAME, function(data) {
+			let user = sock.user;
+			if(user && user.gameRoom) {
+				let rm = user.gameRoom;
+				evictUser(sock.user);
+				io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
+					username: user.name,
+					roomState: rm.compileGameState(),
+				});
+			}
+		});
+
+		sock.on(MESSAGE.CREATE_GAME, function(data) {
+			let user = sock.user || createUser(sock, data.username);
+			if(user.gameRoom !== undefined) {
+				sock.emit(MESSAGE.CREATE_GAME, {
+					err: 'User already connected to a room'
+				});
+				return;
+			}
+
+			let rm = createRoom(user);
+
+			io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
+				username: user.name,
+				roomState: rm.compileGameState(),
+			});
+		});
+		
+		sock.on(MESSAGE.JOIN_GAME, function(data) {
+			let user = sock.user || createUser(sock, data.username);
+			if(user.gameRoom !== undefined) {
+				sock.emit(MESSAGE.CREATE_GAME, {
+					err: 'User already connected to a room',
+				});
+				return;
+			}
+
+			let rm = joinRoom(user, data.roomCode, false);
+
+			if(rm) {
+				let state = rm.compileGameState();
+				sock.emit(MESSAGE.JOIN_GAME, {
+					username: user.name,
+					roomState: state,
+				});
+				sock.to(data.roomCode).emit(MESSAGE.USER_JOINED, {
+					username: user.name,
+					roomState: state,
+				});
+			} else {
+				sock.emit(MESSAGE.JOIN_GAME, {
+					err: 'Room is full or does not exist',
+				});
+			}
+		});
+
+		sock.on(MESSAGE.START_GAME, function(data) {
+			if(sock.user && sock.user.gameRoom) {
+				let rm = sock.user.gameRoom;
+				if(rm.gameHasStarted()) { // starting a game that has already started
+				} else {
+					rm.startNewRound();
+					for(let u of rm.users) {
+						let s = u.socket;
+						let state = rm.compileGameState(false);
+						let fakerState = rm.compileGameState(true);
+						if(rm.faker === u) {
+							s.emit(MESSAGE.START_GAME, {
+								roomState: fakerState,
+							});
+						} else {
+							s.emit(MESSAGE.START_GAME, {
+								roomState: state,
+							})
+						}
+					}
+				}
+			}
+		});
+	});
+}
+
+var rooms = new Map();
+const ROOMS_LIMIT = 100;
+
+function createUser(socket, name) {
+	let user = new User(socket, name);
+	socket.user = user;
+	console.log(`Created user ${user.name}`);
+	return user;
+}
+
+function generateCode() {
+	const codeLength = 5;
+	var code = '';
+	for(let i=0; i<codeLength; i++) {
+		code += ''+Util.randomInt(10);
+	}
+	return code;
+}
+function generateRoomCode() {
+	if(rooms.size >= ROOMS_LIMIT) {
+		return undefined;
+	}
+	var code;
+	do {
+		code = generateCode();
+	} while(rooms.has(code));
+	return code;
+}
+function createRoom(hostUser) {
+	var code = generateRoomCode();
+	var rm = new GameRoom(code);
+	
+	rooms.set(code, rm);
+
+	joinRoom(hostUser, rm.roomCode, true);
+
+	console.log(`Created room ${rm.roomCode}, host is '${rm.host.name}'. Room count: ${rooms.size}`);
+
+	return rm;
+}
+function joinRoom(user, roomCode, isHost = false) {
+	let rm = rooms.get(roomCode);
+	if(rm === undefined) {
+		return undefined;
+	}
+
+	rm.addUser(user, isHost);
+	user.socket.join(roomCode);
+	user.setGameRoom(rm);
+	console.log(`User ${user.name} joined room-${roomCode}`);
+	return rm;
+}
+
+function evictUser(user) {
+	if(!user || !user.gameRoom) {
+		return;
+	}
+	let rm = user.gameRoom;
+
+	// remove user from any room they were in
+	// delete room if room is now empty
+
+	if(user === rm.hostUser) {
+		let host = user;
+		console.log(`Host drop in process. Host name: ${host.name}`);
+		for(let u of rm.users) {
+			if(u !== host) {
+				dropUser(u, rm);
+			}
+		}
+		dropUser(host, rm);
+	} else {
+		dropUser(user, rm);
+	}
+}
+function dropUser(user, room) {
+	let usersLeftInRoom = room.dropUser(user);
+	console.log(`Evicted user w/ name: ${user.name}`);
+
+	if(usersLeftInRoom === 0) {
+		teardownRoom(room);
+	}
+}
+function teardownRoom(room) {
+	room.closeGame();
+	rooms.delete(room.roomCode);
+	console.log(`Teardown for room ${room.roomCode}. Room count: ${rooms.size}`);
 }
 
 module.exports = {handleSocketIO}

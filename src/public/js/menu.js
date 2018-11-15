@@ -1,3 +1,9 @@
+const socket = require('./net').socket;
+const MESSAGE = require('../../common/message').MESSAGE;
+const ClientGame = require('../../common/client-game');
+const GAME_STATE = require('../../common/game-state');
+const Util = require('../../common/util');
+
 $('.btn#create-menu').on('click', function(e) {
 	setMenu('CREATE');
 });
@@ -20,7 +26,7 @@ const MENU = {
 	'JOIN': 'div#join-game-menu',
 };
 
-function setView(viewKey) {
+function setView(viewKey, menuKey) {
 	if(VIEW[viewKey] === undefined) {
 		console.warn('Bad viewKey ' + viewKey);
 	}
@@ -30,6 +36,9 @@ function setView(viewKey) {
 		} else {
 			$(sel).hide();
 		}
+	}
+	if(menuKey) {
+		setMenu(menuKey);
 	}
 }
 function setMenu(menuKey) {
@@ -45,30 +54,143 @@ function setMenu(menuKey) {
 	}
 }
 
-setView('LANDING');
-setMenu('FIRST');
+setView('LANDING', 'FIRST');
 
 // sync username field for create and join menus
-var proposedUsername = undefined;
+var username = undefined;
 $('input#create-username').on('input', function(e) {
-	proposedUsername = this.value;
-	$('input#join-username').val(proposedUsername);
+	username = this.value;
+	$('input#join-username').val(username);
 });
 $('input#join-username').on('input', function(e) {
-	proposedUsername = this.value;
-	$('input#create-username').val(proposedUsername);
+	username = this.value;
+	$('input#create-username').val(username);
 });
 
-// TODO validate username
-
+function submitCreateGame(username) {
+	if(Util.validateUsername(username)) {
+		socket.emit(MESSAGE.CREATE_GAME, {
+			username: username,
+		});
+		return true;
+	}
+	return false;
+}
+function submitJoinGame(roomCode, username) {
+	if(Util.validateUsername(username)) {
+		socket.emit(MESSAGE.JOIN_GAME, {
+			roomCode: roomCode,
+			username: username,
+		});
+		return true;
+	}
+	return false;
+}
+function submitLeaveGame() {
+	socket.emit(MESSAGE.LEAVE_GAME, {});
+}
+function submitStartGame() {
+	socket.emit(MESSAGE.START_GAME, {});
+}
+function disableFormInputs(containerString) {
+	$(`${containerString} .btn`).prop('disabled', true);
+	$(`${containerString} input`).prop('disabled', true);
+}
 $('form').on('submit', function(e) {
 	e.preventDefault();
-	$(`#${this.id} .btn`).prop('disabled', true);
-	$(`#${this.id} input`).prop('disabled', true);
 });
 $('form#create-game-form').on('submit', function(e) {
-	// setView('LOADING');
+	let username = $('#create-game-form #create-username').val();
+	let res = submitCreateGame(username);
+	if(res) {
+		disableFormInputs(`#create-game-form`);
+	}
 });
 $('form#join-game-form').on('submit', function(e) {
-	// setView('LOADING');
+	let username = $('#join-game-form #join-username').val();
+	let roomCode = $('#join-game-form #join-code').val();
+	let res = submitJoinGame(roomCode, username);
+	if(res) {
+		disableFormInputs(`#create-game-form`);
+	}
 });
+$('#waiting-room .actions .leave').on('click', function(e) {
+	submitLeaveGame();
+});
+$('#waiting-room .actions .start').on('click', function(e) {
+	submitStartGame();
+	disableFormInputs(`#waiting-room`);
+});
+
+var game = undefined;
+
+function updateGameUI(eventName, data) {
+	game = ClientGame.fromJson(data.roomState);
+	switch(game.state) {
+		case GAME_STATE.INVITE:
+			setView('WAITING');
+			$('div#waiting-room .game-code h1').text(game.roomCode);
+			let usersList = $('ul.users');
+			usersList.empty();
+			for(let un of game.users) {
+				let elem = $(`<li>${un}</li>`);
+				usersList.append(elem);
+			}
+			break;
+		case GAME_STATE.PLAY:
+			setView('IN_GAME');
+			$('div#in-game ');
+			break;
+		default:
+			console.warn(`Bad game state ${game.state}`);
+	}
+}
+
+socket.on(MESSAGE.CREATE_GAME, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		name = data.username;
+		updateGameUI(MESSAGE.CREATE_GAME, data);
+	}
+});
+socket.on(MESSAGE.JOIN_GAME, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		name = data.username;
+		updateGameUI(MESSAGE.JOIN_GAME, data);
+	}
+});
+socket.on(MESSAGE.USER_JOINED, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		updateGameUI(MESSAGE.USER_JOINED, data);
+	}
+});
+socket.on(MESSAGE.USER_LEFT, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		updateGameUI(MESSAGE.USER_LEFT, data);
+	}
+});
+socket.on(MESSAGE.START_GAME, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		updateGameUI(MESSAGE.START_GAME, data);
+	}
+});
+socket.on(MESSAGE.NEW_TURN, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		updateGameUI(MESSAGE.NEW_TURN, data);
+	}
+});
+
+module.exports = {
+	VIEW, MENU, setView, setMenu,
+};

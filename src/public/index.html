@@ -14,10 +14,12 @@
 	<body>
 		<div id="wrapper">
 			<div id="landing" class="view">
-				<h1>Fake Artist Online</h1>
-				<p class="desc">
-					An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.
-				</p>
+				<section>
+					<h1>Fake Artist Online</h1>
+					<p class="desc">
+						An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.
+					</p>
+				</section>
 				<div id="menu">
 					<div id="first-prompt-menu" class="menu">
 						<button id="create-menu" class="btn big primary">New Game</button>
@@ -36,7 +38,7 @@
 						<form id="join-game-form">
 							<input type="text" id="join-username" class="username-input" placeholder="Username" required/>
 							<div style="clear: both"></div>
-							<input type="text" id="code" placeholder="Game Code" required/>
+							<input type="text" id="join-code" placeholder="Game Code" required/>
 							<div class="error"></div>
 							<button type="button" class="btn back secondary">Back</button>
 							<button type="submit" class="btn join primary">Join</button>
@@ -48,23 +50,48 @@
 				<h2>Loading</h2>
 			</div>
 			<div id="waiting-room" class="view">
-				<div>Your code is:</div>
-				<h1 class="game-code"></h1>
-				<ul class="users"></ul>
-				<button class="btn start">Start</button>
+				<section class="game-code">
+					<div>Your game code is:</div>
+					<h1></h1>
+				</section>
+				<section class="users">
+					<h3>Users:</h3>
+					<ul class="users username"></ul>
+				</section>
+				<section class="actions">
+					<!-- <p class="recommendation">5-6 players recommended</p> -->
+					<button class="btn primary big start">Start</button>
+					<div style="clear: both"></div>
+					<button class="btn secondary leave">Leave</button>
+				</section>
 			</div>
 			<div id="in-game" class="view">
-				<canvas id="drawingPad"></canvas>
+				<div class="view-game-info"></div>
+				<div id="game-info">
+					<section class="prompt">
+						<div class="keyword"></div>
+						<div class="hint"></div>
+					</section>
+					<section class="users">
+						<h3>Users:</h3>
+						<ul class="users username"></ul>
+					</section>
+				</div>
+				<div class="whose-turn"></div>
+				<canvas id="new-paint"></canvas>
+				<canvas id="painting"></canvas>
+				<div id="drawing-decision">
+					<button class="btn secondary redo-drawing">Redo</button>
+					<button class="btn primary submit-drawing">Submit</button>
+				</div>
 			</div>
 		</div>
 		
-		<script
-			src="https://code.jquery.com/jquery-3.3.1.min.js"
-			integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-			crossorigin="anonymous"></script> <!-- TODO use slim? -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js" crossorigin></script>
 		<script src="./js/index.bundle.js" crossorigin></script>
+		<!-- <script src="./js/index.bundle.min.js" crossorigin></script> -->
 	</body>
 
 </html>

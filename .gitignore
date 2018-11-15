@@ -3,4 +3,5 @@ node_modules/
 *.log
 .vscode/
 *.bundle.js
+*.min.js
 *.js.map

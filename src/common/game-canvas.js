@@ -16,12 +16,12 @@ function negligible(a, b, thresh = 0.00001) {
 }
 
 class Stroke {
-	constructor(player, points) {
-		this.player = player;
+	constructor(user, points) {
+		this.user = user;
 		this.points = points; // array of points to connect
 	}
 }
 
 module.exports = {
 	RelativePoint, Stroke
-}
+};

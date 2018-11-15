@@ -1,7 +1,7 @@
 const gameCanvas = require('../../common/game-canvas');
 const RelativePoint = gameCanvas.RelativePoint;
 
-var canvas = document.getElementById('drawingPad');
+var canvas = document.getElementById('painting');
 var ctx = canvas.getContext('2d');
 
 const HEIGHT_RATIO = 8/6;
@@ -25,14 +25,14 @@ function getRelativePointFromPointerEvent(canvasThis, e) {
 	return pt;
 }
 
-$('#drawingPad').on('pointerdown', function(e){
+$('#drawingPad').on('pointerdown', function(e) {
 	// if(curDrawState === DRAW_STATE.BEGIN) {
-		curDrawState = DRAW_STATE.PAINT;
-		var newPt = getRelativePointFromPointerEvent(this, e);
-		stroke.push(newPt);
+	curDrawState = DRAW_STATE.PAINT;
+	var newPt = getRelativePointFromPointerEvent(this, e);
+	stroke.push(newPt);
 	// }
 });
-$('#drawingPad').on('pointermove', function(e){
+$('#drawingPad').on('pointermove', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT) {
 		var lastPt = stroke[stroke.length - 1];
 		var newPt = getRelativePointFromPointerEvent(this, e);
@@ -42,7 +42,7 @@ $('#drawingPad').on('pointermove', function(e){
 		}
 	}
 });
-$('#drawingPad').on('pointerup', function(e){
+$('#drawingPad').on('pointerup', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT) {
 		curDrawState = DRAW_STATE.PREVIEW;
 		drawStroke(stroke);
