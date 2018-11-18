@@ -67,7 +67,7 @@
 			</div>
 			<div id="in-game" class="view">
 				<div class="view-game-info"></div>
-				<div id="game-info">
+				<!-- <div id="game-info">
 					<section class="prompt">
 						<div class="keyword"></div>
 						<div class="hint"></div>
@@ -76,10 +76,12 @@
 						<h3>Users:</h3>
 						<ul class="users username"></ul>
 					</section>
-				</div>
+				</div> -->
 				<div class="whose-turn"></div>
-				<canvas id="new-paint"></canvas>
-				<canvas id="painting"></canvas>
+				<div id="painting">
+					<canvas id="new-paint" touch-action="none"></canvas>
+					<canvas id="old-paint" touch-action="none"></canvas>
+				</div>
 				<div id="drawing-decision">
 					<button class="btn secondary redo-drawing">Redo</button>
 					<button class="btn primary submit-drawing">Submit</button>

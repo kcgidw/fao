@@ -150,8 +150,25 @@ li {
 	Canvas
 ============================================================================ */
 
+#painting {
+	width: 300px;
+	height: 400px;
+	position: relative;
+	margin: 0 auto;
+	border: solid 4px var(--artist);
+	box-shadow: var(--shadow-config) var(--shade);
+}
 canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+canvas#old-paint {
 	background-color: white;
+	z-index: 1;
+}
+canvas#new-paint {
+	z-index: 2;
 }
 
 /* ============================================================================
