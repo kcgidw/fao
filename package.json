@@ -8,7 +8,7 @@
     "build": "webpack",
     "watch": "webpack -w --debug --output-path-info",
     "start": "node ./src/server/main.js",
-    "full": "webpack && npm run start"
+    "full": "npm run build && npm run start"
   },
   "author": "",
   "license": "ISC",
