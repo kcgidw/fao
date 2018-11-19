@@ -1,5 +1,5 @@
 const socket = require('./net').socket;
-const MESSAGE = require('../../common/message').MESSAGE;
+const MESSAGE = require('../../common/message');
 const ClientGame = require('../../common/client-game');
 const GAME_STATE = require('../../common/game-state');
 const Util = require('../../common/util');
@@ -57,14 +57,13 @@ function setMenu(menuKey) {
 setView('LANDING', 'FIRST');
 
 // sync username field for create and join menus
-var username = undefined;
 $('input#create-username').on('input', function(e) {
-	username = this.value;
-	$('input#join-username').val(username);
+	FAO.username = this.value;
+	$('input#join-username').val(FAO.username);
 });
 $('input#join-username').on('input', function(e) {
-	username = this.value;
-	$('input#create-username').val(username);
+	FAO.username = this.value;
+	$('input#create-username').val(FAO.username);
 });
 
 function submitCreateGame(username) {
@@ -88,6 +87,7 @@ function submitJoinGame(roomCode, username) {
 }
 function submitLeaveGame() {
 	socket.emit(MESSAGE.LEAVE_GAME, {});
+	setView('LANDING', 'FIRST');
 }
 function submitStartGame() {
 	socket.emit(MESSAGE.START_GAME, {});
@@ -122,27 +122,26 @@ $('#waiting-room .actions .start').on('click', function(e) {
 	disableFormInputs(`#waiting-room`);
 });
 
-var game = undefined;
-
 function updateGameUI(eventName, data) {
-	game = ClientGame.fromJson(data.roomState);
-	switch(game.state) {
+	FAO.game = ClientGame.fromJson(data.roomState);
+	switch(FAO.game.state) {
 		case GAME_STATE.INVITE:
 			setView('WAITING');
-			$('div#waiting-room .game-code h1').text(game.roomCode);
+			$('div#waiting-room .game-code h1').text(FAO.game.roomCode);
 			let usersList = $('ul.users');
 			usersList.empty();
-			for(let un of game.users) {
+			for(let un of FAO.game.usernames) {
 				let elem = $(`<li>${un}</li>`);
 				usersList.append(elem);
 			}
 			break;
 		case GAME_STATE.PLAY:
 			setView('IN_GAME');
-			$('div#in-game ');
+			$('div#in-game .prompt').text(`${FAO.game.hint}: ${FAO.game.keyword}`);
+			$('div#in-game .whose-turn').text(`Current turn: ${FAO.game.whoseTurn()}`);
 			break;
 		default:
-			console.warn(`Bad game state ${game.state}`);
+			console.warn(`Bad game state ${FAO.game.state}`);
 	}
 }
 

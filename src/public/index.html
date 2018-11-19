@@ -14,13 +14,11 @@
 	<body>
 		<div id="wrapper">
 			<div id="landing" class="view">
-				<section>
+				<div class="chunk">
 					<h1>Fake Artist Online</h1>
-					<p class="desc">
-						An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.
-					</p>
-				</section>
-				<div id="menu">
+					<p>An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
+				</div>
+				<div id="menu" class="chunk">
 					<div id="first-prompt-menu" class="menu">
 						<button id="create-menu" class="btn big primary">New Game</button>
 						<div style="clear: both"></div>
@@ -45,50 +43,59 @@
 						</form>
 					</div>
 				</div>
+				<div class="chunk">
+					<p><a href="/rules">Rules</a></p>
+					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
+					<p>Use a modern browser for best results.</p>
+				</div>
 			</div>
 			<div id="loading-screen" class="view">
 				<h2>Loading</h2>
 			</div>
 			<div id="waiting-room" class="view">
-				<section class="game-code">
+				<div class="chunk game-code">
 					<div>Your game code is:</div>
 					<h1></h1>
-				</section>
-				<section class="users">
+				</div>
+				<div class="chunk users">
 					<h3>Users:</h3>
 					<ul class="users username"></ul>
-				</section>
-				<section class="actions">
+				</div>
+				<div class="chunk actions">
 					<!-- <p class="recommendation">5-6 players recommended</p> -->
 					<button class="btn primary big start">Start</button>
 					<div style="clear: both"></div>
 					<button class="btn secondary leave">Leave</button>
-				</section>
+				</div>
 			</div>
 			<div id="in-game" class="view">
 				<div class="view-game-info"></div>
-				<!-- <div id="game-info">
-					<section class="prompt">
-						<div class="keyword"></div>
-						<div class="hint"></div>
-					</section>
-					<section class="users">
+				<div id="game-info" class="chunk">
+					<h3 class="prompt"></h3>
+					<h3 class="whose-turn"></h3>
+					<!-- <div class="chunk" class="users">
 						<h3>Users:</h3>
 						<ul class="users username"></ul>
-					</section>
-				</div> -->
-				<div class="whose-turn"></div>
-				<div id="painting">
-					<canvas id="new-paint" touch-action="none"></canvas>
-					<canvas id="old-paint" touch-action="none"></canvas>
+					</div> -->
 				</div>
-				<div id="drawing-decision">
+				<div class="chunk">
+					<div id="painting">
+						<canvas id="new-paint" touch-action="none"></canvas>
+						<canvas id="old-paint"></canvas>
+					</div>
+				</div>
+				<div id="drawing-decision" class="chunk">
 					<button class="btn secondary redo-drawing">Redo</button>
 					<button class="btn primary submit-drawing">Submit</button>
 				</div>
+				<!-- <div class="gameover">
+					<h2>Drawing phase over! Time to vote!</h2>
+					<button class="btn secondary new-round">New Round</button>
+				</div> -->
 			</div>
 		</div>
 		
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pubsub-js/1.7.0/pubsub.min.js" crossorigin="anonymous"></script> -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" crossorigin="anonymous"></script>
 		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js" crossorigin></script>

@@ -16,8 +16,8 @@ function negligible(a, b, thresh = 0.00001) {
 }
 
 class Stroke {
-	constructor(user, points) {
-		this.user = user;
+	constructor(username, points) {
+		this.username = username;
 		this.points = points; // array of points to connect
 	}
 }

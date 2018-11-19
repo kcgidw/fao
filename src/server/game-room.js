@@ -1,5 +1,6 @@
 
 const ClientGame = require('../common/client-game');
+const Stroke = require('../common/game-canvas').Stroke;
 const GAME_STATE = require('../common/game-state');
 const Util = require('../common/util');
 
@@ -17,6 +18,8 @@ class GameRoom {
 		this.keyword = undefined;
 		this.hint = undefined;
 		this.faker = undefined;
+
+		this.strokes = [];
 	}
 	addUser(user, isHost = false) {
 		if(this.users.length >= MAX_USERS) {
@@ -63,6 +66,17 @@ class GameRoom {
 	}
 	gameHasStarted() {
 		return this.turn >= 1;
+	}
+	addStroke(username, points) {
+		this.strokes.push(new Stroke(username, points));
+		return this.strokes;
+	}
+	nextTurn() {
+		if(this.gameHasStarted()) {
+			this.turn++;
+			return this.turn;
+		}
+		return undefined;
 	}
 }
 

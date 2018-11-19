@@ -1,5 +1,4 @@
-const SocketIO = require('socket.io');
-const MESSAGE = require('../common/message').MESSAGE;
+const MESSAGE = require('../common/message');
 const GameRoom = require('./game-room').GameRoom;
 const User = require('../common/user');
 const Util = require('../common/util');
@@ -84,24 +83,38 @@ function handleSocketIO(io) {
 				if(rm.gameHasStarted()) { // starting a game that has already started
 				} else {
 					rm.startNewRound();
-					for(let u of rm.users) {
-						let s = u.socket;
-						let state = rm.compileGameState(false);
-						let fakerState = rm.compileGameState(true);
-						if(rm.faker === u) {
-							s.emit(MESSAGE.START_GAME, {
-								roomState: fakerState,
-							});
-						} else {
-							s.emit(MESSAGE.START_GAME, {
-								roomState: state,
-							})
-						}
-					}
+					sendRoomState(rm, MESSAGE.START_GAME);
 				}
 			}
 		});
+
+		sock.on(MESSAGE.SUBMIT_STROKE, function(data) {
+			if(sock.user && sock.user.gameRoom && sock.user.gameRoom.gameHasStarted()) {
+				let rm = sock.user.gameRoom;
+				rm.addStroke(sock.user.name, data.points);
+				rm.nextTurn();
+				sendRoomState(rm, MESSAGE.NEW_TURN);
+			}
+		});
 	});
+}
+
+// send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
+function sendRoomState(room, messageName) {
+	for(let u of room.users) {
+		let s = u.socket;
+		let state = room.compileGameState(false);
+		let fakerState = room.compileGameState(true);
+		if(room.faker === u) {
+			s.emit(messageName, {
+				roomState: fakerState,
+			});
+		} else {
+			s.emit(messageName, {
+				roomState: state,
+			});
+		}
+	}
 }
 
 var rooms = new Map();

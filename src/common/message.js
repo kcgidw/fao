@@ -6,7 +6,8 @@ const MESSAGE = {
 	'USER_JOINED': 'USER_JOINED',
 	'USER_LEFT': 'USER_LEFT',
 	'START_GAME': 'START_GAME',
+	'SUBMIT_STROKE': 'SUBMIT_STROKE',
 	'NEW_TURN': 'NEW_TURN',
 };
 
-module.exports = {MESSAGE};
+module.exports = MESSAGE;

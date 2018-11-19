@@ -9,7 +9,8 @@
 	"globals": {
 		"io": false,
 		"_": false,
-		"$": false
+		"$": false,
+		"FAO": false
 	},
 	"rules": {
 		"func-names": 0,

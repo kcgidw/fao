@@ -41,10 +41,11 @@ h3 {
 }
 
 #wrapper {
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
 	text-align: center;
 	height: calc(100% - 20px);
-	max-width: 1000px;
+	max-width: 800px;
 	padding: 20px 10px 0 10px;
 }
 
@@ -52,7 +53,7 @@ h3 {
 	display: none;
 }
 
-section {
+div.chunk {
 	margin-bottom: 30px;
 }
 
@@ -61,6 +62,9 @@ p, ul {
 }
 p em {
 	white-space: nowrap;
+}
+a {
+	color: hsl(200, 100%, 27%);
 }
 
 /* ============================================================================
@@ -128,7 +132,7 @@ input[type="text"]:focus {
 	Waiting room
 ============================================================================ */
 
-section.users {
+div.chunk.users {
 	max-width: 250px;
 	margin-left: auto;
 	margin-right: auto;
@@ -154,7 +158,8 @@ li {
 	width: 300px;
 	height: 400px;
 	position: relative;
-	margin: 0 auto;
+	margin-left: auto;
+	margin-right: auto;
 	border: solid 4px var(--artist);
 	box-shadow: var(--shadow-config) var(--shade);
 }
@@ -177,4 +182,10 @@ canvas#new-paint {
 
 div.game-code {
 	margin-top: 10px;
+}
+#game-info {
+	text-align: left;
+	max-width: calc(300px + 4px + 4px); /* canvas + borders */
+	margin-left: auto;
+	margin-right: auto;
 }

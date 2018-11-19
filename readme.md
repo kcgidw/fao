@@ -1,3 +1,3 @@
-An aid for Oink Games' tabletop game, _A Fake Artist Goes to New York_.
+An aid for Oink Games' tabletop game, _A Fake Artist Goes to New York_. Play online and draw with a mouse or phone.
 
-Tech: Nodejs, Express, Socketio, jQuery, Webpack
+Tech: Node.js, Express, Socket.io, jQuery, Webpack
