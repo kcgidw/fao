@@ -40,7 +40,7 @@ h3 {
 	margin: 5px 5px;
 }
 
-#wrapper {
+.wrapper {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
@@ -60,7 +60,7 @@ div.chunk {
 p, ul {
 	margin: 5px auto;
 }
-p em {
+p em, p strong, p span {
 	white-space: nowrap;
 }
 a {
@@ -174,6 +174,18 @@ canvas#old-paint {
 }
 canvas#new-paint {
 	z-index: 2;
+}
+
+/* ============================================================================
+	Rules
+============================================================================ */
+
+#rules-wrapper {
+	max-width: 40em;
+}
+#rules {
+	font-size: 16px;
+	text-align: left;
 }
 
 /* ============================================================================

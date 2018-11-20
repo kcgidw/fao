@@ -2,7 +2,7 @@
 const GAME_STATE = {
 	'INVITE': 'INVITE',
 	'PLAY': 'PLAY',
-	'GAME_OVER': 'GAME_OVER',
+	'ROUND_OVER': 'ROUND_OVER',
 	'CLOSED': 'CLOSED'
 };
 

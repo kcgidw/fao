@@ -15,7 +15,7 @@ function handleSocketIO(io) {
 				evictUser(user);
 				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 					username: user.name,
-					roomState: rm.compileGameState(),
+					roomState: rm.compileGameState(false),
 				});
 			}
 		});
@@ -27,7 +27,7 @@ function handleSocketIO(io) {
 				evictUser(sock.user);
 				io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
 					username: user.name,
-					roomState: rm.compileGameState(),
+					roomState: rm.compileGameState(false),
 				});
 			}
 		});
@@ -45,7 +45,7 @@ function handleSocketIO(io) {
 
 			io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
 				username: user.name,
-				roomState: rm.compileGameState(),
+				roomState: rm.compileGameState(false),
 			});
 		});
 		
@@ -60,8 +60,8 @@ function handleSocketIO(io) {
 
 			let rm = joinRoom(user, data.roomCode, false);
 
-			if(rm) {
-				let state = rm.compileGameState();
+			if(rm && !rm.gameHasStarted()) {
+				let state = rm.compileGameState(false);
 				sock.emit(MESSAGE.JOIN_GAME, {
 					username: user.name,
 					roomState: state,
@@ -72,7 +72,7 @@ function handleSocketIO(io) {
 				});
 			} else {
 				sock.emit(MESSAGE.JOIN_GAME, {
-					err: 'Room is full or does not exist',
+					err: 'Room unavailable', // DNE, full, or already in play
 				});
 			}
 		});
@@ -80,20 +80,19 @@ function handleSocketIO(io) {
 		sock.on(MESSAGE.START_GAME, function(data) {
 			if(sock.user && sock.user.gameRoom) {
 				let rm = sock.user.gameRoom;
-				if(rm.gameHasStarted()) { // starting a game that has already started
-				} else {
-					rm.startNewRound();
-					sendRoomState(rm, MESSAGE.START_GAME);
-				}
+				rm.startNewRound();
+				sendRoomState(rm, MESSAGE.START_GAME);
 			}
 		});
 
 		sock.on(MESSAGE.SUBMIT_STROKE, function(data) {
-			if(sock.user && sock.user.gameRoom && sock.user.gameRoom.gameHasStarted()) {
+			if(sock.user && sock.user.gameRoom) {
 				let rm = sock.user.gameRoom;
-				rm.addStroke(sock.user.name, data.points);
-				rm.nextTurn();
-				sendRoomState(rm, MESSAGE.NEW_TURN);
+				if(rm.gameHasStarted() && rm.whoseTurn().name === sock.user.name) {
+					rm.addStroke(sock.user.name, data.points);
+					rm.nextTurn();
+					sendRoomState(rm, MESSAGE.NEW_TURN);
+				}
 			}
 		});
 	});
@@ -105,7 +104,7 @@ function sendRoomState(room, messageName) {
 		let s = u.socket;
 		let state = room.compileGameState(false);
 		let fakerState = room.compileGameState(true);
-		if(room.faker === u) {
+		if(room.faker.name === u.name) {
 			s.emit(messageName, {
 				roomState: fakerState,
 			});

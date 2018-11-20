@@ -35,8 +35,8 @@ function getRelativePointFromPointerEvent(canvasThis, e) {
 }
 
 function toggleInputs(containerString, disable) {
-	$(`${containerString} .btn`).prop('disabled', disable);
-	$(`${containerString} input`).prop('disabled', disable);
+	$('div#in-game .redo-drawing').prop('disabled', disable);
+	$('div#in-game .submit-drawing').prop('disabled', disable);
 }
 function setStroked(s) {
 	stroked = s;
@@ -65,6 +65,7 @@ $('#new-paint').on('pointerup', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
 		if(points.length < 4) {
 			redo();
+			setStroked(false);
 		} else {
 			setStroked(true);
 			curDrawState = DRAW_STATE.PREVIEW;
@@ -97,6 +98,9 @@ function redo() {
 	points = [];
 	setStroked(false);
 }
+function clearBg() {
+	oldCtx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+}
 $('#in-game .btn.redo-drawing').on('click', function(e) {
 	redo();
 });
@@ -104,9 +108,11 @@ $('#in-game .btn.submit-drawing').on('click', function(e) {
 	submitDrawing();
 });
 function submitDrawing() {
-	socket.emit(MESSAGE.SUBMIT_STROKE, {
-		points: points,
-	});
+	if(points.length > 0) {
+		socket.emit(MESSAGE.SUBMIT_STROKE, {
+			points: points,
+		});
+	}
 }
 
 socket.on(MESSAGE.NEW_TURN, function(data) {
@@ -125,4 +131,26 @@ socket.on(MESSAGE.NEW_TURN, function(data) {
 			curDrawState = DRAW_STATE.SPECTATE;
 		}
 	}
+});
+
+socket.on(MESSAGE.START_GAME, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		redo();
+		setStroked(false);
+		clearBg();
+	}
+});
+socket.on(MESSAGE.NEW_TURN, function(data) {
+	if(data.err) {
+		return;
+	} else {
+		redo();
+		setStroked(false);
+	}
+});
+
+$('#in-game .new-round').on('click', function(e) {
+	socket.emit(MESSAGE.START_GAME, {});
 });

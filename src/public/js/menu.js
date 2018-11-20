@@ -123,7 +123,12 @@ $('#waiting-room .actions .start').on('click', function(e) {
 });
 
 function updateGameUI(eventName, data) {
-	FAO.game = ClientGame.fromJson(data.roomState);
+	if(!FAO.game) {
+		FAO.game = ClientGame.fromJson(data.roomState);
+	} else {
+		FAO.game.overwriteFromJson(data.roomState);
+	}
+
 	switch(FAO.game.state) {
 		case GAME_STATE.INVITE:
 			setView('WAITING');
@@ -139,6 +144,18 @@ function updateGameUI(eventName, data) {
 			setView('IN_GAME');
 			$('div#in-game .prompt').text(`${FAO.game.hint}: ${FAO.game.keyword}`);
 			$('div#in-game .whose-turn').text(`Current turn: ${FAO.game.whoseTurn()}`);
+			$('div#in-game .redo-drawing').toggle(true);
+			$('div#in-game .submit-drawing').toggle(true);
+			$('div#in-game .new-round').toggle(false);
+			$('div#in-game .redo-drawing').prop('disabled', false);
+			$('div#in-game .submit-drawing').prop('disabled', false);
+			break;
+		case GAME_STATE.ROUND_OVER:
+			$('div#in-game .redo-drawing').toggle(false);
+			$('div#in-game .submit-drawing').toggle(false);
+			$('div#in-game .new-round').toggle(true);
+			$('div#in-game .redo-drawing').prop('disabled', true);
+			$('div#in-game .submit-drawing').prop('disabled', true);
 			break;
 		default:
 			console.warn(`Bad game state ${FAO.game.state}`);

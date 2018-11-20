@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-		<div id="wrapper">
+		<div class="wrapper">
 			<div id="landing" class="view">
 				<div class="chunk">
 					<h1>Fake Artist Online</h1>
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 				<div class="chunk">
-					<p><a href="/rules">Rules</a></p>
+					<p><a href="/rules.html">Rules</a></p>
 					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
 					<p>Use a modern browser for best results.</p>
 				</div>
@@ -69,7 +69,7 @@
 				</div>
 			</div>
 			<div id="in-game" class="view">
-				<div class="view-game-info"></div>
+				<div class="toggle-game-info"></div>
 				<div id="game-info" class="chunk">
 					<h3 class="prompt"></h3>
 					<h3 class="whose-turn"></h3>
@@ -87,6 +87,8 @@
 				<div id="drawing-decision" class="chunk">
 					<button class="btn secondary redo-drawing">Redo</button>
 					<button class="btn primary submit-drawing">Submit</button>
+					<div style="clear: both"></div>
+					<button class="btn primary big new-round">New Round</button>
 				</div>
 				<!-- <div class="gameover">
 					<h2>Drawing phase over! Time to vote!</h2>

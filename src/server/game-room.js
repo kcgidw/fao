@@ -3,6 +3,7 @@ const ClientGame = require('../common/client-game');
 const Stroke = require('../common/game-canvas').Stroke;
 const GAME_STATE = require('../common/game-state');
 const Util = require('../common/util');
+const Prompts = require('./prompts');
 
 const MAX_USERS = 10;
 
@@ -40,19 +41,19 @@ class GameRoom {
 		// TODO account for / validate against duplicate names 
 		return this.users.find((p) => (p.name === name));
 	}
-	findHost() {
-		return this.users.find((p) => (p.isHost === true));
-	}
+
 	startNewRound() {
+		this.shuffleUsers();
 		this.state = GAME_STATE.PLAY;
 		this.turn = 1;
-		this.keyword = 'Keyword here';
-		this.hint = 'Hint here';
-		this.shuffleUsers();
+		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
+		this.keyword = capitalize(prompt.keyword);
+		this.hint = capitalize(prompt.hint);
 		this.faker = Util.randomItemFrom(this.users);
+		this.strokes = [];
 	}
 	whoseTurn() {
-		var idx = (this.turn % this.users.length) - 1;
+		var idx = ((this.turn - 1) % this.users.length);
 		return this.users[idx];
 	}
 	shuffleUsers() {
@@ -62,10 +63,23 @@ class GameRoom {
 		this.state = GAME_STATE.CLOSED;
 	}
 	compileGameState(canViewFaker) {
+		switch(this.state) {
+			case(GAME_STATE.INVITE):
+				return ClientGame.compile(this, canViewFaker);
+			case(GAME_STATE.PLAY):
+				if(this.turn === 1) {
+					return ClientGame.compileRoundStart(this, canViewFaker);
+				} else {
+					return ClientGame.compileStrokes(this);
+				}
+			case(GAME_STATE.ROUND_OVER):
+				return ClientGame.compileStrokes(this);
+			case(GAME_STATE.CLOSED):
+				return ClientGame.compileStrokes(this);
+			default:
+				console.error(`bad gamestate ${this.state}`);
+		}
 		return ClientGame.compile(this, canViewFaker);
-	}
-	gameHasStarted() {
-		return this.turn >= 1;
 	}
 	addStroke(username, points) {
 		this.strokes.push(new Stroke(username, points));
@@ -74,12 +88,22 @@ class GameRoom {
 	nextTurn() {
 		if(this.gameHasStarted()) {
 			this.turn++;
+			if(this.turn - 1 >= this.users.length * 2) {
+				this.state = GAME_STATE.ROUND_OVER;
+			}
 			return this.turn;
 		}
 		return undefined;
+	}
+	gameHasStarted() {
+		return this.turn >= 1;
 	}
 }
 
 module.exports = {
 	GameRoom,
 };
+
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
