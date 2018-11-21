@@ -10,7 +10,8 @@
 		"io": false,
 		"_": false,
 		"$": false,
-		"FAO": false
+		"FAO": false,
+		"mitt": false
 	},
 	"rules": {
 		"func-names": 0,
@@ -26,7 +27,7 @@
 		"no-this-before-super": "warn",
 		"no-undef": "warn",
 		"no-unreachable": "warn",
-		"no-unused-vars": "warn",
+		"no-unused-vars": "off",
 		"constructor-super": "warn",
 		"valid-typeof": "warn",
 		"no-dupe-keys": "warn"

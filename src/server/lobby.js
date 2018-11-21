@@ -2,6 +2,7 @@ const MESSAGE = require('../common/message');
 const GameRoom = require('./game-room').GameRoom;
 const User = require('../common/user');
 const Util = require('../common/util');
+const ClientGame = require('../common/client-game');
 
 function handleSocketIO(io) {
 	io.on('connection', function(sock) {
@@ -13,9 +14,13 @@ function handleSocketIO(io) {
 			if(user && user.gameRoom) {
 				let rm = user.gameRoom;
 				evictUser(user);
+				sendRoomState(rm, MESSAGE.USER_LEFT, (r) => {
+					r.username = user.name;
+					return r;
+				})
 				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 					username: user.name,
-					roomState: rm.compileGameState(false),
+					roomState: ClientGame.compileWaitingRoom(rm),
 				});
 			}
 		});
@@ -99,20 +104,16 @@ function handleSocketIO(io) {
 }
 
 // send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
-function sendRoomState(room, messageName) {
+function sendRoomState(room, messageName, modifier) {
 	for(let u of room.users) {
 		let s = u.socket;
 		let state = room.compileGameState(false);
 		let fakerState = room.compileGameState(true);
-		if(room.faker.name === u.name) {
-			s.emit(messageName, {
-				roomState: fakerState,
-			});
-		} else {
-			s.emit(messageName, {
-				roomState: state,
-			});
-		}
+		let res = {
+			roomState: room.faker.name === u.name ? fakerState : state,
+		};
+		res = modifier ? modifier(res) : res;
+		s.emit(messageName, res);
 	}
 }
 
@@ -200,7 +201,6 @@ function dropUser(user, room) {
 	}
 }
 function teardownRoom(room) {
-	room.closeGame();
 	rooms.delete(room.roomCode);
 	console.log(`Teardown for room ${room.roomCode}. Room count: ${rooms.size}`);
 }

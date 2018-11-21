@@ -47,8 +47,8 @@ class GameRoom {
 		this.state = GAME_STATE.PLAY;
 		this.turn = 1;
 		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
-		this.keyword = capitalize(prompt.keyword);
-		this.hint = capitalize(prompt.hint);
+		this.keyword = Util.capitalize(prompt.keyword);
+		this.hint = Util.capitalize(prompt.hint);
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
 	}
@@ -59,16 +59,13 @@ class GameRoom {
 	shuffleUsers() {
 		Util.shuffle(this.users);
 	}
-	closeGame() {
-		this.state = GAME_STATE.CLOSED;
-	}
-	compileGameState(canViewFaker) {
+	compileGameState(fakerView) {
 		switch(this.state) {
 			case(GAME_STATE.INVITE):
-				return ClientGame.compile(this, canViewFaker);
+				return ClientGame.compileWaitingRoom(this);
 			case(GAME_STATE.PLAY):
 				if(this.turn === 1) {
-					return ClientGame.compileRoundStart(this, canViewFaker);
+					return ClientGame.compileRoundStart(this, fakerView);
 				} else {
 					return ClientGame.compileStrokes(this);
 				}
@@ -78,8 +75,8 @@ class GameRoom {
 				return ClientGame.compileStrokes(this);
 			default:
 				console.error(`bad gamestate ${this.state}`);
+				return ClientGame.compileToJson(this, fakerView);
 		}
-		return ClientGame.compile(this, canViewFaker);
 	}
 	addStroke(username, points) {
 		this.strokes.push(new Stroke(username, points));
@@ -103,7 +100,3 @@ class GameRoom {
 module.exports = {
 	GameRoom,
 };
-
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}

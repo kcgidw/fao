@@ -5,10 +5,19 @@
 		<title>Fake Artist Online</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content=
-			"An aid for Oink Games' tabletop game, A Fake Artist Goes to New York. Play online and draw with a mouse or phone" />
-		<link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet"><link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+			"An online multiplayer aid for Oink Games' tabletop game, _A Fake Artist Goes to New York_. Draw with your phone or a mouse." />
+		<!-- <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">  -->
+		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet"> 
 		<link rel="stylesheet" href="style/normalize.css" />
 		<link rel="stylesheet" href="style/style.css" />
+
+		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pubsub-js/1.7.0/pubsub.min.js" crossorigin="anonymous"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" crossorigin="anonymous"></script>
+		<!-- <script src="https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js"></script> -->
+		<script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 	</head>
 
 	<body>
@@ -16,41 +25,50 @@
 			<div id="landing" class="view">
 				<div class="chunk">
 					<h1>Fake Artist Online</h1>
-					<p>An aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
+					<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
 				</div>
 				<div id="menu" class="chunk">
 					<div id="first-prompt-menu" class="menu">
-						<button id="create-menu" class="btn big primary">New Game</button>
+						<button id="goto-create-menu" class="btn big primary">New Game</button>
 						<div style="clear: both"></div>
-						<button id="join-menu" class="btn big primary">Join Game</button>
+						<button id="goto-join-menu" class="btn big primary">Join Game</button>
 					</div>
 					<div id="create-game-menu" class="menu">
 						<form id="create-game-form">
-							<input type="text" id="create-username" class="username-input" placeholder="Username" required/>
+							<input type="text" id="create-username-input" class="username-input" placeholder="Username" required/>
 							<div class="error"></div>
-							<button type="button" class="btn back secondary">Back</button>
-							<button type="submit" class="btn create primary" value="">Create</button>
+							<button type="button" id="create-game-back-btn" class="btn back secondary">Back</button>
+							<button type="submit" id="create-game-btn" class="btn create primary" value="">Create</button>
 						</form>
 					</div>
 					<div id="join-game-menu" class="menu">
 						<form id="join-game-form">
-							<input type="text" id="join-username" class="username-input" placeholder="Username" required/>
+							<input type="text" id="join-username-input" class="username-input" placeholder="Username" required/>
 							<div style="clear: both"></div>
 							<input type="text" id="join-code" placeholder="Game Code" required/>
 							<div class="error"></div>
-							<button type="button" class="btn back secondary">Back</button>
-							<button type="submit" class="btn join primary">Join</button>
+							<button type="button" id="join-game-back-btn" class="btn back secondary">Back</button>
+							<button type="submit" id="join-game-btn" class="btn join primary">Join</button>
 						</form>
 					</div>
 				</div>
-				<div class="chunk">
-					<p><a href="/rules.html">Rules</a></p>
-					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
-					<p>Use a modern browser for best results.</p>
+				<!-- <div class="chunk"><hr /></div> -->
+				<div id="rules" class="chunk align-left">
+					<h2>Rules</h2>
+					<p>A group of artists must work together to find the one <strong>fake artist</strong> among them, while that person tries to avoid detection.</p>
+					<p>Each round, all artists receive a random keyword and its hint/category, e.g. <span>"Apple (Food)".</span></p>
+					<p>But the faker <em>only receives the hint</em>.</p>
+					<p>Players take turns drawing single strokes on the drawing pad. After every player has drawn twice, everyone votes on who they think the fake artist is.</p>
+					<p>The fake artist has to bluff their way through the drawing, while the artists try to draw enough to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
+					<p>Even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
 				</div>
-			</div>
-			<div id="loading-screen" class="view">
-				<h2>Loading</h2>
+				<!-- <div class="chunk"><hr /></div> -->
+				<div class="chunk align-left">
+					<h2>About</h2>
+					<p>This is an unofficial hobby project and a continual work-in-progress. Use a modern browser for best results.</p>
+					<p>I don't have a built-in voting system or chat. Enjoy this game with friends in-person or over voice chat!</p>
+					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
+				</div>
 			</div>
 			<div id="waiting-room" class="view">
 				<div class="chunk game-code">
@@ -65,26 +83,22 @@
 					<!-- <p class="recommendation">5-6 players recommended</p> -->
 					<button class="btn primary big start">Start</button>
 					<div style="clear: both"></div>
-					<button class="btn secondary leave">Leave</button>
+					<!-- <button class="btn secondary leave">Leave</button> -->
 				</div>
 			</div>
 			<div id="in-game" class="view">
 				<div class="toggle-game-info"></div>
-				<div id="game-info" class="chunk">
-					<h3 class="prompt"></h3>
-					<h3 class="whose-turn"></h3>
-					<!-- <div class="chunk" class="users">
-						<h3>Users:</h3>
-						<ul class="users username"></ul>
-					</div> -->
+				<div id="game-info" class="chunk-narrow">
+					<p class="prompt"><span class="label">Prompt: </span><span class="keyword"></span> (<span class="hint"></span>)</p>
+					<p class="current-turn"><span class="label">Turn: </span><span class="whose-turn"></span></p>
 				</div>
-				<div class="chunk">
+				<div class="chunk-narrow">
 					<div id="painting">
 						<canvas id="new-paint" touch-action="none"></canvas>
 						<canvas id="old-paint"></canvas>
 					</div>
 				</div>
-				<div id="drawing-decision" class="chunk">
+				<div id="drawing-decision" class="chunk-narrow">
 					<button class="btn secondary redo-drawing">Redo</button>
 					<button class="btn primary submit-drawing">Submit</button>
 					<div style="clear: both"></div>
@@ -97,12 +111,7 @@
 			</div>
 		</div>
 		
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pubsub-js/1.7.0/pubsub.min.js" crossorigin="anonymous"></script> -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" crossorigin="anonymous"></script>
-		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js" crossorigin></script>
-		<script src="./js/index.bundle.js" crossorigin></script>
-		<!-- <script src="./js/index.bundle.min.js" crossorigin></script> -->
+		<script src="./js/index.bundle.min.js" crossorigin></script>
 	</body>
 
 </html>

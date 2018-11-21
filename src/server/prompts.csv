@@ -19,9 +19,11 @@ Mushroom, food/drink
 Pancakes, food/drink
 Peas, food/drink
 Pepper, food/drink
+pickles, food/drink
 Pie, food/drink
 Pineapple, food/drink
 Pizza, food/drink
+popsicle, food/drink
 Pumpkin, food/drink
 Ribs, food/drink
 Sandwich, food/drink
@@ -89,6 +91,7 @@ platypus,animal
 praying mantis,animal
 pterodactyl,animal
 rabbit,animal
+raccoon,animal
 ray,animal
 rhino,animal
 scorpion,animal
@@ -104,8 +107,10 @@ starfish,animal
 stegosaur,animal
 swordfish,animal
 t-rex,animal
+triceratops,animal
 turkey,animal
 turtle,animal
+velociraptor,animal
 walrus,animal
 whale,animal
 woodpecker,animal
@@ -133,6 +138,7 @@ magic tricks,fun/hobby
 martial arts,fun/hobby
 painting,fun/hobby
 parachute,fun/hobby
+pinball,fun/hobby
 rock climbing,fun/hobby
 roller coaster,fun/hobby
 scuba diving,fun/hobby
@@ -181,12 +187,22 @@ space,place
 stadium,place
 theater,place
 zoo,place
+mexico,place
+japan,place
+egypt,place
+canada,place
+australia,place
+india,place
+italy,place
+USA,place
+china,place
 artist,person
 astronaut,person
 baby,person
 cashier,person
 chef,person
 clown,person
+cowboy,person
 dentist,person
 director,person
 doctor,person

@@ -1,59 +1,34 @@
-const _ = require('lodash');
+const _ = require('lodash'); // TODO don't bundle lodash on client side
 const COLOR = require('./color');
 
 class ClientGame {
 	constructor() {}
-	static compile(gameRoom, fakerView) {
-		let game = new ClientGame();
-		game.roomCode = gameRoom.roomCode;
-		game.usernames = _.map(gameRoom.users, (u) => (u.name));
-		game.host = gameRoom.host.name;
-		game.state = gameRoom.state;
-		game.turn = gameRoom.turn;
-		game.keyword = fakerView ? '???' : gameRoom.keyword;
-		game.hint = gameRoom.hint;
-		game.faker = fakerView ? gameRoom.faker.name : undefined; // hide from non-fakers
-		game.strokes = gameRoom.strokes;
-		return game;
+	static compileToJson(gameRoom, canViewFaker, canViewKeyword, pickFields) {
+		let res = {
+			roomCode: gameRoom.roomCode,
+			host: gameRoom.host.name,
+			usernames: _.map(gameRoom.users, (u) => (u.name)),
+			state: gameRoom.state,
+			turn: gameRoom.turn,
+			keyword: canViewKeyword ? gameRoom.keyword : '???',
+			hint: gameRoom.hint,
+			faker: canViewFaker ? gameRoom.faker.name : undefined,
+			strokes: gameRoom.strokes,
+		};
+		res = _.pick(res, pickFields);
+		return res;
 	}
 	static compileWaitingRoom(gameRoom) {
-		let game = new ClientGame();
-		game.roomCode = gameRoom.roomCode;
-		game.usernames = _.map(gameRoom.users, (u) => (u.name));
-		game.host = gameRoom.host.name;
-		game.state = gameRoom.state;
-		game.turn = gameRoom.turn;
-		// game.keyword = fakerView ? '???' : gameRoom.keyword;
-		// game.hint = gameRoom.hint;
-		// game.faker = fakerView ? gameRoom.faker.name : undefined; // hide from non-fakers
-		// game.strokes = gameRoom.strokes;
-		return game;
+		let json = ClientGame.compileToJson(gameRoom, false, false, ['roomCode', 'usernames', 'host', 'state', 'turn']);
+		return new ClientGame().overwriteFromJson(json);
 	}
 	static compileStrokes(gameRoom) {
-		let game = new ClientGame();
-		// game.roomCode = gameRoom.roomCode;
-		// game.usernames = _.map(gameRoom.users, (u) => (u.name));
-		// game.host = gameRoom.host.name;
-		game.state = gameRoom.state;
-		game.turn = gameRoom.turn;
-		// game.keyword = fakerView ? '???' : gameRoom.keyword;
-		// game.hint = gameRoom.hint;
-		// game.faker = fakerView ? gameRoom.faker.name : undefined; // hide from non-fakers
-		game.strokes = gameRoom.strokes;
-		return game;
+		let json = ClientGame.compileToJson(gameRoom, false, false, ['state', 'turn', 'strokes']);
+		return new ClientGame().overwriteFromJson(json);
 	}
 	static compileRoundStart(gameRoom, fakerView) {
-		let game = new ClientGame();
-		// game.roomCode = gameRoom.roomCode;
-		game.usernames = _.map(gameRoom.users, (u) => (u.name)); // include for turn order
-		// game.host = gameRoom.host.name;
-		game.state = gameRoom.state;
-		game.turn = gameRoom.turn;
-		game.keyword = fakerView ? '???' : gameRoom.keyword;
-		game.hint = gameRoom.hint;
-		game.faker = fakerView ? gameRoom.faker.name : undefined; // hide from non-fakers
-		game.strokes = gameRoom.strokes;
-		return game;
+		let json = ClientGame.compileToJson(gameRoom, fakerView, !fakerView, ['usernames', 'state', 'turn', 'keyword', 'hint', 'faker', 'strokes']);
+		return new ClientGame().overwriteFromJson(json);
 	}
 	static fromJson(json) {
 		let game = new ClientGame();
@@ -62,6 +37,7 @@ class ClientGame {
 	}
 	overwriteFromJson(json) {
 		Object.assign(this, json);
+		return this;
 	}
 	whoseTurn() {
 		var idx = ((this.turn - 1) % this.usernames.length);

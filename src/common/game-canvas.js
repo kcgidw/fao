@@ -11,7 +11,7 @@ class RelativePoint {
 		return negligible(this.x, other.x) && negligible(this.y, other.y);
 	}
 }
-function negligible(a, b, thresh = 0.00001) {
+function negligible(a, b, thresh = 0.0001) {
 	return Math.abs(a - b) < thresh;
 }
 

@@ -1,6 +1,6 @@
 const gameCanvas = require('../../common/game-canvas');
 const RelativePoint = gameCanvas.RelativePoint;
-const socket = require('./net').socket;
+const GAME_STATE = require('../../common/game-state');
 const MESSAGE = require('../../common/message');
 
 var paintingDiv = document.getElementById('painting');
@@ -10,8 +10,8 @@ var ctx = canvas.getContext('2d');
 var oldCtx = oldPaint.getContext('2d');
 
 const HEIGHT_RATIO = 8/6;
-const CANVAS_WIDTH = 300;
-const CANVAS_HEIGHT = CANVAS_WIDTH * HEIGHT_RATIO; // TODO more responsive, resizable for small viewports
+const CANVAS_WIDTH = 280;
+const CANVAS_HEIGHT = CANVAS_WIDTH * HEIGHT_RATIO; 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 oldPaint.width = CANVAS_WIDTH;
@@ -25,7 +25,61 @@ const DRAW_STATE = {
 };
 var curDrawState = DRAW_STATE.EMPTY;
 var points = [];
-var stroked = false;
+var strokeTracker = {
+	points: [],
+	strokeLength: 0,
+	addPoint: function(p) {
+		this.points.push(p);
+		return this.points;
+	},
+	lastPoint: function() {
+		let prevPt = this.points[this.points.length - 1];
+		return prevPt;
+	},
+	reset: function() {
+		this.points = [];
+		this.strokeLength = 0;
+	},
+	validateStrokeDistance: function() {
+		if(this.points.length < 2) {
+			return false;
+		}
+		let dist = 0;
+		for(let i=1; i<this.points.length; i++) {
+			let prevPt = this.points[i-1];
+			let curPt = this.points[i];
+			let a = prevPt.x - curPt.x;
+			let b = prevPt.y - curPt.y;
+			dist += Math.sqrt(a*a + b*b);
+			console.log(dist);
+			if(dist > 0.05) {
+				return true;
+			}
+		}
+		return false;
+	},
+	hasPoints: function() {
+		return this.points.length > 0;
+	}
+};
+
+let redoBtn = $('div#in-game .redo-drawing');
+let submitBtn = $('#in-game .btn.submit-drawing');
+let newRoundBtn = $('#in-game .new-round');
+function determineStyles() {
+	let disableRedoButton = !strokeTracker.hasPoints();
+	redoBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.PLAY);
+	submitBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.PLAY);
+	redoBtn.prop('disabled', disableRedoButton);
+	submitBtn.prop('disabled', disableRedoButton);
+	newRoundBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER);
+	newRoundBtn.prop('disabled', !(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER));
+}
+determineStyles();
+
+/* ============================================================================
+	Drawing 
+============================================================================ */
 
 function getRelativePointFromPointerEvent(canvasThis, e) {
 	let pointerX = e.pageX - paintingDiv.offsetLeft;
@@ -33,48 +87,36 @@ function getRelativePointFromPointerEvent(canvasThis, e) {
 	let pt = new RelativePoint(pointerX / CANVAS_WIDTH, pointerY / CANVAS_HEIGHT);
 	return pt;
 }
-
-function toggleInputs(containerString, disable) {
-	$('div#in-game .redo-drawing').prop('disabled', disable);
-	$('div#in-game .submit-drawing').prop('disabled', disable);
-}
-function setStroked(s) {
-	stroked = s;
-	toggleInputs('#in-game', !stroked);
-}
-setStroked(false);
-
 $('#new-paint').on('pointerdown', function(e) {
 	if(curDrawState === DRAW_STATE.EMPTY && FAO.myTurn()) {
 		curDrawState = DRAW_STATE.PAINT;
 		let newPt = getRelativePointFromPointerEvent(this, e);
-		points.push(newPt);
+		strokeTracker.addPoint(newPt);
 	}
+	determineStyles();
 });
 $('#new-paint').on('pointermove', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
-		let lastPt = points[points.length - 1];
+		let lastPt = strokeTracker.lastPoint();
 		let newPt = getRelativePointFromPointerEvent(this, e);
 		if(!lastPt.matches(newPt)) {
-			points.push(newPt);
-			drawStroke(ctx, points, true);
+			strokeTracker.addPoint(newPt);
+			drawStroke(ctx, strokeTracker.points, true);
 		}
 	}
 });
 $('#new-paint').on('pointerup', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
-		if(points.length < 4) {
-			redo();
-			setStroked(false);
+		if(!strokeTracker.validateStrokeDistance()) { // check against insigificant drawing. TODO handle better
+			clearFront();
 		} else {
-			setStroked(true);
 			curDrawState = DRAW_STATE.PREVIEW;
 			let newPt = getRelativePointFromPointerEvent(this, e);
-			points.push(newPt);
-			drawStroke(ctx, points, true);
-			console.log(points);
+			strokeTracker.addPoint(newPt);
+			drawStroke(ctx, strokeTracker.points, true);
 		}
 	}
+	determineStyles();
 });
 // TODO pointerout event
 
@@ -86,71 +128,65 @@ function drawStroke(context, pts, color, shouldClear) {
 	context.lineJoin = 'round';
 	context.lineWidth = 4;
 	context.beginPath();
+	// console.log(pts);
 	for(let pt of pts) {
 		context.lineTo(pt.x * CANVAS_WIDTH, pt.y * CANVAS_HEIGHT);
 	}
 	context.stroke();
 }
 
-function redo() {
+function clearFront() {
 	curDrawState = DRAW_STATE.EMPTY;
 	ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
-	points = [];
-	setStroked(false);
+	strokeTracker.reset();
 }
-function clearBg() {
+function clearBack() {
 	oldCtx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
 }
-$('#in-game .btn.redo-drawing').on('click', function(e) {
-	redo();
-});
-$('#in-game .btn.submit-drawing').on('click', function(e) {
-	submitDrawing();
-});
+
+/* ============================================================================
+	Events
+============================================================================ */
+
 function submitDrawing() {
-	if(points.length > 0) {
-		socket.emit(MESSAGE.SUBMIT_STROKE, {
-			points: points,
+	if(strokeTracker.hasPoints() && strokeTracker.validateStrokeDistance()) {
+		window.socket.emit(MESSAGE.SUBMIT_STROKE, {
+			points: strokeTracker.points,
 		});
 	}
 }
-
-socket.on(MESSAGE.NEW_TURN, function(data) {
-	if(data.err) {
-		return;
-	} else {
-		let state = data.roomState;
-		let newStroke = state.strokes[state.strokes.length - 1];
-		drawStroke(oldCtx, newStroke.points, FAO.game.getUserColor(newStroke.username), false);
-
-		redo();
-		toggleInputs('#in-game', !FAO.myTurn());
-		if(FAO.myTurn()) {
-			curDrawState = DRAW_STATE.EMPTY;
-		} else {
-			curDrawState = DRAW_STATE.SPECTATE;
-		}
-	}
+redoBtn.on('click', function(e) {
+	clearFront();
+	determineStyles();
+});
+submitBtn.on('click', function(e) {
+	submitDrawing();
+	determineStyles();
+});
+newRoundBtn.on('click', function(e) {
+	window.socket.emit(MESSAGE.START_GAME, {});
 });
 
-socket.on(MESSAGE.START_GAME, function(data) {
-	if(data.err) {
-		return;
+window.EE.on(MESSAGE.START_GAME, function(data) {
+	clearFront();
+	clearBack();
+	if(FAO.myTurn()) {
+		curDrawState = DRAW_STATE.EMPTY;
 	} else {
-		redo();
-		setStroked(false);
-		clearBg();
+		curDrawState = DRAW_STATE.SPECTATE;
 	}
-});
-socket.on(MESSAGE.NEW_TURN, function(data) {
-	if(data.err) {
-		return;
-	} else {
-		redo();
-		setStroked(false);
-	}
+	determineStyles();
 });
 
-$('#in-game .new-round').on('click', function(e) {
-	socket.emit(MESSAGE.START_GAME, {});
+window.EE.on(MESSAGE.NEW_TURN, function(data) {
+	let state = data.roomState;
+	let newStroke = state.strokes[state.strokes.length - 1];
+	drawStroke(oldCtx, newStroke.points, FAO.game.getUserColor(newStroke.username), false);
+	clearFront();
+	if(FAO.myTurn()) {
+		curDrawState = DRAW_STATE.EMPTY;
+	} else {
+		curDrawState = DRAW_STATE.SPECTATE;
+	}
+	determineStyles();
 });

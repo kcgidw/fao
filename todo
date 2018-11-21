@@ -1,9 +1,10 @@
 reconnection
-join via url
+data validation
 better room codes
 better errors sent to client
-minification
+join via url
 game-master mode
 kick player rights
 better handling of disconnects and teardowns
 colorblind aids
+responsive canvas

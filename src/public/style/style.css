@@ -11,33 +11,37 @@
 	--standard-color: hsl(45, 15%, 40%);
 	--standard-dark: hsl(45, 15%, 25%);
 	--shadow-config: 0px 2px 4px 0px;
+	--header-font: 'Poppins', sans-serif;
+	--body-font: 'Niramit', sans-serif;
+	--button-font: 'Poppins', sans-serif;
 }
 
 html, body {
 	height: 100%;
-	font-family: 'Noto Sans', sans-serif;
+	font-family: var(--body-font);
 	background-color: var(--bg-color);
 	color: var(--standard-color);
 	margin: 0 0;
-	font-size: 14px;
-	font-weight: 500;
+	font-size: 15px;
+	font-weight: normal;
 }
 
 h1, h2, h3 {
+	font-family: var(--header-font);
 	color: var(--standard-dark);
-	font-family: 'Comfortaa', sans-serif;
 }
 h1 {
-	font-size: 28px;
+	font-size: 30px;
 	margin-top: 10px;
+	margin-bottom: 10px;
 }
 h2 {
-	font-size: 18px;
-	margin: 5px 5px;
+	font-size: 24px;
+	margin: 5px 5px 10px 5px;
 }
 h3 {
 	font-size: 16px;
-	margin: 5px 5px;
+	margin: 5px 5px 10px 5px;
 }
 
 .wrapper {
@@ -45,8 +49,8 @@ h3 {
 	margin-right: auto;
 	text-align: center;
 	height: calc(100% - 20px);
-	max-width: 800px;
-	padding: 20px 10px 0 10px;
+	max-width: 600px;
+	padding: 15px 15px 0 15px;
 }
 
 .view, .menu { /* hide all views as page loads */
@@ -56,9 +60,15 @@ h3 {
 div.chunk {
 	margin-bottom: 30px;
 }
+div.chunk-narrow {
+	margin-bottom: 15px;
+}
+.align-left {
+	text-align: left;
+}
 
 p, ul {
-	margin: 5px auto;
+	margin: 5px 5px 10px 5px;
 }
 p em, p strong, p span {
 	white-space: nowrap;
@@ -85,16 +95,16 @@ a {
 	
 	cursor: pointer;
 
-	font-family: 'Comfortaa', cursive;
+	font-family: var(--button-font);
 	font-size: 16px;
 }
 .btn.primary {
 	border: solid 2px var(--artist);
-	font-weight: 600;
+	font-weight: bold;
 }
 .btn.secondary {
 	border: solid 1px var(--artist);
-	font-weight: 500;
+	font-weight: normal;
 }
 button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
 	background-color: var(--artist);
@@ -122,7 +132,7 @@ input[type="text"] {
 	text-align: center;
 	margin: 10px 0;
 	color: var(--standard-color);
-	font-weight: 500;
+	font-weight: normal;
 }
 input[type="text"]:focus {
 	border-bottom: solid 2px var(--artist);
@@ -132,6 +142,9 @@ input[type="text"]:focus {
 	Waiting room
 ============================================================================ */
 
+div.game-code {
+	margin-top: 10px;
+}
 div.chunk.users {
 	max-width: 250px;
 	margin-left: auto;
@@ -143,8 +156,7 @@ ul.users {
 	padding-left: 0;
 }
 .username {
-	font-family: "Comfortaa", sans-serif;
-	font-weight: 600;
+	font-family: var(--header-font);
 }
 li {
 	margin-bottom: 3px;
@@ -155,8 +167,8 @@ li {
 ============================================================================ */
 
 #painting {
-	width: 300px;
-	height: 400px;
+	width: 280px;
+	height: calc(280px * 8 / 6);
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
@@ -177,27 +189,21 @@ canvas#new-paint {
 }
 
 /* ============================================================================
-	Rules
+	Game
 ============================================================================ */
 
-#rules-wrapper {
-	max-width: 40em;
-}
-#rules {
-	font-size: 16px;
-	text-align: left;
-}
-
-/* ============================================================================
-	Misc
-============================================================================ */
-
-div.game-code {
-	margin-top: 10px;
-}
 #game-info {
 	text-align: left;
 	max-width: calc(300px + 4px + 4px); /* canvas + borders */
 	margin-left: auto;
 	margin-right: auto;
+	font-size: 16px;
+	font-family: var(--header-font);
+}
+#game-info span.label {
+	font-weight: normal;
+}
+#game-info span:not(.label) {
+	font-weight: bold;
+	color: var(--standard-dark);
 }

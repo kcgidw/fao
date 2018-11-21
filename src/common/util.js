@@ -14,7 +14,13 @@ function shuffle(arr) {
 }
 
 function validateUsername(name) { //TODO
-	return true;
+	name = name.trim();
+	let regex = /^[1-9a-zA-z ]{1,10}$/g; // 1-10 alphanumerics or spaces
+	return name.match(regex);
+}
+
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 module.exports = {
@@ -22,4 +28,5 @@ module.exports = {
 	randomItemFrom,
 	shuffle,
 	validateUsername,
+	capitalize,
 };
