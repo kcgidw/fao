@@ -39,6 +39,7 @@ Wine, food/drink
 Chicken, food/drink
 shrimp,food/drink
 lobster,food/drink
+martini,food/drink
 chicken,animal
 shrimp,animal
 lobster,animal
@@ -53,6 +54,7 @@ camel,animal
 cat,animal
 chameleon,animal
 clam,animal
+dragonfly,animal
 cobra,animal
 cockroach,animal
 cow,animal
@@ -196,6 +198,8 @@ india,place
 italy,place
 USA,place
 china,place
+playground,place
+subway,place
 artist,person
 astronaut,person
 baby,person
