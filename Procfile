@@ -1,1 +1,1 @@
-web: npm install --dev && npm run full
+web: npm run full

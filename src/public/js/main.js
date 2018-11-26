@@ -13,7 +13,7 @@ window.FAO = {
 	username: $('input#join-username-input').val(),
 	game: undefined,
 	myTurn() {
-		return FAO.game.whoseTurn() === FAO.username;
+		return FAO.game !== undefined && FAO.game.whoseTurn() === FAO.username;
 	},
 };
 
@@ -154,7 +154,7 @@ let joinBtn = $('#join-game-btn.btn');
 
 gotoCreateBtn.on('click', function(e) {
 	setMenu('CREATE');
-	determineStyles()
+	determineStyles();
 });
 gotoJoinBtn.on('click', function(e) {
 	setMenu('JOIN');
@@ -174,8 +174,9 @@ let attemptingGameJoin = false;
 function determineStyles() {
 	let game = FAO.game;
 	landingView.toggle(game === undefined);
-	waitingView.toggle(game && game.state === GAME_STATE.INVITE);
-	gameView.toggle(game && (game.state === GAME_STATE.PLAY || game.state === GAME_STATE.ROUND_OVER));
+	// avoid suffering by ensuring toggle receives a bool
+	waitingView.toggle(Boolean(game && game.state === GAME_STATE.INVITE));
+	gameView.toggle(Boolean(game && (game.state === GAME_STATE.PLAY || game.state === GAME_STATE.ROUND_OVER)));
 
 	createBtn.prop('disabled', !FAO.username || attemptingGameJoin);
 	joinBtn.prop('disabled', !FAO.username || !$('#join-code').val() || attemptingGameJoin);

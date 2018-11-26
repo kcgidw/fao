@@ -68,11 +68,11 @@ let submitBtn = $('#in-game .btn.submit-drawing');
 let newRoundBtn = $('#in-game .new-round');
 function determineStyles() {
 	let disableRedoButton = !strokeTracker.hasPoints();
-	redoBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.PLAY);
-	submitBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.PLAY);
+	redoBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.PLAY));
+	submitBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.PLAY));
 	redoBtn.prop('disabled', disableRedoButton);
 	submitBtn.prop('disabled', disableRedoButton);
-	newRoundBtn.toggle(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER);
+	newRoundBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER));
 	newRoundBtn.prop('disabled', !(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER));
 }
 determineStyles();
@@ -106,7 +106,7 @@ $('#new-paint').on('pointermove', function(e) {
 });
 function endStroke(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
-		if(!strokeTracker.validateStrokeDistance()) { // check against insigificant drawing. TODO handle better
+		if(!strokeTracker.validateStrokeDistance()) {
 			clearFront();
 		} else {
 			curDrawState = DRAW_STATE.PREVIEW;

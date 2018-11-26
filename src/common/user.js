@@ -1,6 +1,8 @@
+const Util = require('./util');
+
 class User {
 	constructor(socket, name) {
-		if(!User.validateName(name)) {
+		if(!Util.validateUsername(name)) {
 			return undefined;
 		}
 		
@@ -11,11 +13,6 @@ class User {
 
 	setGameRoom(gameRoom) {
 		this.gameRoom = gameRoom;
-	}
-
-	static validateName(name) {
-		// TODO
-		return true;
 	}
 }
 
