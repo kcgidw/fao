@@ -1,5 +1,6 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
 	entry: path.resolve(__dirname, 'src', 'public', 'js', 'main.js'),
@@ -35,4 +36,7 @@ module.exports = {
 		minimize: true,
 		minimizer: [new UglifyJsPlugin({sourceMap: true})]
 	},
+	plugins: [
+		new CompressionPlugin(),
+	],
 };
