@@ -93,7 +93,6 @@ $('#new-paint').on('pointerdown', function(e) {
 		let newPt = getRelativePointFromPointerEvent(this, e);
 		strokeTracker.addPoint(newPt);
 	}
-	determineStyles();
 });
 $('#new-paint').on('pointermove', function(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
@@ -105,7 +104,7 @@ $('#new-paint').on('pointermove', function(e) {
 		}
 	}
 });
-$('#new-paint').on('pointerup', function(e) {
+function endStroke(e) {
 	if(curDrawState === DRAW_STATE.PAINT && FAO.myTurn()) {
 		if(!strokeTracker.validateStrokeDistance()) { // check against insigificant drawing. TODO handle better
 			clearFront();
@@ -117,8 +116,13 @@ $('#new-paint').on('pointerup', function(e) {
 		}
 	}
 	determineStyles();
+}
+$('#new-paint').on('pointerup', function(e) {
+	endStroke(e);
 });
-// TODO pointerout event
+$('#new-paint').on('pointerout', function(e) {
+	endStroke(e);
+});
 
 function drawStroke(context, pts, color, shouldClear) {
 	if(shouldClear) {
