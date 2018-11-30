@@ -1,10 +1,13 @@
-reconnection
+disconnection handing / reconnection
 data validation
+responsive canvas
+
+more setup options
+view all players and colors
+
 better room codes
 better errors sent to client
-join via url
 game-master mode
 kick player rights
-better handling of disconnects and teardowns
+join via url
 colorblind aids
-responsive canvas

@@ -20,7 +20,7 @@ function handleSocketIO(io) {
 				})
 				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 					username: user.name,
-					roomState: ClientGame.compileWaitingRoom(rm),
+					roomState: ClientGame.compileSetup(rm),
 				});
 			}
 		});
@@ -30,6 +30,7 @@ function handleSocketIO(io) {
 			if(user && user.gameRoom) {
 				let rm = user.gameRoom;
 				evictUser(sock.user);
+				sock.user = undefined; // forget player session
 				io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
 					username: user.name,
 					roomState: rm.compileGameState(false),
@@ -175,29 +176,12 @@ function evictUser(user) {
 		return;
 	}
 	let rm = user.gameRoom;
-
-	// remove user from any room they were in
-	// delete room if room is now empty
-
-	if(user === rm.hostUser) {
-		let host = user;
-		console.log(`Host drop in process. Host name: ${host.name}`);
-		for(let u of rm.users) {
-			if(u !== host) {
-				dropUser(u, rm);
-			}
-		}
-		dropUser(host, rm);
-	} else {
-		dropUser(user, rm);
-	}
-}
-function dropUser(user, room) {
-	let usersLeftInRoom = room.dropUser(user);
+	let usersLeftInRoom = rm.dropUser(user);
 	console.log(`Evicted user w/ name: ${user.name}`);
 
 	if(usersLeftInRoom === 0) {
-		teardownRoom(room);
+		// delete room if room is now empty
+		teardownRoom(rm);
 	}
 }
 function teardownRoom(room) {
@@ -205,4 +189,4 @@ function teardownRoom(room) {
 	console.log(`Teardown for room ${room.roomCode}. Room count: ${rooms.size}`);
 }
 
-module.exports = {handleSocketIO}
+module.exports = {handleSocketIO};

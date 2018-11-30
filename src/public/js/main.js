@@ -21,7 +21,7 @@ const paint = require('./paint');
 
 const VIEW = {
 	'LANDING': 'div#landing',
-	'WAITING': 'div#waiting-room',
+	'SETUP': 'div#room-setup',
 	'IN_GAME': 'div#in-game',
 }
 const MENU = {
@@ -67,9 +67,9 @@ function updateUI() {
 		return;
 	}
  	switch(FAO.game.state) {
-		case GAME_STATE.INVITE:
-			setView('WAITING');
-			$('div#waiting-room .game-code h1').text(FAO.game.roomCode);
+		case GAME_STATE.SETUP:
+			setView('SETUP');
+			$('div#room-setup .game-code h1').text(FAO.game.roomCode);
 			let usersList = $('ul.users');
 			usersList.empty();
 			for(let un of FAO.game.usernames) {
@@ -140,7 +140,7 @@ $('form#join-game-form').on('submit', function(e) {
 });
 
 let landingView = $('#landing.view');
-let waitingView = $('#waiting-room.view');
+let setupView = $('#room-setup.view');
 let gameView = $('#in-game.view');
 
 let gotoCreateBtn = $('#goto-create-menu.btn');
@@ -175,7 +175,7 @@ function determineStyles() {
 	let game = FAO.game;
 	landingView.toggle(game === undefined);
 	// avoid suffering by ensuring toggle receives a bool
-	waitingView.toggle(Boolean(game && game.state === GAME_STATE.INVITE));
+	setupView.toggle(Boolean(game && game.state === GAME_STATE.SETUP));
 	gameView.toggle(Boolean(game && (game.state === GAME_STATE.PLAY || game.state === GAME_STATE.ROUND_OVER)));
 
 	createBtn.prop('disabled', !FAO.username || attemptingGameJoin);
@@ -200,14 +200,14 @@ $('input#join-code').on('input', function(e) {
 });
 
 /* ============================================================================
-	Waiting room 
+	Game Setup 
 ============================================================================ */
 
-$('#waiting-room .actions .leave').on('click', function(e) {
+$('#room-setup .actions .leave').on('click', function(e) {
 	submitLeaveGame();
 	determineStyles();
 });
-$('#waiting-room .actions .start').on('click', function(e) {
+$('#room-setup .actions .start').on('click', function(e) {
 	submitStartGame();
 	determineStyles();
 });

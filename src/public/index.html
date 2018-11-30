@@ -36,7 +36,8 @@
 					<div id="create-game-menu" class="menu">
 						<form id="create-game-form">
 							<input type="text" id="create-username-input" class="username-input" placeholder="Username" required/>
-							<div class="error"></div>
+							<div style="clear: both"></div>
+							<!-- <div id="create-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div> -->
 							<button type="button" id="create-game-back-btn" class="btn back secondary">Back</button>
 							<button type="submit" id="create-game-btn" class="btn create primary" value="">Create</button>
 						</form>
@@ -46,7 +47,9 @@
 							<input type="text" id="join-username-input" class="username-input" placeholder="Username" required/>
 							<div style="clear: both"></div>
 							<input type="text" id="join-code" placeholder="Game Code" required/>
-							<div class="error"></div>
+							<div style="clear: both"></div>
+							<!-- <div id="join-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div>
+							<div id="join-code-error" class="error">Room unavailable.</div> -->
 							<button type="button" id="join-game-back-btn" class="btn back secondary">Back</button>
 							<button type="submit" id="join-game-btn" class="btn join primary">Join</button>
 						</form>
@@ -60,7 +63,7 @@
 					<p>But the faker <em>only receives the hint</em>.</p>
 					<p>Players take turns drawing single strokes on the drawing pad. After every player has drawn twice, everyone votes on who they think the fake artist is.</p>
 					<p>The fake artist has to bluff their way through the drawing, while the artists try to draw enough to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
-					<p>Even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
+					<p>And even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
 				</div>
 				<!-- <div class="chunk"><hr /></div> -->
 				<div class="chunk align-left">
@@ -68,9 +71,10 @@
 					<p>This is an unofficial hobby project and a continual work-in-progress. Use a modern browser for best results.</p>
 					<p>I don't have a built-in voting system or chat. Enjoy this game with friends in-person or over voice chat!</p>
 					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
+					<p><a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york">Official game</a> by Oink Games</p>
 				</div>
 			</div>
-			<div id="waiting-room" class="view">
+			<div id="room-setup" class="view">
 				<div class="chunk game-code">
 					<div>Your game code is:</div>
 					<h1></h1>

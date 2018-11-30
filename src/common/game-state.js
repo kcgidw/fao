@@ -1,6 +1,6 @@
 
 const GAME_STATE = {
-	'INVITE': 'INVITE',
+	'SETUP': 'SETUP',
 	'PLAY': 'PLAY',
 	'ROUND_OVER': 'ROUND_OVER',
 };

@@ -13,7 +13,7 @@ class GameRoom {
 		this.users = [];
 		this.host = host;
 
-		this.state = GAME_STATE.INVITE;
+		this.state = GAME_STATE.SETUP;
 
 		this.turn = -1;
 		this.keyword = undefined;
@@ -61,8 +61,8 @@ class GameRoom {
 	}
 	compileGameState(fakerView) {
 		switch(this.state) {
-			case(GAME_STATE.INVITE):
-				return ClientGame.compileWaitingRoom(this);
+			case(GAME_STATE.SETUP):
+				return ClientGame.compileSetup(this);
 			case(GAME_STATE.PLAY):
 				if(this.turn === 1) {
 					return ClientGame.compileRoundStart(this, fakerView);

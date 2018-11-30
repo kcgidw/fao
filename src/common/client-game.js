@@ -18,7 +18,7 @@ class ClientGame {
 		res = _.pick(res, pickFields);
 		return res;
 	}
-	static compileWaitingRoom(gameRoom) {
+	static compileSetup(gameRoom) {
 		let json = ClientGame.compileToJson(gameRoom, false, false, ['roomCode', 'usernames', 'host', 'state', 'turn']);
 		return new ClientGame().overwriteFromJson(json);
 	}
