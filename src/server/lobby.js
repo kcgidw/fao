@@ -3,6 +3,7 @@ const GameRoom = require('./game-room').GameRoom;
 const User = require('../common/user');
 const Util = require('../common/util');
 const ClientGame = require('../common/client-game');
+const Schema = require('./schema');
 
 function handleSocketIO(io) {
 	io.on('connection', function(sock) {
@@ -39,10 +40,17 @@ function handleSocketIO(io) {
 		});
 
 		sock.on(MESSAGE.CREATE_GAME, function(data) {
+			if(!Schema.validateMessageFromClient(MESSAGE.CREATE_GAME, data)) {
+				sock.emit(MESSAGE.CREATE_GAME, {
+					err: 'Invalid message',
+				});
+				return;
+			}
+			
 			let user = sock.user || createUser(sock, data.username);
 			if(user.gameRoom !== undefined) {
 				sock.emit(MESSAGE.CREATE_GAME, {
-					err: 'User already connected to a room'
+					err: 'User already connected to a room',
 				});
 				return;
 			}

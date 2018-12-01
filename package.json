@@ -15,6 +15,7 @@
   "dependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
+    "ajv": "^6.6.1",
     "babel-loader": "^8.0.4",
     "compression": "^1.7.3",
     "compression-webpack-plugin": "^2.0.0",
