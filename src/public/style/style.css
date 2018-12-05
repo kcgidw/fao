@@ -172,8 +172,6 @@ li {
 ============================================================================ */
 
 #painting {
-	width: 280px;
-	height: calc(280px * 8 / 6);
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;

@@ -67,11 +67,12 @@ for(let schema of Object.values(SCHEMA)) {
     ajv.addSchema(schema, schema.$id);
 }
 console.log(`Message schemas loaded.`);
-console.log(SCHEMA);
+// console.log(SCHEMA);
 
 function validateMessageFromClient(messageName, json) {
     let res = ajv.validate(messageName, json);
     if(!res) {
+        console.warn('Invalid message received from client:');
         console.warn(ajv.errorsText());
     }
     return res;

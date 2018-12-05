@@ -9,13 +9,28 @@ var oldPaint = document.getElementById('old-paint');
 var ctx = canvas.getContext('2d');
 var oldCtx = oldPaint.getContext('2d');
 
+/* Canvas scaling */
 const HEIGHT_RATIO = 8/6;
-const CANVAS_WIDTH = 280;
-const CANVAS_HEIGHT = CANVAS_WIDTH * HEIGHT_RATIO; 
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
-oldPaint.width = CANVAS_WIDTH;
-oldPaint.height = CANVAS_HEIGHT;
+const maxCanvasWidth = 500;
+const maxCanvasHeight = maxCanvasWidth * HEIGHT_RATIO;
+const minCanvasWidth = 250;
+let CANVAS_WIDTH, CANVAS_HEIGHT, STROKE_WIDTH;
+
+function scaleCanvas() {
+	let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - 50), maxCanvasWidth);
+	let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - 200), maxCanvasHeight) / HEIGHT_RATIO;
+	CANVAS_WIDTH = Math.min(canvasWidthScaledByViewportWidth, canvasWidthScaledByViewportHeight);
+	CANVAS_HEIGHT = CANVAS_WIDTH * HEIGHT_RATIO;
+	STROKE_WIDTH = (CANVAS_WIDTH/maxCanvasWidth) * 9;
+
+	paintingDiv.style.width = CANVAS_WIDTH + 'px';
+	paintingDiv.style.height = CANVAS_HEIGHT + 'px';
+	canvas.width = CANVAS_WIDTH;
+	canvas.height = CANVAS_HEIGHT;
+	oldPaint.width = CANVAS_WIDTH;
+	oldPaint.height = CANVAS_HEIGHT;
+}
+scaleCanvas();
 
 const DRAW_STATE = {
 	'EMPTY': 'EMPTY',
@@ -24,12 +39,15 @@ const DRAW_STATE = {
 	'SPECTATE': 'SPECTATE',
 };
 var curDrawState = DRAW_STATE.EMPTY;
-var points = [];
+
 var strokeTracker = {
 	points: [],
+	maxCount: 5000,
 	strokeLength: 0,
 	addPoint: function(p) {
-		this.points.push(p);
+		if(this.points.length < this.maxCount) {
+			this.points.push(p);
+		}
 		return this.points;
 	},
 	lastPoint: function() {
@@ -44,6 +62,7 @@ var strokeTracker = {
 		if(this.points.length < 2) {
 			return false;
 		}
+		console.log(this.points.length);
 		let dist = 0;
 		for(let i=1; i<this.points.length; i++) {
 			let prevPt = this.points[i-1];
@@ -51,7 +70,7 @@ var strokeTracker = {
 			let a = prevPt.x - curPt.x;
 			let b = prevPt.y - curPt.y;
 			dist += Math.sqrt(a*a + b*b);
-			console.log(dist);
+			// console.log(dist);
 			if(dist > 0.05) {
 				return true;
 			}
@@ -130,7 +149,7 @@ function drawStroke(context, pts, color, shouldClear) {
 	}
 	context.strokeStyle = color;
 	context.lineJoin = 'round';
-	context.lineWidth = 4;
+	context.lineWidth = STROKE_WIDTH;
 	context.beginPath();
 	// console.log(pts);
 	for(let pt of pts) {
