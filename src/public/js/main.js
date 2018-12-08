@@ -41,7 +41,7 @@ function handleSocket(messageName, handler) {
 		}
 		updateGame(messageName, data);
 		EE.emit(messageName, data);
-	})
+	});
 }
 handleSocket(MESSAGE.CREATE_GAME, function(data) {
 	FAO.username = data.username;

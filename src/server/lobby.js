@@ -27,36 +27,40 @@ function handleSocketIO(io) {
 		});
 
 		sock.on(MESSAGE.LEAVE_GAME, function(data) {
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.LEAVE_GAME, data)) { return; }
 			let user = sock.user;
-			if(user && user.gameRoom) {
-				let rm = user.gameRoom;
-				evictUser(sock.user);
-				sock.user = undefined; // forget player session
-				io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
-					username: user.name,
-					roomState: rm.compileGameState(false),
-				});
+			let errObj = runCheckers(
+				Ensure.hasUser(sock),
+				Ensure.userInRoom(sock)
+			);
+			if(errObj.err) {
+				sock.emit(MESSAGE.LEAVE_GAME, errObj);
+				return;
 			}
+
+			let rm = user.gameRoom;
+			evictUser(sock.user);
+			sock.user = undefined; // forget player session
+			// tell other players in room that this player has left
+			io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
+				username: user.name,
+				roomState: rm.compileGameState(false),
+			});
 		});
 
 		sock.on(MESSAGE.CREATE_GAME, function(data) {
-			if(!Schema.validateMessageFromClient(MESSAGE.CREATE_GAME, data)) {
-				sock.emit(MESSAGE.CREATE_GAME, {
-					err: 'Invalid message',
-				});
-				return;
-			}
-			
-			let user = sock.user || createUser(sock, data.username);
-			if(user.gameRoom !== undefined) {
-				sock.emit(MESSAGE.CREATE_GAME, {
-					err: 'User already connected to a room',
-				});
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.CREATE_GAME, data)) { return; }
+			let user = sock.user || initUser(sock, data.username);
+			let errObj = runCheckers(
+				Ensure.hasUser(sock),
+				Ensure.userNotInARoom(sock)
+			);
+			if(errObj.err) {
+				sock.emit(MESSAGE.CREATE_GAME, errObj);
 				return;
 			}
 
 			let rm = createRoom(user);
-
 			io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
 				username: user.name,
 				roomState: rm.compileGameState(false),
@@ -64,50 +68,67 @@ function handleSocketIO(io) {
 		});
 		
 		sock.on(MESSAGE.JOIN_GAME, function(data) {
-			let user = sock.user || createUser(sock, data.username);
-			if(user.gameRoom !== undefined) {
-				sock.emit(MESSAGE.CREATE_GAME, {
-					err: 'User already connected to a room',
-				});
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.JOIN_GAME, data)) { return; }
+			let user = sock.user || initUser(sock, data.username);
+			let errObj = runCheckers(
+				Ensure.hasUser(sock),
+				Ensure.userNotInARoom(sock),
+				Ensure.roomExists(data.roomCode),
+				Ensure.roomIsNotFull(data.roomCode),
+				Ensure.gameNotInProcess(data.roomCode)
+			);
+			if(errObj.err) {
+				sock.emit(MESSAGE.JOIN_GAME, errObj);
 				return;
 			}
 
 			let rm = joinRoom(user, data.roomCode, false);
-
-			if(rm && !rm.gameHasStarted()) {
-				let state = rm.compileGameState(false);
-				sock.emit(MESSAGE.JOIN_GAME, {
-					username: user.name,
-					roomState: state,
-				});
-				sock.to(data.roomCode).emit(MESSAGE.USER_JOINED, {
-					username: user.name,
-					roomState: state,
-				});
-			} else {
-				sock.emit(MESSAGE.JOIN_GAME, {
-					err: 'Room unavailable', // DNE, full, or already in play
-				});
-			}
+			let state = rm.compileGameState(false);
+			sock.emit(MESSAGE.JOIN_GAME, {
+				username: user.name,
+				roomState: state,
+			});
+			sock.to(data.roomCode).emit(MESSAGE.USER_JOINED, {
+				username: user.name,
+				roomState: state,
+			});
 		});
 
 		sock.on(MESSAGE.START_GAME, function(data) {
-			if(sock.user && sock.user.gameRoom) {
-				let rm = sock.user.gameRoom;
-				rm.startNewRound();
-				sendRoomState(rm, MESSAGE.START_GAME);
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.START_GAME, data)) { return; }
+			let errObj = runCheckers(
+				Ensure.hasUser(sock),
+				Ensure.userInRoom(sock),
+				Ensure.userGameNotInProcess(sock)
+			);
+			if(errObj.err) {
+				sock.emit(MESSAGE.START_GAME, errObj);
+				return;
 			}
+
+			let rm = sock.user.gameRoom;
+			rm.startNewRound();
+			sendRoomState(rm, MESSAGE.START_GAME);
 		});
 
 		sock.on(MESSAGE.SUBMIT_STROKE, function(data) {
-			if(sock.user && sock.user.gameRoom) {
-				let rm = sock.user.gameRoom;
-				if(rm.gameHasStarted() && rm.whoseTurn().name === sock.user.name) {
-					rm.addStroke(sock.user.name, data.points);
-					rm.nextTurn();
-					sendRoomState(rm, MESSAGE.NEW_TURN);
-				}
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.START_GAME, data)) { return; }
+			let errObj = runCheckers(
+				Ensure.hasUser(sock),
+				Ensure.userInRoom(sock),
+				Ensure.userGameInProcess(sock)
+				// Ensure.isProperTurn(sock.user)
+			);
+			if(errObj.err) {
+				sock.emit(MESSAGE.SUBMIT_STROKE, errObj);
+				return;
 			}
+
+			let rm = sock.user.gameRoom;
+			rm.addStroke(sock.user.name, data.points);
+			rm.nextTurn();
+			// rm.applyTurnDecision(data.points);
+			sendRoomState(rm, MESSAGE.NEW_TURN);
 		});
 	});
 }
@@ -126,10 +147,85 @@ function sendRoomState(room, messageName, modifier) {
 	}
 }
 
+function validateAndHandleInvalidMessage(sock, messageName, data) {
+	if(!Schema.validateMessageFromClient(messageName, data)) {
+		sock.emit(messageName, {
+			err: 'Invalid message',
+		});
+		return true; // return true if triggers error
+	}
+	return false;
+}
+
+const Ensure = {
+	// NOTE: name the internal functions for debugging
+	hasUser(sock) {
+		return function hasUser(errObj) {
+			let res = sock.user !== undefined;
+			errObj.err = res ? undefined : 'No user';
+		};
+	},
+	userInRoom(sock) {
+		return function userInRoom(errObj) {
+			let res = sock.user.gameRoom !== undefined;
+			errObj.err = res ? undefined : 'No room';
+		}
+	},
+	userNotInARoom(sock) {
+		return function userNotInRoom(errObj) {
+			let res = sock.user.gameRoom === undefined;
+			errObj.err = res ? undefined : 'Already in a room';
+		}
+	},
+	roomExists(rmCode) {
+		return function roomExists(errObj) {
+			let res = rooms.get(rmCode) !== undefined;
+			errObj.err = res ? undefined : 'Room unavailable';
+		}
+	},
+	gameInProcess(rmCode) {
+		return function gameNotInProcess(errObj) {
+			let rm = rooms.get(rmCode);
+			let res = rm.gameInProcess();
+			errObj.err = res ? undefined : 'Game not in process'; // TODO don't reveal that code is valid
+		}
+	},
+	userGameInProcess(sock) {
+		return this.gameInProcess(sock.user.gameRoom.roomCode);
+	},
+	gameNotInProcess(rmCode) {
+		return function gameNotInProcess(errObj) {
+			let rm = rooms.get(rmCode);
+			let res = !rm.gameInProcess();
+			errObj.err = res ? undefined : 'Game in process'; // TODO don't reveal that code is valid
+		}
+	},
+	userGameNotInProcess(sock) {
+		return this.gameNotInProcess(sock.user.gameRoom.roomCode);
+	},
+	roomIsNotFull(rmCode) {
+		return function roomExists(errObj) {
+			let res = !rooms.get(rmCode).isFull();
+			errObj.err = res ? undefined : 'Room unavailable';
+		}
+	}
+}
+function runCheckers(... stateValidators) {
+	let errObj = {};
+	for(let sv of stateValidators) {
+		sv(errObj);
+		if(errObj.err) {
+			console.log(`Checker ${sv.name} triggered: ` + errObj.err);
+			break;
+		}
+	}
+	return errObj;
+}
+
 var rooms = new Map();
 const ROOMS_LIMIT = 100;
 
-function createUser(socket, name) {
+function initUser(socket, name) {
 	let user = new User(socket, name);
 	socket.user = user;
 	console.log(`Created user ${user.name}`);

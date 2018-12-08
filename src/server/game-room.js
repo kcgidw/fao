@@ -83,7 +83,7 @@ class GameRoom {
 		return this.strokes;
 	}
 	nextTurn() {
-		if(this.gameHasStarted()) {
+		if(this.gameInProcess()) {
 			this.turn++;
 			if(this.turn - 1 >= this.users.length * 2) {
 				this.state = GAME_STATE.ROUND_OVER;
@@ -92,8 +92,11 @@ class GameRoom {
 		}
 		return undefined;
 	}
-	gameHasStarted() {
-		return this.turn >= 1;
+	gameInProcess() {
+		return this.state == GAME_STATE.PLAY;
+	}
+	isFull() {
+		return this.users.length >= MAX_USERS;
 	}
 }
 
