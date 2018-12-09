@@ -7,6 +7,7 @@
 		<meta name="description" content=
 			"An online multiplayer aid for Oink Games' tabletop game, _A Fake Artist Goes to New York_. Draw with your phone or a mouse." />
 		<!-- <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">  -->
+		<!-- <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">  -->
 		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet"> 
 		<link rel="stylesheet" href="style/normalize.css" />
@@ -35,7 +36,7 @@
 					</div>
 					<div id="create-game-menu" class="menu">
 						<form id="create-game-form">
-							<input type="text" id="create-username-input" class="username-input" placeholder="Username" required/>
+							<input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off"/>
 							<div style="clear: both"></div>
 							<!-- <div id="create-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div> -->
 							<button type="button" id="create-game-back-btn" class="btn back secondary">Back</button>
@@ -44,9 +45,9 @@
 					</div>
 					<div id="join-game-menu" class="menu">
 						<form id="join-game-form">
-							<input type="text" id="join-username-input" class="username-input" placeholder="Username" required/>
+							<input type="text" id="join-username-input" class="username-input" placeholder="Username" required autocomplete="off"/>
 							<div style="clear: both"></div>
-							<input type="text" id="join-code" placeholder="Game Code" required/>
+							<input type="text" id="join-code" placeholder="Game Code" required autocomplete="off"/>
 							<div style="clear: both"></div>
 							<!-- <div id="join-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div>
 							<div id="join-code-error" class="error">Room unavailable.</div> -->
@@ -115,6 +116,7 @@
 			</div>
 		</div>
 		
+		</div>
 		<script src="./js/index.bundle.min.js" crossorigin></script>
 	</body>
 

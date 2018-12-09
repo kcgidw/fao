@@ -1,5 +1,5 @@
 :root {
-	--bg-color: hsl(45, 25%, 95%);
+	--bg-color: hsl(45, 10%, 97%);
 	/* --bg-light: hsl(45, 33%, 100%); */
 	--artist: hsl(327, 100%, 45%);
 	--artist-light: hsl(327, 100%, 50%);
@@ -36,7 +36,7 @@ h1 {
 	margin-bottom: 10px;
 }
 h2 {
-	font-size: 24px;
+	font-size: 22px;
 	margin: 5px 5px 10px 5px;
 }
 h3 {
@@ -111,10 +111,12 @@ a {
 	border: solid 1px var(--artist);
 	font-weight: normal;
 }
-button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
-	background-color: var(--artist);
-	color: white;
-	box-shadow: 0 8px 8px 0 var(--shade);
+@media(any-hover: hover) {
+	button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
+		background-color: var(--artist);
+		color: white;
+		box-shadow: 0 8px 8px 0 var(--shade);
+	}
 }
 button.btn:not(:disabled):active, input[type="submit"].btn:not(:disabled):active {
 	box-shadow: var(--shadow-config) var(--shade);
@@ -126,7 +128,7 @@ button.btn:disabled, input[type="submit"].btn:disabled {
     cursor: default;
 }
 button.btn.big {
-	min-width: 200px;
+	min-width: 170px;
 }
 
 input[type="text"] {

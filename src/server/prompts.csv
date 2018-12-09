@@ -36,25 +36,19 @@ Tomato, food/drink
 Turnip, food/drink
 Waffles, food/drink
 Wine, food/drink
-Chicken, food/drink
-shrimp,food/drink
-lobster,food/drink
-martini,food/drink
-chicken,animal
-shrimp,animal
-lobster,animal
 anglerfish,animal
 ant,animal
 armadillo,animal
 bat,animal
+beaver,animal
 bee,animal
 bull,animal
 butterfly,animal
 camel,animal
 cat,animal
 chameleon,animal
+chicken,animal
 clam,animal
-dragonfly,animal
 cobra,animal
 cockroach,animal
 cow,animal
@@ -64,6 +58,7 @@ deer,animal
 dog,animal
 dog,animal
 dolphin,animal
+dragonfly,animal
 elephant,animal
 flamingo,animal
 frog,animal
@@ -78,6 +73,7 @@ koala,animal
 ladybug,animal
 ladybug,animal
 lion,animal
+lobster,animal
 monkey,animal
 mosquito,animal
 narwhal,animal
@@ -100,6 +96,7 @@ scorpion,animal
 seahorse,animal
 shark,animal
 sheep,animal
+shrimp,animal
 sloth,animal
 snail,animal
 spider,animal
@@ -107,6 +104,7 @@ squid,animal
 squirrel,animal
 starfish,animal
 stegosaur,animal
+swan,animal
 swordfish,animal
 t-rex,animal
 triceratops,animal
@@ -116,18 +114,23 @@ velociraptor,animal
 walrus,animal
 whale,animal
 woodpecker,animal
-beaver,animal
-swan,animal
+eggs,food/drink
+honey,food/drink
+lobster,food/drink
+martini,food/drink
+shrimp,food/drink
 american football,fun/hobby
 archery,fun/hobby
 badminton,fun/hobby
 baseball,fun/hobby
 basketball,fun/hobby
 bike,fun/hobby
+billiards,fun/hobby
 bowling,fun/hobby
 camping,fun/hobby
+carousel,fun/hobby
 chess,fun/hobby
-Disco,fun/hobby
+disco,fun/hobby
 fencing,fun/hobby
 fishing,fun/hobby
 frisbee,fun/hobby
@@ -137,9 +140,8 @@ hiking,fun/hobby
 hockey,fun/hobby
 jousting,fun/hobby
 kite,fun/hobby
-lego,fun/hobby
-magic tricks,fun/hobby
 martial arts,fun/hobby
+movies,fun/hobby
 painting,fun/hobby
 parachute,fun/hobby
 pinball,fun/hobby
@@ -155,56 +157,12 @@ table tennis,fun/hobby
 tennis,fun/hobby
 ventriloquism,fun/hobby
 video games,fun/hobby
-yoga,fun/hobby
 yo-yo,fun/hobby
-airport,place
-amusement park,place
-art museum,place
-bank,place
-bathroom,place
-beach,place
-casino,place
-cave,place
-church,place
-circus,place
-city,place
-desert,place
-factory,place
-farm,place
-forest,place
-gas station,place
-graveyard,place
-gym,place
-haunted house,place
-hospital,place
-hotel,place
-house,place
-library,place
-mines,place
-ocean,place
-pool,place
-port,place
-prison,place
-restaurant,place
-school,place
-space,place
-stadium,place
-theater,place
-zoo,place
-mexico,place
-japan,place
-egypt,place
-canada,place
-australia,place
-india,place
-italy,place
-USA,place
-china,place
-playground,place
-subway,place
+yoga,fun/hobby
 artist,person
 astronaut,person
 baby,person
+barber,person
 cashier,person
 chef,person
 clown,person
@@ -216,9 +174,11 @@ farmer,person
 firefighter,person
 janitor,person
 knight,person
+magician,person
 mailman,person
 mechanic,person
 musician,person
+ninja,person
 pirate,person
 plumber,person
 police,person
@@ -229,8 +189,114 @@ royalty,person
 samurai,person
 teacher,person
 therapist,person
-honey,food/drink
-eggs,food/drink
-billiards,fun/hobby
-barber,person
-movies,fun/hobby
+airport,place
+amusement park,place
+art museum,place
+australia,place
+bank,place
+bathroom,place
+beach,place
+canada,place
+casino,place
+cave,place
+china,place
+church,place
+circus,place
+city,place
+desert,place
+egypt,place
+factory,place
+farm,place
+forest,place
+gas station,place
+graveyard,place
+gym,place
+haunted house,place
+hospital,place
+hotel,place
+house,place
+india,place
+italy,place
+japan,place
+library,place
+mexico,place
+mines,place
+ocean,place
+playground,place
+pool,place
+port,place
+prison,place
+restaurant,place
+school,place
+space,place
+stadium,place
+subway,place
+theater,place
+USA,place
+zoo,place
+tank,vehicle
+train,vehicle
+car,vehicle
+truck,vehicle
+boat,vehicle
+airplane,vehicle
+submarine,vehicle
+RV,vehicle
+bus,vehicle
+scooter,vehicle
+motorcycle,vehicle
+bicycle,vehicle
+sky tram,vehicle
+bulldozer,vehicle
+tractor,vehicle
+helicopter,vehicle
+backpack,clothing/accessory
+baseball cap,clothing/accessory
+belt,clothing/accessory
+bib,clothing/accessory
+bow-tie,clothing/accessory
+cargo shorts,clothing/accessory
+chef hat,clothing/accessory
+crocs,clothing/accessory
+crown,clothing/accessory
+diaper,clothing/accessory
+earrings,clothing/accessory
+eyepatch,clothing/accessory
+glasses,clothing/accessory
+gloves,clothing/accessory
+graduation cap,clothing/accessory
+headphones,clothing/accessory
+high-heels,clothing/accessory
+jacket,clothing/accessory
+monocle,clothing/accessory
+overalls,clothing/accessory
+purse,clothing/accessory
+sneakers,clothing/accessory
+socks,clothing/accessory
+sombrero,clothing/accessory
+suit,clothing/accessory
+wallet,clothing/accessory
+watch,clothing/accessory
+wedding dress,clothing/accessory
+binoculars,tool
+bucket,tool
+calculator,tool
+chainsaw,tool
+compass,tool
+flashlight,tool
+hammer,tool
+hand drill,tool
+handsaw,tool
+measuring tape,tool
+microscope,tool
+paintbrush,tool
+pen,tool
+pencil sharpener,tool
+scissors,tool
+screwdriver,tool
+stapler,tool
+tape,tool
+telescope,tool
+umbrella,tool
+whisk,tool
+whistle,tool
