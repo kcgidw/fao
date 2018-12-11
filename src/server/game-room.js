@@ -53,7 +53,7 @@ class GameRoom {
 		this.strokes = [];
 	}
 	whoseTurn() {
-		var idx = ((this.turn - 1) % this.users.length);
+		let idx = ((this.turn - 1) % this.users.length);
 		return this.users[idx];
 	}
 	shuffleUsers() {
@@ -93,7 +93,7 @@ class GameRoom {
 		return undefined;
 	}
 	gameInProcess() {
-		return this.state == GAME_STATE.PLAY;
+		return this.state === GAME_STATE.PLAY;
 	}
 	isFull() {
 		return this.users.length >= MAX_USERS;

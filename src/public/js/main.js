@@ -13,7 +13,7 @@ window.FAO = {
 	username: $('input#join-username-input').val(),
 	game: undefined,
 	myTurn() {
-		return FAO.game !== undefined && FAO.game.whoseTurn() === FAO.username;
+		return FAO.game !== undefined && FAO.game.whoseTurn() === FAO.username && FAO.game.state === GAME_STATE.PLAY;
 	},
 };
 

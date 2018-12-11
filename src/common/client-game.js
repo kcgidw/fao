@@ -40,7 +40,7 @@ class ClientGame {
 		return this;
 	}
 	whoseTurn() {
-		var idx = ((this.turn - 1) % this.usernames.length);
+		let idx = ((this.turn - 1) % this.usernames.length);
 		return this.usernames[idx];
 	}
 	getUserColor(username) {
