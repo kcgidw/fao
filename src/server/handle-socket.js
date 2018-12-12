@@ -39,7 +39,9 @@ function handleSocketIO(io) {
 
 			let rm = user.gameRoom;
 			evictUser(sock.user);
+			sock.leave(rm.roomCode);
 			sock.user = undefined; // forget player session
+			sock.emit(MESSAGE.LEAVE_GAME, {});
 			// tell other players in room that this player has left
 			io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 				username: user.name,

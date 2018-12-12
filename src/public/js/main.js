@@ -48,15 +48,20 @@ handleSocket(MESSAGE.CREATE_GAME, function(data) {
 });
 handleSocket(MESSAGE.JOIN_GAME);
 handleSocket(MESSAGE.USER_JOINED);
+handleSocket(MESSAGE.LEAVE_GAME, function(data) {
+	FAO.game = undefined;
+});
 handleSocket(MESSAGE.USER_LEFT);
 handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
 
 function updateGame(messageName, data) {
-	if(!FAO.game) {
-		FAO.game = ClientGame.fromJson(data.roomState);
-	} else {
-		FAO.game.overwriteFromJson(data.roomState);
+	if(data.roomState !== undefined) {
+		if(!FAO.game) {
+			FAO.game = ClientGame.fromJson(data.roomState);
+		} else {
+			FAO.game.overwriteFromJson(data.roomState);
+		}
 	}
 	updateUI();
 }
