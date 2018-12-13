@@ -63,6 +63,7 @@ var strokeTracker = {
 			return false;
 		}
 		console.log(this.points.length);
+		const minLength = 0.02;
 		let dist = 0;
 		for(let i=1; i<this.points.length; i++) {
 			let prevPt = this.points[i-1];
@@ -71,7 +72,7 @@ var strokeTracker = {
 			let b = prevPt.y - curPt.y;
 			dist += Math.sqrt(a*a + b*b);
 			// console.log(dist);
-			if(dist > 0.05) {
+			if(dist > minLength) {
 				return true;
 			}
 		}

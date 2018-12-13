@@ -1,17 +1,6 @@
 :root {
-	--bg-color: hsl(45, 10%, 97%);
-	/* --bg-light: hsl(45, 33%, 100%); */
-	--artist: hsl(327, 100%, 45%);
-	--artist-light: hsl(327, 100%, 50%);
-	--artist-faded: hsl(327, 50%, 45%, .3);
-	/* --artist-dark: hsl(327, 100%, 40%); */
-	--shade: hsl(45, 15%, 70%);
-	--light-shade: hsl(45, 15%, 88%);
-	/* --light-shade2: hsl(45, 15%, 93%); */
-	--standard-color: hsl(45, 15%, 40%);
-	--standard-dark: hsl(45, 15%, 25%);
 	--shadow-config: 0px 2px 4px 0px;
-	--header-font: 'Poppins', sans-serif;
+	--header-font: 'Palanquin Dark', sans-serif;
 	--body-font: 'Niramit', sans-serif;
 	--button-font: 'Poppins', sans-serif;
 }
@@ -19,16 +8,17 @@
 html, body {
 	height: 100%;
 	font-family: var(--body-font);
-	background-color: var(--bg-color);
-	color: var(--standard-color);
+	background-color: var(--grey1);
+	color: var(--grey6);
 	margin: 0 0;
 	font-size: 15px;
 	font-weight: normal;
+	line-height: 1.2;
 }
 
 h1, h2, h3 {
 	font-family: var(--header-font);
-	color: var(--standard-dark);
+	color: var(--grey7);
 }
 h1 {
 	font-size: 30px;
@@ -36,7 +26,7 @@ h1 {
 	margin-bottom: 10px;
 }
 h2 {
-	font-size: 22px;
+	font-size: 20px;
 	margin: 5px 5px 10px 5px;
 }
 h3 {
@@ -74,7 +64,7 @@ p em, p strong, p span {
 	white-space: nowrap;
 }
 a {
-	color: hsl(200, 100%, 27%);
+	color: var(--blue4);
 }
 
 .error {
@@ -82,68 +72,9 @@ a {
 	font-weight: bold;
 }
 
-/* ============================================================================
-	Buttons
-============================================================================ */
+/* .actions {
+} */
 
-.btn {
-	border-radius: 5px;
-	box-shadow: var(--shadow-config) var(--shade);
-	background-color: var(--bg-color);
-	color: var(--artist);
-	transition: background-color .2s, color .2s, box-shadow .2s;
-
-	min-width: 120px;
-	padding: 0 20px;
-	margin: 10px 5px;
-	line-height: 40px;
-	
-	cursor: pointer;
-
-	font-family: var(--button-font);
-	font-size: 16px;
-}
-.btn.primary {
-	border: solid 2px var(--artist);
-	font-weight: bold;
-}
-.btn.secondary {
-	border: solid 1px var(--artist);
-	font-weight: normal;
-}
-@media(any-hover: hover) {
-	button.btn:not(:disabled):hover, input[type="submit"].btn:not(:disabled):hover {
-		background-color: var(--artist);
-		color: white;
-		box-shadow: 0 8px 8px 0 var(--shade);
-	}
-}
-button.btn:not(:disabled):active, input[type="submit"].btn:not(:disabled):active {
-	box-shadow: var(--shadow-config) var(--shade);
-}
-button.btn:disabled, input[type="submit"].btn:disabled {
-	box-shadow: none;
-	border-color: var(--artist-faded);
-	color: var(--artist-faded);
-    cursor: default;
-}
-button.btn.big {
-	min-width: 170px;
-}
-
-input[type="text"] {
-	border: solid 0;
-	border-bottom: solid 2px var(--standard-color);
-	background-color: var(--light-shade);
-	line-height: 40px;
-	text-align: center;
-	margin: 10px 0;
-	color: var(--standard-color);
-	font-weight: normal;
-}
-input[type="text"]:focus {
-	border-bottom: solid 2px var(--artist);
-}
 
 /* ============================================================================
 	Waiting room
@@ -151,6 +82,9 @@ input[type="text"]:focus {
 
 div.game-code {
 	margin-top: 10px;
+}
+div.game-code h1 {
+	font-family: var(--button-font);
 }
 div.chunk.users {
 	max-width: 250px;
@@ -177,8 +111,8 @@ li {
 	position: relative;
 	margin-left: auto;
 	margin-right: auto;
-	border: solid 4px var(--artist);
-	box-shadow: var(--shadow-config) var(--shade);
+	border: solid 5px var(--artist4);
+	box-shadow: 0px 3px 5px 0px var(--grey4);
 }
 canvas {
 	position: absolute;
@@ -198,8 +132,9 @@ canvas#new-paint {
 ============================================================================ */
 
 #game-info {
+	--maxCanvasWidth: 500px;
 	text-align: left;
-	max-width: calc(300px + 4px + 4px); /* canvas + borders */
+	max-width: calc(var(--maxCanvasWidth) + 4px + 4px); /* canvas + borders */
 	margin-left: auto;
 	margin-right: auto;
 	font-size: 16px;
