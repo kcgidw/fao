@@ -1,8 +1,9 @@
 const MESSAGE = require('../common/message');
 const User = require('../common/user');
-const ClientGame = require('../common/client-game');
+const CliAdapter = require('./game-room').ClientAdapter;
 const Schema = require('./schema');
 const Lobby = require('./lobby');
+const GAME_PHASE = require('../common/game-state');
 
 function handleSocketIO(io) {
 	io.on('connection', function(sock) {
@@ -12,15 +13,19 @@ function handleSocketIO(io) {
 			console.log(`Disconnect: sockId = ${sock.id}, name = ${sock.user && sock.user.name}`);
 			let user = sock.user;
 			if(user && user.gameRoom) {
+				user.setConnected(false);
+				
 				let rm = user.gameRoom;
-				evictUser(user);
+				if(rm.phase === GAME_PHASE.PLAY) {
+					evictUser(user);
+				}
 				sendRoomState(rm, MESSAGE.USER_LEFT, (r) => {
 					r.username = user.name;
 					return r;
-				})
+				});
 				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 					username: user.name,
-					roomState: ClientGame.compileSetup(rm),
+					roomState: CliAdapter.compileToJson(rm),
 				});
 			}
 		});
@@ -142,10 +147,13 @@ function handleSocketIO(io) {
 function sendRoomState(room, messageName, modifier) {
 	for(let u of room.users) {
 		let s = u.socket;
+		if(u.socket === undefined) {
+			continue;
+		}
 		let state = room.compileGameState(false);
 		let fakerState = room.compileGameState(true);
 		let res = {
-			roomState: room.faker.name === u.name ? fakerState : state,
+			roomState: room.faker && room.faker.name === u.name ? fakerState : state,
 		};
 		res = modifier ? modifier(res) : res;
 		s.emit(messageName, res);

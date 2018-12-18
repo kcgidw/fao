@@ -1,6 +1,6 @@
 const gameCanvas = require('../../common/game-canvas');
 const RelativePoint = gameCanvas.RelativePoint;
-const GAME_STATE = require('../../common/game-state');
+const GAME_PHASE = require('../../common/game-state');
 const MESSAGE = require('../../common/message');
 
 var paintingDiv = document.getElementById('painting');
@@ -88,12 +88,12 @@ let submitBtn = $('#in-game .btn.submit-drawing');
 let newRoundBtn = $('#in-game .new-round');
 function determineStyles() {
 	let disableRedoButton = !strokeTracker.hasPoints();
-	redoBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.PLAY));
-	submitBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.PLAY));
+	redoBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.PLAY));
+	submitBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.PLAY));
 	redoBtn.prop('disabled', disableRedoButton);
 	submitBtn.prop('disabled', disableRedoButton);
-	newRoundBtn.toggle(Boolean(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER));
-	newRoundBtn.prop('disabled', !(FAO.game && FAO.game.state === GAME_STATE.ROUND_OVER));
+	newRoundBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.ROUND_OVER));
+	newRoundBtn.prop('disabled', !(FAO.game && FAO.game.phase === GAME_PHASE.ROUND_OVER));
 }
 determineStyles();
 

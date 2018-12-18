@@ -1,9 +1,8 @@
-
-const ClientGame = require('../common/client-game');
 const Stroke = require('../common/game-canvas').Stroke;
-const GAME_STATE = require('../common/game-state');
+const GAME_PHASE = require('../common/game-state');
 const Util = require('../common/util');
 const Prompts = require('./prompts');
+const _ = require('lodash');
 
 const MAX_USERS = 10;
 
@@ -13,7 +12,7 @@ class GameRoom {
 		this.users = [];
 		this.host = host;
 
-		this.state = GAME_STATE.SETUP;
+		this.phase = GAME_PHASE.SETUP;
 
 		this.turn = -1;
 		this.keyword = undefined;
@@ -44,7 +43,7 @@ class GameRoom {
 
 	startNewRound() {
 		this.shuffleUsers();
-		this.state = GAME_STATE.PLAY;
+		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;
 		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
 		this.keyword = Util.capitalize(prompt.keyword);
@@ -60,23 +59,7 @@ class GameRoom {
 		Util.shuffle(this.users);
 	}
 	compileGameState(fakerView) {
-		switch(this.state) {
-			case(GAME_STATE.SETUP):
-				return ClientGame.compileSetup(this);
-			case(GAME_STATE.PLAY):
-				if(this.turn === 1) {
-					return ClientGame.compileRoundStart(this, fakerView);
-				} else {
-					return ClientGame.compileStrokes(this);
-				}
-			case(GAME_STATE.ROUND_OVER):
-				return ClientGame.compileStrokes(this);
-			case(GAME_STATE.CLOSED):
-				return ClientGame.compileStrokes(this);
-			default:
-				console.error(`bad gamestate ${this.state}`);
-				return ClientGame.compileToJson(this, fakerView);
-		}
+		return ClientAdapter.compileToJson(this, fakerView, !fakerView);
 	}
 	addStroke(username, points) {
 		this.strokes.push(new Stroke(username, points));
@@ -86,20 +69,40 @@ class GameRoom {
 		if(this.gameInProcess()) {
 			this.turn++;
 			if(this.turn - 1 >= this.users.length * 2) {
-				this.state = GAME_STATE.ROUND_OVER;
+				this.phase = GAME_PHASE.ROUND_OVER;
 			}
 			return this.turn;
 		}
 		return undefined;
 	}
 	gameInProcess() {
-		return this.state === GAME_STATE.PLAY;
+		return this.phase === GAME_PHASE.PLAY;
 	}
 	isFull() {
 		return this.users.length >= MAX_USERS;
 	}
 }
 
+const ClientAdapter = {
+	compileToJson(gameRoom, canViewFaker, canViewKeyword, pickFields) {
+		let res = {
+			roomCode: gameRoom.roomCode,
+			users: _.map(gameRoom.users, (u) => ({name: u.name, connected: u.connected})),
+			phase: gameRoom.phase,
+			turn: gameRoom.turn,
+			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : undefined,
+			keyword: canViewKeyword ? gameRoom.keyword : '???',
+			hint: gameRoom.hint,
+			fakerName: gameRoom.faker && canViewFaker ? gameRoom.faker.name : undefined,
+			strokes: gameRoom.strokes,
+		};
+		if(pickFields) {
+			res = _.pick(res, pickFields);
+		}
+		return res;
+	},
+}
+
 module.exports = {
-	GameRoom,
+	GameRoom, ClientAdapter,
 };

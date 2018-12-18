@@ -1,5 +1,5 @@
-const ClientGame = require('../../common/client-game');
-const GAME_STATE = require('../../common/game-state');
+const ClientGame = require('../../common/cli-game');
+const GAME_PHASE = require('../../common/game-state');
 const MESSAGE = require('../../common/message');
 const Util = require('../../common/util');
 
@@ -13,7 +13,7 @@ window.FAO = {
 	username: $('input#join-username-input').val(),
 	game: undefined,
 	myTurn() {
-		return FAO.game !== undefined && FAO.game.whoseTurn() === FAO.username && FAO.game.state === GAME_STATE.PLAY;
+		return FAO.game !== undefined && FAO.game.whoseTurn=== FAO.username && FAO.game.phase === GAME_PHASE.PLAY;
 	},
 };
 
@@ -57,11 +57,10 @@ handleSocket(MESSAGE.NEW_TURN);
 
 function updateGame(messageName, data) {
 	if(data.roomState !== undefined) {
-		if(!FAO.game) {
-			FAO.game = ClientGame.fromJson(data.roomState);
-		} else {
-			FAO.game.overwriteFromJson(data.roomState);
+		if(FAO.game === undefined) {
+			FAO.game = ClientGame.generateClientGame();
 		}
+		FAO.game.adoptJson(data.roomState);
 	}
 	updateUI();
 }
@@ -71,28 +70,28 @@ function updateUI() {
 		setView('LANDING', 'FIRST');
 		return;
 	}
- 	switch(FAO.game.state) {
-		case GAME_STATE.SETUP:
+ 	switch(FAO.game.phase) {
+		case GAME_PHASE.SETUP:
 			setView('SETUP');
 			$('div#room-setup .game-code h1').text(FAO.game.roomCode);
 			let usersList = $('ul.users');
 			usersList.empty();
-			for(let un of FAO.game.usernames) {
+			for(let un of FAO.game.getUsernames()) {
 				let elem = $(`<li>${un}</li>`);
 				usersList.append(elem);
 			}
 			break;
-		case GAME_STATE.PLAY:
+		case GAME_PHASE.PLAY:
 			setView('IN_GAME');
 			$('div#in-game .prompt span.hint').text(FAO.game.hint);
 			$('div#in-game .prompt span.keyword').text(FAO.game.keyword);
-			$('div#in-game span.whose-turn').text(FAO.game.whoseTurn());
+			$('div#in-game span.whose-turn').text(FAO.game.whoseTurn);
 			break;
-		case GAME_STATE.ROUND_OVER:
+		case GAME_PHASE.ROUND_OVER:
 			setView('IN_GAME');
 			break;
 		default:
-			console.warn(`Bad game state ${FAO.game.state}`);
+			console.warn(`Bad game phase ${FAO.game.phase}`);
 	}
 	determineStyles();
 }
@@ -180,8 +179,8 @@ function determineStyles() {
 	let game = FAO.game;
 	landingView.toggle(game === undefined);
 	// avoid suffering by ensuring toggle receives a bool
-	setupView.toggle(Boolean(game && game.state === GAME_STATE.SETUP));
-	gameView.toggle(Boolean(game && (game.state === GAME_STATE.PLAY || game.state === GAME_STATE.ROUND_OVER)));
+	setupView.toggle(Boolean(game && game.phase === GAME_PHASE.SETUP));
+	gameView.toggle(Boolean(game && (game.phase === GAME_PHASE.PLAY || game.phase === GAME_PHASE.ROUND_OVER)));
 
 	createBtn.prop('disabled', !FAO.username || attemptingGameJoin);
 	joinBtn.prop('disabled', !FAO.username || !$('#join-code').val() || attemptingGameJoin);
