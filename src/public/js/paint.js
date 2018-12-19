@@ -83,15 +83,15 @@ var strokeTracker = {
 	}
 };
 
-let redoBtn = $('div#in-game .redo-drawing');
+let undoBtn = $('div#in-game .undo-drawing');
 let submitBtn = $('#in-game .btn.submit-drawing');
 let newRoundBtn = $('#in-game .new-round');
 function determineStyles() {
-	let disableRedoButton = !strokeTracker.hasPoints();
-	redoBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.PLAY));
+	let disableUndoButton = !strokeTracker.hasPoints();
+	undoBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.PLAY));
 	submitBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.PLAY));
-	redoBtn.prop('disabled', disableRedoButton);
-	submitBtn.prop('disabled', disableRedoButton);
+	undoBtn.prop('disabled', disableUndoButton);
+	submitBtn.prop('disabled', disableUndoButton);
 	newRoundBtn.toggle(Boolean(FAO.game && FAO.game.phase === GAME_PHASE.ROUND_OVER));
 	newRoundBtn.prop('disabled', !(FAO.game && FAO.game.phase === GAME_PHASE.ROUND_OVER));
 }
@@ -179,7 +179,7 @@ function submitDrawing() {
 		});
 	}
 }
-redoBtn.on('click', function(e) {
+undoBtn.on('click', function(e) {
 	clearFront();
 	determineStyles();
 });
