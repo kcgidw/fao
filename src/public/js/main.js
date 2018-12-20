@@ -83,9 +83,9 @@ function updateUI() {
 			break;
 		case GAME_PHASE.PLAY:
 			setView('IN_GAME');
-			$('div#in-game .prompt span.hint').text(FAO.game.hint);
-			$('div#in-game .prompt span.keyword').text(FAO.game.keyword);
-			$('div#in-game span.whose-turn').text(FAO.game.whoseTurn);
+			$('div#in-game .prompt').text(`${FAO.game.keyword} (${FAO.game.hint})`);
+			$('div#in-game .current-turn').text(`${FAO.game.whoseTurn}'s turn`);
+			$('div#in-game .current-turn').css('color', FAO.game.getUserColor(FAO.game.whoseTurn));
 			break;
 		case GAME_PHASE.ROUND_OVER:
 			setView('IN_GAME');

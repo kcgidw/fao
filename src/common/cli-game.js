@@ -20,7 +20,7 @@ function generateClientGame() {
 		},
 		getUserColor(username) {
 			let userIdx = _.findIndex(this.getUsernames(), (u) => (u === username));
-			return COLOR.HEX[COLOR.ORDER[userIdx]];
+			return COLOR.HEX[COLOR.ORDER[userIdx]] || 'var(--grey6)';
 		},
 	};
 }

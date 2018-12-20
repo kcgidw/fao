@@ -29,6 +29,8 @@ function scaleCanvas() {
 	canvas.height = CANVAS_HEIGHT;
 	oldPaint.width = CANVAS_WIDTH;
 	oldPaint.height = CANVAS_HEIGHT;
+
+	$('#game-info').css('--maxCanvasWidth', CANVAS_WIDTH); // also scale the game info div
 }
 scaleCanvas();
 

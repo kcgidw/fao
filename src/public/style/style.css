@@ -30,7 +30,7 @@ h2 {
 	margin: 5px 5px 10px 5px;
 }
 h3 {
-	font-size: 16px;
+	font-size: 18px;
 	margin: 5px 5px 10px 5px;
 }
 
@@ -139,6 +139,15 @@ canvas#new-paint {
 	margin-right: auto;
 	font-size: 16px;
 	font-family: var(--header-font);
+}
+#game-info .prompt {
+	color: var(--artist4);
+	font-size: 26px;
+	margin: 0 0 0 0;
+}
+#game-info .current-turn {
+	margin-left: 10px;
+	margin: 0 0 0 10px;
 }
 #game-info span.label {
 	font-weight: normal;
