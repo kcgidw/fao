@@ -3,8 +3,8 @@ const Ajv = require('ajv');
 const ajv = new Ajv();
 
 const SCHEMA = {};
-SCHEMA[MESSAGE.CREATE_GAME] = {
-	$id: MESSAGE.CREATE_GAME,
+SCHEMA[MESSAGE.CREATE_ROOM] = {
+	$id: MESSAGE.CREATE_ROOM,
 	properties: {
 		username: {
 			type: 'string',
@@ -14,8 +14,8 @@ SCHEMA[MESSAGE.CREATE_GAME] = {
 	},
 	required: ['username'],
 };
-SCHEMA[MESSAGE.JOIN_GAME] = {
-	$id: MESSAGE.JOIN_GAME,
+SCHEMA[MESSAGE.JOIN_ROOM] = {
+	$id: MESSAGE.JOIN_ROOM,
 	properties: {
 		username: {
 			type: 'string',
@@ -29,8 +29,8 @@ SCHEMA[MESSAGE.JOIN_GAME] = {
 	},
 	required: ['username', 'roomCode'],
 };
-SCHEMA[MESSAGE.LEAVE_GAME] = {
-	$id: MESSAGE.LEAVE_GAME,
+SCHEMA[MESSAGE.LEAVE_ROOM] = {
+	$id: MESSAGE.LEAVE_ROOM,
 	properties: {
 	},
 	required: [],

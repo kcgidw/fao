@@ -43,12 +43,12 @@ function handleSocket(messageName, handler) {
 		EE.emit(messageName, data);
 	});
 }
-handleSocket(MESSAGE.CREATE_GAME, function(data) {
+handleSocket(MESSAGE.CREATE_ROOM, function(data) {
 	FAO.username = data.username;
 });
-handleSocket(MESSAGE.JOIN_GAME);
+handleSocket(MESSAGE.JOIN_ROOM);
 handleSocket(MESSAGE.USER_JOINED);
-handleSocket(MESSAGE.LEAVE_GAME, function(data) {
+handleSocket(MESSAGE.LEAVE_ROOM, function(data) {
 	FAO.game = undefined;
 });
 handleSocket(MESSAGE.USER_LEFT);
@@ -218,7 +218,7 @@ $('#room-setup .actions .start').on('click', function(e) {
 
 function submitCreateGame(username) {
 	if(Util.validateUsername(username)) {
-		window.socket.emit(MESSAGE.CREATE_GAME, {
+		window.socket.emit(MESSAGE.CREATE_ROOM, {
 			username: username,
 		});
 		return true;
@@ -227,7 +227,7 @@ function submitCreateGame(username) {
 }
 function submitJoinGame(roomCode, username) {
 	if(Util.validateUsername(username)) {
-		window.socket.emit(MESSAGE.JOIN_GAME, {
+		window.socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
 			username: username,
 		});
@@ -239,7 +239,7 @@ function submitLeaveGame() {
 	setView('LANDING', 'FIRST');
 	FAO.game = undefined;
 	window.EE.emit('leave game');
-	window.socket.emit(MESSAGE.LEAVE_GAME, {});
+	window.socket.emit(MESSAGE.LEAVE_ROOM, {});
 }
 function submitStartGame() {
 	window.EE.emit('submit start game');

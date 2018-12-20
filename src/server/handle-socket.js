@@ -13,16 +13,9 @@ function handleSocketIO(io) {
 			console.log(`Disconnect: sockId = ${sock.id}, name = ${sock.user && sock.user.name}`);
 			let user = sock.user;
 			if(user && user.gameRoom) {
-				user.setConnected(false);
-				
 				let rm = user.gameRoom;
-				if(rm.phase === GAME_PHASE.PLAY) {
-					evictUser(user);
-				}
-				sendRoomState(rm, MESSAGE.USER_LEFT, (r) => {
-					r.username = user.name;
-					return r;
-				});
+				handleLeaveRoom(sock, user, user.gameRoom);
+
 				io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 					username: user.name,
 					roomState: CliAdapter.compileToJson(rm),
@@ -30,39 +23,39 @@ function handleSocketIO(io) {
 			}
 		});
 
-		sock.on(MESSAGE.LEAVE_GAME, function(data) {
-			if(validateAndHandleInvalidMessage(sock, MESSAGE.LEAVE_GAME, data)) { return; }
+		sock.on(MESSAGE.LEAVE_ROOM, function(data) {
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.LEAVE_ROOM, data)) { return; }
 			let user = sock.user;
 			let errObj = runCheckers(
 				Ensure.hasUser(sock),
 				Ensure.userInRoom(sock)
 			);
 			if(errObj.err) {
-				sock.emit(MESSAGE.LEAVE_GAME, errObj);
+				sock.emit(MESSAGE.LEAVE_ROOM, errObj);
 				return;
 			}
 
 			let rm = user.gameRoom;
-			evictUser(sock.user);
-			sock.leave(rm.roomCode);
-			sock.user = undefined; // forget player session
-			sock.emit(MESSAGE.LEAVE_GAME, {});
-			// tell other players in room that this player has left
+			handleLeaveRoom(sock, user, rm);
+
+			sock.emit(MESSAGE.LEAVE_ROOM, {});
+
+			// also, tell other players in room that this player has left
 			io.in(rm.roomCode).emit(MESSAGE.USER_LEFT, {
 				username: user.name,
 				roomState: rm.compileGameState(false),
 			});
 		});
 
-		sock.on(MESSAGE.CREATE_GAME, function(data) {
-			if(validateAndHandleInvalidMessage(sock, MESSAGE.CREATE_GAME, data)) { return; }
+		sock.on(MESSAGE.CREATE_ROOM, function(data) {
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.CREATE_ROOM, data)) { return; }
 			let user = sock.user || initUser(sock, data.username);
 			let errObj = runCheckers(
 				Ensure.hasUser(sock),
 				Ensure.userNotInARoom(sock)
 			);
 			if(errObj.err) {
-				sock.emit(MESSAGE.CREATE_GAME, errObj);
+				sock.emit(MESSAGE.CREATE_ROOM, errObj);
 				return;
 			}
 
@@ -71,14 +64,14 @@ function handleSocketIO(io) {
 				return; // TODO return error obj for client
 			}
 			joinRoom(user, rm.roomCode, true);
-			io.in(rm.roomCode).emit(MESSAGE.CREATE_GAME, {
+			io.in(rm.roomCode).emit(MESSAGE.CREATE_ROOM, {
 				username: user.name,
 				roomState: rm.compileGameState(false),
 			});
 		});
 		
-		sock.on(MESSAGE.JOIN_GAME, function(data) {
-			if(validateAndHandleInvalidMessage(sock, MESSAGE.JOIN_GAME, data)) { return; }
+		sock.on(MESSAGE.JOIN_ROOM, function(data) {
+			if(validateAndHandleInvalidMessage(sock, MESSAGE.JOIN_ROOM, data)) { return; }
 			let user = sock.user || initUser(sock, data.username);
 			let errObj = runCheckers(
 				Ensure.hasUser(sock),
@@ -88,13 +81,13 @@ function handleSocketIO(io) {
 				Ensure.gameNotInProcess(data.roomCode)
 			);
 			if(errObj.err) {
-				sock.emit(MESSAGE.JOIN_GAME, errObj);
+				sock.emit(MESSAGE.JOIN_ROOM, errObj);
 				return;
 			}
 
 			let rm = joinRoom(user, data.roomCode, false);
 			let state = rm.compileGameState(false);
-			sock.emit(MESSAGE.JOIN_GAME, {
+			sock.emit(MESSAGE.JOIN_ROOM, {
 				username: user.name,
 				roomState: state,
 			});
@@ -144,7 +137,7 @@ function handleSocketIO(io) {
 }
 
 // send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
-function sendRoomState(room, messageName, modifier) {
+function sendRoomState(room, messageName) {
 	for(let u of room.users) {
 		let s = u.socket;
 		if(u.socket === undefined) {
@@ -155,7 +148,6 @@ function sendRoomState(room, messageName, modifier) {
 		let res = {
 			roomState: room.faker && room.faker.name === u.name ? fakerState : state,
 		};
-		res = modifier ? modifier(res) : res;
 		s.emit(messageName, res);
 	}
 }
@@ -254,6 +246,16 @@ function joinRoom(user, roomCode, isHost = false) {
 	user.setGameRoom(rm);
 	console.log(`User ${user.name} joined room-${roomCode}`);
 	return rm;
+}
+
+function handleLeaveRoom(sock, user, room) {
+	user.setConnected(false);
+	// if room has no game in progress, drop the user from the room altogether
+	if(room.phase !== GAME_PHASE.PLAY) {
+		evictUser(user);
+	}
+	sock.leave(room.roomCode);
+	sock.user = undefined; // forget player session
 }
 
 function evictUser(user) {
