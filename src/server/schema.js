@@ -1,6 +1,7 @@
 const MESSAGE = require('../common/message');
 const Ajv = require('ajv');
 const ajv = new Ajv();
+const GameError = require('./game-error')
 
 const SCHEMA = {};
 SCHEMA[MESSAGE.CREATE_ROOM] = {
@@ -70,10 +71,14 @@ console.log(`Message schemas loaded.`);
 // console.log(SCHEMA);
 
 function validateMessageFromClient(messageName, json) {
+	if(!SCHEMA[messageName]) {
+		return true;
+	}
+	
 	let res = ajv.validate(messageName, json);
 	if(!res) {
-		console.warn('Invalid message received from client:');
 		console.warn(ajv.errorsText());
+		throw new GameError('Invalid message');
 	}
 	return res;
 }

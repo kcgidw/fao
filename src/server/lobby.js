@@ -1,5 +1,6 @@
 const GameRoom = require('./game-room').GameRoom;
 const Util = require('../common/util');
+const GameError = require('./game-error');
 
 const rooms = new Map();
 const ROOMS_LIMIT = 100;
@@ -31,12 +32,16 @@ function generateNewRoomCode() {
 	} while(rooms.has(code));
 	return code;
 }
-function createRoom(hostUser) {
+function isFull() {
 	if(rooms.size >= ROOMS_LIMIT) {
-		console.warn(`Did not create room - room limit reached.`);
+		return true;
+	}
+	return false;
+}
+function createRoom(hostUser) {
+	if(isFull()) {
 		return undefined;
 	}
-    
 	let code = generateNewRoomCode();
 	let rm = new GameRoom(code);
 	rooms.set(code, rm);
@@ -45,5 +50,5 @@ function createRoom(hostUser) {
 }
 
 module.exports = {
-	createRoom, getRoomByCode, teardownRoom
+	createRoom, getRoomByCode, teardownRoom, isFull
 };

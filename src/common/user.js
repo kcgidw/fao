@@ -9,14 +9,13 @@ class User {
 		this.socket = socket;
 		this.name = name;
 		this.gameRoom = undefined;
-		this.connected = true;
 	}
 
 	setGameRoom(gameRoom) {
 		this.gameRoom = gameRoom;
 	}
-	setConnected(connected) {
-		this.connected = connected;
+	get connected() {
+		return this.socket && this.socket.connected;
 	}
 }
 

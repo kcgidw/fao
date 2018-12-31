@@ -216,7 +216,7 @@ $('#room-setup .actions .start').on('click', function(e) {
 	determineStyles();
 });
 
-function submitCreateGame(username) {
+function submitCreateGame(username) { // TODO trim username
 	if(Util.validateUsername(username)) {
 		window.socket.emit(MESSAGE.CREATE_ROOM, {
 			username: username,

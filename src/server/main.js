@@ -8,7 +8,7 @@ const httpServer = http.createServer(app);
 const port = process.env.PORT || 3000;
 
 const io = SocketIO(httpServer);
-require('./handle-socket')(io);
+require('./socket-handler')(io);
 
 app.use(compress()); 
 app.use(express.static(path.resolve(__dirname, '..', 'public')));
