@@ -22,7 +22,8 @@ class GameRoom {
 		this.strokes = [];
 	}
 	addUser(user, isHost = false) {
-		if(this.users.length >= MAX_USERS) {
+		if(this.isFull()) {
+			console.warn('Full room');
 			return false;
 		}
 		this.users.push(user);
@@ -58,9 +59,6 @@ class GameRoom {
 	shuffleUsers() {
 		Util.shuffle(this.users);
 	}
-	compileGameState(fakerView) {
-		return ClientAdapter.compileToJson(this, fakerView, !fakerView);
-	}
 	addStroke(username, points) {
 		this.strokes.push(new Stroke(username, points));
 		return this.strokes;
@@ -81,19 +79,23 @@ class GameRoom {
 	isFull() {
 		return this.users.length >= MAX_USERS;
 	}
+	isDead() {
+		// all users are disconnected
+		return this.users.length === 0 || _.every(this.users, u => (!u.connected));
+	}
 }
 
 const ClientAdapter = {
-	compileToJson(gameRoom, canViewFaker, canViewKeyword, pickFields) {
+	generateStateJson(gameRoom, pickFields) {
 		let res = {
 			roomCode: gameRoom.roomCode,
 			users: _.map(gameRoom.users, (u) => ({name: u.name, connected: u.connected})),
 			phase: gameRoom.phase,
 			turn: gameRoom.turn,
 			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : undefined,
-			keyword: canViewKeyword ? gameRoom.keyword : '???',
+			keyword: gameRoom.keyword,
 			hint: gameRoom.hint,
-			fakerName: gameRoom.faker && canViewFaker ? gameRoom.faker.name : undefined,
+			fakerName: gameRoom.faker ? gameRoom.faker.name : undefined,
 			strokes: gameRoom.strokes,
 		};
 		if(pickFields) {
@@ -101,7 +103,17 @@ const ClientAdapter = {
 		}
 		return res;
 	},
-}
+	hideKeyword(stateJson) {
+		let res = _.cloneDeep(stateJson);
+		res.keyword = '???';
+		return res;
+	},
+	hideFaker(stateJson) {
+		let res = _.cloneDeep(stateJson);
+		res.fakerName = undefined;
+		return res;
+	},
+};
 
 module.exports = {
 	GameRoom, ClientAdapter,

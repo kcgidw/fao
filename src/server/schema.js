@@ -1,7 +1,7 @@
 const MESSAGE = require('../common/message');
 const Ajv = require('ajv');
 const ajv = new Ajv();
-const GameError = require('./game-error')
+const GameError = require('./game-error');
 
 const SCHEMA = {};
 SCHEMA[MESSAGE.CREATE_ROOM] = {
@@ -10,7 +10,7 @@ SCHEMA[MESSAGE.CREATE_ROOM] = {
 		username: {
 			type: 'string',
 			minLength: 1,
-			maxLength: 10,
+			maxLength: 15,
 		},
 	},
 	required: ['username'],

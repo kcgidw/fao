@@ -15,7 +15,7 @@ class User {
 		this.gameRoom = gameRoom;
 	}
 	get connected() {
-		return this.socket && this.socket.connected;
+		return Boolean(this.socket && this.socket.connected);
 	}
 }
 
