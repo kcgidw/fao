@@ -51,6 +51,7 @@ const MessageHandlers = {
 		GamePrecond.roomExists(data.roomCode);
 		GamePrecond.roomIsNotFull(roomToJoin);
 		GamePrecond.gameNotInProcess(roomToJoin);
+		GamePrecond.nameIsNotTakenInRoom(data.username, roomToJoin);
 
 		let user = login(sock, data.username);
 		let room = joinRoom(user, roomToJoin, false);
@@ -203,6 +204,11 @@ const GamePrecond = {
 		let room = user.gameRoom;
 		if(room.whoseTurn() !== user) {
 			throw new GameError("Not user's turn");
+		}
+	},
+	nameIsNotTakenInRoom(username, room) {
+		if(room.findUser(username)) {
+			throw new GameError("This username is taken in this room");
 		}
 	}
 };

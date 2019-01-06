@@ -38,7 +38,6 @@ class GameRoom {
 		return this.users.length;
 	}
 	findUser(name) {
-		// TODO account for / validate against duplicate names 
 		return this.users.find((p) => (p.name === name));
 	}
 
