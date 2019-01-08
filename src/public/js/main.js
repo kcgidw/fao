@@ -1,5 +1,5 @@
 const ClientGame = require('../../common/cli-game');
-const GAME_PHASE = require('../../common/game-state');
+const GAME_PHASE = require('../../common/game-phase');
 const MESSAGE = require('../../common/message');
 const Util = require('../../common/util');
 
@@ -23,7 +23,7 @@ const VIEW = {
 	'LANDING': 'div#landing',
 	'SETUP': 'div#room-setup',
 	'IN_GAME': 'div#in-game',
-}
+};
 const MENU = {
 	'FIRST': 'div#first-prompt-menu',
 	'CREATE': 'div#create-game-menu', 
@@ -58,7 +58,7 @@ handleSocket(MESSAGE.NEW_TURN);
 function updateGame(messageName, data) {
 	if(data.roomState !== undefined) {
 		if(FAO.game === undefined) {
-			FAO.game = ClientGame.generateClientGame();
+			FAO.game = ClientGame.generateClientGameState();
 		}
 		FAO.game.adoptJson(data.roomState);
 	}

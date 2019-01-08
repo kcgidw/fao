@@ -1,6 +1,6 @@
 const COLOR = require('./color');
 
-function generateClientGame() {
+function generateClientGameState() {
 	return {
 		roomCode: undefined,
 		users: [],
@@ -16,13 +16,16 @@ function generateClientGame() {
 			return _.map(this.users, (u) => (u.name));
 		},
 		adoptJson(json) {
-			Object.assign(this, json);
+			return Object.assign(this, json);
 		},
 		getUserColor(username) {
 			let userIdx = _.findIndex(this.getUsernames(), (u) => (u === username));
-			return COLOR.HEX[COLOR.ORDER[userIdx]] || 'var(--grey6)';
+			return userIdx >= 0 ? COLOR.HEX[COLOR.ORDER[userIdx]] || 'var(--grey6)' : 'var(--grey6)';
+		},
+		getMostRecentStroke() {
+			return this.strokes[this.strokes.length - 1];
 		},
 	};
 }
 
-module.exports = { generateClientGame };
+module.exports = { generateClientGameState };

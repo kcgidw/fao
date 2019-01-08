@@ -1,6 +1,6 @@
 const gameCanvas = require('../../common/game-canvas');
 const RelativePoint = gameCanvas.RelativePoint;
-const GAME_PHASE = require('../../common/game-state');
+const GAME_PHASE = require('../../common/game-phase');
 const MESSAGE = require('../../common/message');
 
 var paintingDiv = document.getElementById('painting');

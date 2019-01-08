@@ -3,7 +3,7 @@ const User = require('../common/user');
 const CliAdapter = require('./game-room').ClientAdapter;
 const Schema = require('./schema');
 const Lobby = require('./lobby');
-const GAME_PHASE = require('../common/game-state');
+const GAME_PHASE = require('../common/game-phase');
 const GameError = require('./game-error');
 
 function handleSockets(io) {
@@ -229,7 +229,7 @@ function broadcastRoomState(room, messageName, addtlProcessFn) {
 		}
 
 		let res;
-		if(room.phase === GAME_PHASE.PLAY) {
+		if(room.phase === GAME_PHASE.PLAY || room.phase === GAME_PHASE.ROUND_OVER) {
 			res = {
 				roomState: room.faker && room.faker.name === u.name ? fakerView : artistView,
 			};

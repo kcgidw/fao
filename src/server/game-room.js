@@ -1,5 +1,5 @@
 const Stroke = require('../common/game-canvas').Stroke;
-const GAME_PHASE = require('../common/game-state');
+const GAME_PHASE = require('../common/game-phase');
 const Util = require('../common/util');
 const Prompts = require('./prompts');
 const _ = require('lodash');
@@ -52,8 +52,11 @@ class GameRoom {
 		this.strokes = [];
 	}
 	whoseTurn() {
-		let idx = ((this.turn - 1) % this.users.length);
-		return this.users[idx];
+		if(this.phase === GAME_PHASE.PLAY) {
+			let idx = ((this.turn - 1) % this.users.length);
+			return this.users[idx];
+		}
+		return undefined;
 	}
 	shuffleUsers() {
 		Util.shuffle(this.users);
@@ -91,7 +94,7 @@ const ClientAdapter = {
 			users: _.map(gameRoom.users, (u) => ({name: u.name, connected: u.connected})),
 			phase: gameRoom.phase,
 			turn: gameRoom.turn,
-			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : undefined,
+			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : null, // null, so the empty value still gets passed to the client
 			keyword: gameRoom.keyword,
 			hint: gameRoom.hint,
 			fakerName: gameRoom.faker ? gameRoom.faker.name : undefined,
