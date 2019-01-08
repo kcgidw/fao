@@ -4,6 +4,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
 	entry: path.resolve(__dirname, 'src', 'public', 'js', 'main.js'),
+	stats: 'minimal',
 	output: {
 		path: path.resolve(__dirname, 'src', 'public', 'js'),
 		filename: 'index.bundle.min.js'
