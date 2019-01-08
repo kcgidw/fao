@@ -89,6 +89,8 @@ function updateUI() {
 			break;
 		case GAME_PHASE.ROUND_OVER:
 			setView('IN_GAME');
+			$('div#in-game .current-turn').text('Voting time!');
+			$('div#in-game .current-turn').css('color', FAO.game.getUserColor(FAO.game.whoseTurn));
 			break;
 		default:
 			console.warn(`Bad game phase ${FAO.game.phase}`);
