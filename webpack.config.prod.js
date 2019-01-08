@@ -1,43 +1,16 @@
-const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
+const commonConfig = require('./webpack.config.common');
+const _ = require('lodash');
 
-module.exports = {
-	entry: path.resolve(__dirname, 'src', 'public', 'js', 'main.js'),
-	stats: 'minimal',
-	output: {
-		path: path.resolve(__dirname, 'src', 'public', 'js'),
-		filename: 'index.bundle.min.js'
-	},
-	devtool: 'source-map',
+let config = _.merge({}, commonConfig, {
 	mode: 'production',
-	module: {
-		rules: [
-			{
-				test: /\.js$/, 
-				enforce: "pre", 
-				use: [
-					{
-						loader: 'source-map-loader'
-					},
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: ['@babel/preset-env']
-						}
-					}
-				] 
-			}
-		],
-	},
-	resolve: {
-		extensions: [".jsx", ".js", ".json"]
-	},
+	stats: 'minimal',
 	optimization: {
 		minimize: true,
 		minimizer: [new UglifyJsPlugin({sourceMap: true})]
 	},
-	plugins: [
-		new CompressionPlugin(),
-	],
-};
+	externals: {
+	}
+});
+
+module.exports = config;

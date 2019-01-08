@@ -1,8 +1,9 @@
-const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const prodConfig = require('./webpack.config.prod');
+const prodConfig = require('./webpack.config.common');
+const _ = require('lodash');
 
-module.exports = Object.assign({}, prodConfig, {
+let config = _.merge({}, prodConfig, {
 	mode: 'development',
-	optimization: {},
+	devtool: 'source-map',
 });
+
+module.exports = config;
