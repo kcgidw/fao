@@ -14,7 +14,7 @@
 	
 	cursor: pointer;
 	
-	transition: background-color .1s, color .1s, box-shadow .1s;
+	transition: background-color .15s, color .15s, border .15s, box-shadow .15s;
 }
 .btn.primary:not(:disabled) {
 	background-color: var(--artist4);

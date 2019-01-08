@@ -15,15 +15,25 @@ var getPrompts = new Promise(function(resolve, reject) {
 				// reject(err);
 			} else {
 				prompts = output;
+				validatePromptHeaders(prompts);
 				resolve(output);
 			}
 		});
 	});
 });
 
+function validatePromptHeaders(prompts) {
+	let item = prompts[0];
+	if(item.keyword && item.hint) {
+		return true;
+	} else {
+		throw new Error('Incorrect prompt headers');
+	}
+}
+
 function getRandomPrompt() {
 	if(prompts === undefined) {
-		return undefined;
+		console.error('No prompts found');
 	}
 	return Util.randomItemFrom(prompts);
 }

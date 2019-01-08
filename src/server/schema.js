@@ -59,6 +59,7 @@ SCHEMA[MESSAGE.SUBMIT_STROKE] = {
 				},
 				required: ['x', 'y'],
 			},
+			minItems: 2,
 		},
 	},
 	required: ['points'],
