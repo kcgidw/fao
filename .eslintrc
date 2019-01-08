@@ -1,5 +1,7 @@
 {
-	"parser": "esprima",
+	"parserOptions": {
+		"parser": "babel-eslint"
+	},
 	"env": {
 		"browser": true,
 		"commonjs": true,
@@ -12,8 +14,10 @@
 		"_": false,
 		"$": false,
 		"FAO": false,
-		"mitt": false
+		"mitt": false,
+		"Vue": false
 	},
+	"extends": ["plugin:vue/essential"],
 	"rules": {
 		"func-names": 0,
 		"space-before-function-paren": ["warn", "never"],

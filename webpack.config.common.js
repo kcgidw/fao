@@ -1,14 +1,19 @@
 const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-	entry: path.resolve(__dirname, 'src', 'public', 'js', 'main.js'),
+	entry: path.resolve(__dirname, 'src', 'public', 'js', 'client.js'),
 	output: {
 		path: path.resolve(__dirname, 'src', 'public', 'js'),
 		filename: 'index.bundle.min.js'
 	},
 	module: {
 		rules: [
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
+			},
 			{
 				test: /\.js$/, 
 				use: [
@@ -26,9 +31,10 @@ module.exports = {
 		],
 	},
 	resolve: {
-		extensions: [".jsx", ".js", ".json"],
+		extensions: [".jsx", ".js", ".json", ".vue"],
 	},
 	plugins: [
 		new CompressionPlugin(),
+		new VueLoaderPlugin(),
 	],
 };

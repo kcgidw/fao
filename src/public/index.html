@@ -5,10 +5,8 @@
 		<title>Fake Artist Online</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content=
-			"An online multiplayer aid for Oink Games' tabletop game, _A Fake Artist Goes to New York_. Draw with your phone or a mouse." />
+			"An online multiplayer aid for Oink Games' tabletop game, A Fake Artist Goes to New York. Draw with your phone or a mouse." />
 		<meta name="google-site-verification" content="y94kNDTuNomc5PXYaXolDC6Xu-TJVn3z32Sr_I7z2Dg" />
-		<!-- <link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet">  -->
-		<!-- <link href="https://fonts.googleapis.com/css?family=Catamaran" rel="stylesheet">  -->
 		<link href="https://fonts.googleapis.com/css?family=Palanquin+Dark" rel="stylesheet"> 
 		<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet"> 
@@ -16,56 +14,20 @@
 		<link rel="stylesheet" href="style/colors.css" />
 		<link rel="stylesheet" href="style/style.css" />
 		<link rel="stylesheet" href="style/input.css" />
-
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pubsub-js/1.7.0/pubsub.min.js" crossorigin="anonymous"></script> -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js" crossorigin="anonymous"></script>
-		<!-- <script src="https://unpkg.com/eventemitter3@latest/umd/eventemitter3.min.js"></script> -->
-		<script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
-		<script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 	</head>
 
 	<body>
-		<div class="wrapper">
-			<div id="landing" class="view">
-				<div class="chunk">
+		<div id="wrapper">
+
+			<div id="home" v-show="state.view === 'home'">
+				<div id="title-banner" class="chunk">
 					<h1>Fake Artist Online</h1>
 					<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
 				</div>
-				<div id="menu" class="chunk">
-					<div id="first-prompt-menu" class="menu">
-						<button id="goto-create-menu" class="btn big primary">New Game</button>
-						<div style="clear: both"></div>
-						<button id="goto-join-menu" class="btn big primary">Join Game</button>
-					</div>
-					<div id="create-game-menu" class="menu">
-						<form id="create-game-form">
-							<input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off"/>
-							<div style="clear: both"></div>
-							<!-- <div id="create-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div> -->
-							<div class="form-actions">
-								<button type="button" id="create-game-back-btn" class="btn back secondary">Back</button>
-								<button type="submit" id="create-game-btn" class="btn create primary" value="">Create</button>
-							</div>
-						</form>
-					</div>
-					<div id="join-game-menu" class="menu">
-						<form id="join-game-form">
-							<input type="text" id="join-username-input" class="username-input" placeholder="Username" required autocomplete="off"/>
-							<div style="clear: both"></div>
-							<input type="text" id="join-code" placeholder="Game Code" required autocomplete="off"/>
-							<div style="clear: both"></div>
-							<!-- <div id="join-username-error" class="error">Valid usernames are 1-10 alphanumerics or spaces.</div>
-							<div id="join-code-error" class="error">Room unavailable.</div> -->
-							<div class="form-actions">
-								<button type="button" id="join-game-back-btn" class="btn back secondary">Back</button>
-								<button type="submit" id="join-game-btn" class="btn join primary">Join</button>
-							</div>
-						</form>
-					</div>
-				</div>
-				<!-- <div class="chunk"><hr /></div> -->
+				<home-menu :initial-username="state.username"></home-menu>
 				<div id="rules" class="chunk align-left">
 					<h2>Rules</h2>
 					<p>A group of artists must work together to find the one <strong>fake artist</strong> among them, while that person tries to avoid detection.</p>
@@ -75,57 +37,22 @@
 					<p>The fake artist has to bluff their way through the drawing, while the artists try to draw enough to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
 					<p>And even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
 				</div>
-				<!-- <div class="chunk"><hr /></div> -->
-				<div class="chunk align-left">
+				<div id="about" class="chunk align-left">
 					<h2>About</h2>
-					<p>This is an unofficial hobby project and a continual work-in-progress. Use a modern browser for best results.</p>
+					<p>This is an <em>unofficial</em> hobby project, and a continual work-in-progress.</p>
+					<p>Use a modern browser for best results!</p>
 					<p>I don't have a built-in voting system or chat. Enjoy this game with friends in-person or over voice chat!</p>
 					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
 					<p><a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york">Official game</a> by Oink Games</p>
 				</div>
 			</div>
-			<div id="room-setup" class="view">
-				<div class="chunk game-code">
-					<div>Your game code is:</div>
-					<h1></h1>
-				</div>
-				<div class="chunk users">
-					<h3>Users:</h3>
-					<ul class="users username"></ul>
-				</div>
-				<div class="chunk actions">
-					<!-- <p class="recommendation">5-6 players recommended</p> -->
-					<button class="btn primary big start">Start</button>
-					<div style="clear: both"></div>
-					<button class="btn secondary leave">Leave</button>
-				</div>
-			</div>
-			<div id="in-game" class="view">
-				<div class="toggle-game-info"></div>
-				<div id="game-info" class="chunk-narrow">
-					<h2 class="prompt"></h2>
-					<h3 class="current-turn"></h3>
-				</div>
-				<div class="chunk-narrow">
-					<div id="painting">
-						<canvas id="new-paint" touch-action="none"></canvas>
-						<canvas id="old-paint"></canvas>
-					</div>
-				</div>
-				<div id="drawing-decision" class="chunk-narrow">
-					<button class="btn secondary undo-drawing">Undo</button>
-					<button class="btn primary submit-drawing">Submit</button>
-					<div style="clear: both"></div>
-					<button class="btn primary big new-round">New Round</button>
-				</div>
-				<!-- <div class="gameover">
-					<h2>Drawing phase over! Time to vote!</h2>
-					<button class="btn secondary new-round">New Round</button>
-				</div> -->
-			</div>
+
+			<setup-view v-show="state.view === 'setup'" :room-code="state.gameState === undefined ? undefined : state.gameState.roomCode" :usernames="usernames"></setup-view>
+
+			<game-view v-show="state.view === 'game'" :game-state="state.gameState"></game-view>
+
 		</div>
 		
-		</div>
 		<script src="./js/index.bundle.min.js" crossorigin></script>
 	</body>
 

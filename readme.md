@@ -2,4 +2,4 @@ An online multiplayer aid for Oink Games' tabletop game, _A Fake Artist Goes to 
 
 Play on Heroku: https://kc-fakeartistonline.herokuapp.com/
 
-Tech: Node.js, Express, Socket.io, jQuery, Webpack
+Tech: Vue, Express, Socket.io, Webpack, Mocha

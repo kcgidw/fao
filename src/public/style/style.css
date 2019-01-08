@@ -34,17 +34,13 @@ h3 {
 	margin: 5px 5px 10px 5px;
 }
 
-.wrapper {
+#wrapper {
 	margin-left: auto;
 	margin-right: auto;
 	text-align: center;
 	height: calc(100% - 20px);
 	max-width: 600px;
 	padding: 15px 15px 0 15px;
-}
-
-.view, .menu { /* hide all views as page loads */
-	display: none;
 }
 
 div.chunk {
@@ -132,7 +128,7 @@ canvas#new-paint {
 ============================================================================ */
 
 #game-info {
-	--maxCanvasWidth: 500px;
+	--maxCanvasWidth: 500px; /* default value. Override in game-view.vue */
 	text-align: left;
 	max-width: calc(var(--maxCanvasWidth) + 4px + 4px); /* canvas + borders */
 	margin-left: auto;

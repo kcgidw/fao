@@ -10,6 +10,7 @@ let config = _.merge({}, commonConfig, {
 		minimizer: [new UglifyJsPlugin({sourceMap: true})]
 	},
 	externals: {
+		'vue': 'Vue', // importing 'vue' to resolve to external cdn
 	}
 });
 
