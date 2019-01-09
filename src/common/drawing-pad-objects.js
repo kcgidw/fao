@@ -22,6 +22,11 @@ class Stroke {
 	}
 }
 
+const Layer = {
+	'TOP': 'TOP',
+	'BOTTOM': 'BOTTOM',
+};
+
 module.exports = {
-	RelativePoint, Stroke
+	RelativePoint, Stroke, Layer
 };

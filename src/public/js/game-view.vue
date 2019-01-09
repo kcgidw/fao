@@ -28,61 +28,19 @@
 
 <script>
 const Store = require('./state');
-const gameCanvas = require('../../common/game-canvas');
-const RelativePoint = gameCanvas.RelativePoint;
+const drawingPadObjects = require('../../common/drawing-pad-objects');
+const RelativePoint = drawingPadObjects.RelativePoint;
+const Layer = drawingPadObjects.Layer;
 const GAME_PHASE = require("../../common/game-phase");
 
-/* Canvas scaling */
-const HEIGHT_RATIO = 8/6;
-const maxCanvasWidth = 500;
-const maxCanvasHeight = maxCanvasWidth * HEIGHT_RATIO;
-const minCanvasWidth = 250;
-
-const CANVAS_STATE = {
+const CanvasState = {
 	'EMPTY': 'EMPTY',
 	'PAINT': 'PAINT',
 	'PREVIEW': 'PREVIEW',
 	'SPECTATE': 'SPECTATE',
 };
 
-const drawingPad = {
-	topCanvas: undefined,
-	bottomCanvas: undefined,
-	topContext: undefined,
-	bottomContext: undefined,
-	canvasDiv: undefined,
-	canvasWidth: undefined,
-	canvasHeight: undefined,
-	strokeWidth: undefined,
-	init() {
-		this.canvasDiv = document.getElementById('painting');
-		this.topCanvas = document.getElementById('new-paint');
-		this.bottomCanvas = document.getElementById('old-paint');
-		this.topContext = this.topCanvas.getContext('2d');
-		this.bottomContext = this.bottomCanvas.getContext('2d');
-
-		let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - 50), maxCanvasWidth);
-		let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - 200), maxCanvasHeight) / HEIGHT_RATIO;
-		this.canvasWidth = Math.min(canvasWidthScaledByViewportWidth, canvasWidthScaledByViewportHeight);
-		this.canvasHeight = this.canvasWidth * HEIGHT_RATIO;
-		this.strokeWidth = (this.canvasWidth/maxCanvasWidth) * 9;
-
-		this.canvasDiv.style.width = this.canvasWidth + 'px';
-		this.canvasDiv.style.height = this.canvasHeight + 'px';
-		this.topCanvas.width = this.canvasWidth;
-		this.topCanvas.height = this.canvasHeight;
-		this.bottomCanvas.width = this.canvasWidth;
-		this.bottomCanvas.height = this.canvasHeight;
-
-		document.getElementById('game-info').style['--maxCanvasWidth'] = drawingPad.canvasWidth;
-	},
-	getRelativePointFromPointerEvent(e) {
-		let pointerX = e.pageX - this.canvasDiv.offsetLeft;
-		let pointerY = e.pageY - this.canvasDiv.offsetTop;
-		let relPt = new RelativePoint(pointerX / this.canvasWidth, pointerY / this.canvasHeight);
-		return relPt;
-	},
-};
+const drawingPad = require('./drawing-pad');
 
 const strokeTracker = {
 	points: [],
@@ -139,7 +97,7 @@ export default {
 	},
 	data() {
 		return {
-			canvasState: CANVAS_STATE.SPECTATE,
+			canvasState: CanvasState.SPECTATE,
 			stroke: strokeTracker,
 			drawingPad: drawingPad,
 		};
@@ -166,86 +124,69 @@ export default {
 	methods: {
 		onNewTurn() {
 			if(this.gameState.turn === 1) {
-				this.clearCanvas(this.drawingPad.topContext);
-				this.clearCanvas(this.drawingPad.bottomContext);
+				drawingPad.clearCanvas(Layer.BOTTOM);
 			}
 
 			let newStroke = this.gameState.getMostRecentStroke();
 			if(newStroke) {
-				this.drawStroke(drawingPad.bottomContext, newStroke.points, this.gameState.getUserColor(newStroke.username), false);
+				drawingPad.drawStroke(Layer.BOTTOM, newStroke.points, this.gameState.getUserColor(newStroke.username), false);
 			}
+			drawingPad.clearCanvas(Layer.TOP);
+			
 			if(Store.myTurn()) {
-				this.canvasState = CANVAS_STATE.EMPTY;
+				this.canvasState = CanvasState.EMPTY;
 			} else {
-				this.canvasState = CANVAS_STATE.SPECTATE;
+				this.canvasState = CanvasState.SPECTATE;
 			}
 		},
 		undo() {
 			this.stroke.reset();
-			this.clearCanvas(drawingPad.topContext);
-			this.canvasState = CANVAS_STATE.EMPTY;
+			drawingPad.clearCanvas(Layer.TOP);
+			this.canvasState = CanvasState.EMPTY;
 		},
 		submit() {
 			if(Store.myTurn() && this.stroke.hasPoints()) {
 				Store.submitStroke(this.stroke.points);
 
 				this.stroke.reset();
-				this.clearCanvas(drawingPad.topContext);
-				this.canvasState = CANVAS_STATE.SPECTATE;
+				this.canvasState = CanvasState.SPECTATE;
 			}
 		},
 		newRound() {
 			Store.submitStartGame();
 		},
 		pdown(e) {
-			if(this.canvasState === CANVAS_STATE.EMPTY && Store.myTurn()) {
-				this.canvasState = CANVAS_STATE.PAINT;
+			if(this.canvasState === CanvasState.EMPTY && Store.myTurn()) {
+				this.canvasState = CanvasState.PAINT;
 				let newPt = drawingPad.getRelativePointFromPointerEvent(e);
 				strokeTracker.addPoint(newPt);
 			}
 		},
 		pmove(e) {
-			if(this.canvasState === CANVAS_STATE.PAINT && Store.myTurn()) {
+			if(this.canvasState === CanvasState.PAINT && Store.myTurn()) {
 				let div = document.getElementById('new-paint');
 				let lastPt = strokeTracker.lastPoint();
 				let newPt = drawingPad.getRelativePointFromPointerEvent(e);
 				if(!lastPt.matches(newPt)) {
 					strokeTracker.addPoint(newPt);
-					this.drawStroke(drawingPad.topContext, strokeTracker.points, 'black', false);
+					drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', false);
 				}
 			}
 		},
 		endStroke(e) {
-			if(this.canvasState === CANVAS_STATE.PAINT && Store.myTurn()) {
+			if(this.canvasState === CanvasState.PAINT && Store.myTurn()) {
 				if(strokeTracker.validateStrokeDistance()) {
-					this.canvasState = CANVAS_STATE.PREVIEW;
+					this.canvasState = CanvasState.PREVIEW;
 					let newPt = drawingPad.getRelativePointFromPointerEvent(e);
 					strokeTracker.addPoint(newPt);
-					this.drawStroke(drawingPad.topContext, strokeTracker.points, 'black', true);
+					drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', true);
 				} else {
-					this.clearCanvas(drawingPad.topContext);
-					this.canvasState = CANVAS_STATE.EMPTY;
+					drawingPad.clearCanvas(Layer.TOP);
+					this.canvasState = CanvasState.EMPTY;
 					strokeTracker.reset();
 				}
 			}
 		},
-		drawStroke(canvasContext, points, color, clearCanvasFirst) {
-			if(clearCanvasFirst) {
-				this.clearCanvas(canvasContext);
-			}
-			canvasContext.strokeStyle = color;
-			canvasContext.lineJoin = 'round';
-			canvasContext.lineWidth = drawingPad.strokeWidth;
-			canvasContext.beginPath();
-			// console.log(pts);
-			for(let pt of points) {
-				canvasContext.lineTo(pt.x * drawingPad.canvasWidth, pt.y * drawingPad.canvasHeight);
-			}
-			canvasContext.stroke();
-		},
-		clearCanvas(canvasContext) {
-			canvasContext.clearRect(0,0, drawingPad.canvasWidth, drawingPad.canvasHeight);
-		}
 	},
 	mounted() {
 		this.$nextTick(function() {
