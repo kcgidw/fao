@@ -134,6 +134,7 @@ export default {
 	props: {
 		gameState: {
 			type: Object,
+			required: true,
 		},
 	},
 	data() {
@@ -145,23 +146,25 @@ export default {
 	},
 	computed: {
 		promptText() {
-			return this.gameState && `${this.gameState.keyword} (${this.gameState.hint})`;
+			return `${this.gameState.keyword} (${this.gameState.hint})`;
 		},
 		whoseTurnText() {
-			if(this.gameState) {
-				return this.gameState.phase === GAME_PHASE.ROUND_OVER ? 'Voting time!' : `${this.gameState.whoseTurn}'s turn`;
-			}
-			return '';
+			return this.gameState.phase === GAME_PHASE.ROUND_OVER ? 'Voting time!' : `${this.gameState.whoseTurn}'s turn`;
 		},
 		userColor() {
-			return this.gameState && this.gameState.getUserColor(this.gameState.whoseTurn);
+			return this.gameState.getUserColor(this.gameState.whoseTurn);
 		},
 		roundOver() {
-			return this.gameState && this.gameState.phase === GAME_PHASE.ROUND_OVER;
+			return this.gameState.phase === GAME_PHASE.ROUND_OVER;
 		}
 	},
 	watch: {
 		['gameState.turn']() {
+			this.onNewTurn();
+		}
+	},
+	methods: {
+		onNewTurn() {
 			if(this.gameState.turn === 1) {
 				this.clearCanvas(this.drawingPad.topContext);
 				this.clearCanvas(this.drawingPad.bottomContext);
@@ -171,15 +174,12 @@ export default {
 			if(newStroke) {
 				this.drawStroke(drawingPad.bottomContext, newStroke.points, this.gameState.getUserColor(newStroke.username), false);
 			}
-			
 			if(Store.myTurn()) {
 				this.canvasState = CANVAS_STATE.EMPTY;
 			} else {
 				this.canvasState = CANVAS_STATE.SPECTATE;
 			}
-		}
-	},
-	methods: {
+		},
 		undo() {
 			this.stroke.reset();
 			this.clearCanvas(drawingPad.topContext);
@@ -250,6 +250,7 @@ export default {
 	mounted() {
 		this.$nextTick(function() {
 			drawingPad.init();
+			this.onNewTurn(); 
 		});
 	}
 };

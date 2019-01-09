@@ -8,25 +8,25 @@
     </div>
 
     <div id="create-game-menu" class="menu" v-show="tab === 'create'">
-        <form id="create-game-form">
+        <form id="create-game-form" @submit.prevent="createGame">
             <input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
             <div class="form-actions">
                 <button type="button" id="create-game-back-btn" class="btn back secondary" @click="goto('main')">Back</button>
-                <button type="submit" id="create-game-btn" class="btn create primary" value="" @click.prevent="createGame" :disabled="!Boolean(username)">Create</button>
+                <button type="submit" id="create-game-btn" class="btn create primary" value="" :disabled="!Boolean(username)">Create</button>
             </div>
         </form>
     </div>
 
     <div id="join-game-menu" class="menu" v-show="tab === 'join'">
-        <form id="join-game-form">
+        <form id="join-game-form" @submit.prevent="joinGame">
             <input type="text" id="join-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
             <input type="text" id="join-code" placeholder="Game Code" required autocomplete="off" v-model="roomCode"/>
             <div style="clear: both"></div>
             <div class="form-actions">
                 <button type="button" id="join-game-back-btn" class="btn back secondary" @click="goto('main')">Back</button>
-                <button type="submit" id="join-game-btn" class="btn join primary" @click.prevent="joinGame" :disabled="!Boolean(username && roomCode)">Join</button>
+                <button type="submit" id="join-game-btn" class="btn join primary" :disabled="!Boolean(username && roomCode)">Join</button>
             </div>
         </form>
     </div>

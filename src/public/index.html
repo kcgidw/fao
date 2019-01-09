@@ -22,7 +22,7 @@
 	<body>
 		<div id="wrapper">
 
-			<div id="home" v-show="state.view === 'home'">
+			<div id="home" v-if="state.view === 'home'">
 				<div id="title-banner" class="chunk">
 					<h1>Fake Artist Online</h1>
 					<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
@@ -47,9 +47,9 @@
 				</div>
 			</div>
 
-			<setup-view v-show="state.view === 'setup'" :room-code="state.gameState === undefined ? undefined : state.gameState.roomCode" :usernames="usernames"></setup-view>
+			<setup-view v-if="state.view === 'setup'" :room-code="state.gameState === undefined ? undefined : state.gameState.roomCode" :usernames="usernames"></setup-view>
 
-			<game-view v-show="state.view === 'game'" :game-state="state.gameState"></game-view>
+			<game-view v-if="state.view === 'game'" :game-state="state.gameState"></game-view>
 
 		</div>
 		
