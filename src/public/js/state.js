@@ -74,10 +74,10 @@ handleSocket(MESSAGE.USER_LEFT);
 handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
 
-function submitCreateGame(username) { // TODO trim username
+function submitCreateGame(username) {
 	if(Util.validateUsername(username)) {
 		socket.emit(MESSAGE.CREATE_ROOM, {
-			username: username,
+			username: username.trim(),
 		});
 		return true;
 	}
@@ -87,7 +87,7 @@ function submitJoinGame(roomCode, username) {
 	if(Util.validateUsername(username)) {
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
-			username: username,
+			username: username.trim(),
 		});
 		return true;
 	}
