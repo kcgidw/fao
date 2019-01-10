@@ -5,8 +5,8 @@
   "main": "src/server/main.js",
   "scripts": {
     "test": "mocha --exit",
-    "build": "webpack --config ./webpack.config.prod.js --display-modules",
-    "watch": "webpack --config ./webpack.config.dev.js -w --debug --output-path-info --display-modules",
+    "build": "webpack --env.production",
+    "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
     "start": "node ./src/server/main.js",
     "full": "npm run build && npm run start"
   },
