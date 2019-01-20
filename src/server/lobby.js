@@ -5,6 +5,8 @@ const GameError = require('./game-error');
 const rooms = new Map();
 const ROOMS_LIMIT = 100;
 
+const Prompts = require('./prompts');
+
 function getRoomByCode(roomCode) {
 	return rooms.get(roomCode);
 }
@@ -15,11 +17,10 @@ function teardownRoom(room) {
 }
 
 function generateCode() {
-	const codeLength = 5;
-	let code = '';
-	for(let i=0; i<codeLength; i++) {
-		code += ''+Util.randomInt(10);
-	}
+	const firstWord = Prompts.getRandomPrompt();
+	const secondWord = Prompts.getRandomPrompt();
+	const code = firstWord.keyword + '-' + secondWord.keyword;
+
 	return code;
 }
 function generateNewRoomCode() {
