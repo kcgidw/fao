@@ -54,7 +54,7 @@ div.chunk-narrow {
 }
 
 p, ul {
-	margin: 5px 5px 10px 5px;
+	margin: 5px 5px 5px 5px;
 }
 p em, p strong, p span {
 	white-space: nowrap;
@@ -67,10 +67,16 @@ a {
 	color: red;
 	font-weight: bold;
 }
-
-/* .actions {
-} */
-
+div.warning {
+	background-color: var(--gold1);
+	border: solid 1px var(--gold3);
+	color: var(--gold5);
+	border-radius: 2px;
+	margin: 10px 80px;
+	padding: 0 10px;
+	font-size: 13px;
+	display: inline-block; /* Div box width to equal inner content width */
+}
 
 /* ============================================================================
 	Waiting room

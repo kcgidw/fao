@@ -10,7 +10,7 @@ SCHEMA[MESSAGE.CREATE_ROOM] = {
 		username: {
 			type: 'string',
 			minLength: 1,
-			maxLength: 15,
+			maxLength: 20,
 		},
 	},
 	required: ['username'],

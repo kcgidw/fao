@@ -8,6 +8,9 @@ const GameError = require('./game-error');
 
 function handleSockets(io) {
 	io.on('connection', function(sock) {
+		if(process.env.NODE_ENV !== 'production') {
+			console.log('Socket conncted: ' + sock.id);
+		}
 		Object.keys(MessageHandlers).forEach((messageName) => {
 			sock.on(messageName, function(data) {
 				try {
@@ -50,12 +53,19 @@ const MessageHandlers = {
 		GamePrecond.sockDoesNotHaveUser(sock);
 		GamePrecond.roomExists(data.roomCode);
 		GamePrecond.roomIsNotFull(roomToJoin);
-		GamePrecond.gameNotInProcess(roomToJoin);
-		GamePrecond.nameIsNotTakenInRoom(data.username, roomToJoin);
 
-		let user = login(sock, data.username);
-		let room = joinRoom(user, roomToJoin, false);
-		let state = CliAdapter.generateStateJson(room);
+		let user;
+		let state;
+
+		if(data.rejoin) {
+			GamePrecond.nameIsTakenInRoom(data.username, roomToJoin);
+		} else {
+			GamePrecond.gameNotInProgress(roomToJoin);
+			GamePrecond.nameIsNotTakenInRoom(data.username, roomToJoin);
+			user = login(sock, data.username);
+			joinRoom(user, roomToJoin, false);
+			state = CliAdapter.generateStateJson(roomToJoin);
+		}
 
 		sock.emit(MESSAGE.JOIN_ROOM, {
 			username: user.name,
@@ -85,7 +95,7 @@ const MessageHandlers = {
 	[MESSAGE.START_GAME](io, sock, data) {
 		GamePrecond.sockHasUser(sock);
 		GamePrecond.userIsInARoom(sock.user);
-		GamePrecond.gameNotInProcess(sock.user.gameRoom);
+		GamePrecond.gameNotInProgress(sock.user.gameRoom);
 		let rm = sock.user.gameRoom;
 		rm.startNewRound();
 
@@ -95,7 +105,7 @@ const MessageHandlers = {
 	[MESSAGE.SUBMIT_STROKE](io, sock, data) {
 		GamePrecond.sockHasUser(sock);
 		GamePrecond.userIsInARoom(sock.user);
-		GamePrecond.gameInProcess(sock.user.gameRoom);
+		GamePrecond.gameInProgress(sock.user.gameRoom);
 		GamePrecond.isUsersTurn(sock.user);
 		let rm = sock.user.gameRoom;
 		rm.addStroke(sock.user.name, data.points);
@@ -177,22 +187,22 @@ const GamePrecond = {
 	},
 	roomExists(roomCode) {
 		if(Lobby.getRoomByCode(roomCode) === undefined) {
-			throw new GameError('Room is unavailable');
+			throw new GameError('Room unavailable');
 		}
 	},
-	gameInProcess(room) {
-		if(!room.gameInProcess()) {
-			throw new GameError('Game must be in process');
+	gameInProgress(room) {
+		if(!room.gameInProgress()) {
+			throw new GameError('Game must be in progress');
 		}
 	},
-	gameNotInProcess(room) {
-		if(room.gameInProcess()) {
-			throw new GameError('Game must not be in process');
+	gameNotInProgress(room) {
+		if(room.gameInProgress()) {
+			throw new GameError('A game is already in progress');
 		}
 	},
 	roomIsNotFull(room) {
 		if(room.isFull()) {
-			throw new GameError('Room unavailable');
+			throw new GameError('This room is full');
 		}
 	},
 	lobbyIsNotFull() {
@@ -209,6 +219,11 @@ const GamePrecond = {
 	nameIsNotTakenInRoom(username, room) {
 		if(room.findUser(username)) {
 			throw new GameError("This username is taken in this room");
+		}
+	},
+	nameIsTakenInRoom(username, room) {
+		if(room.findUser(username) === undefined) {
+			throw new GameError("This username doesn't exist in this room");
 		}
 	}
 };

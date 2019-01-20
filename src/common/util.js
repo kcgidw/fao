@@ -13,9 +13,11 @@ function shuffle(arr) {
 	});
 }
 
-function validateUsername(name) { //TODO
+function validateUsername(name) {
 	name = name.trim();
-	let regex = /^[1-9a-zA-z ]{1,10}$/g; // 1-10 alphanumerics or spaces
+	const minChars = 1;
+	const maxChars = 20;
+	let regex = new RegExp(`^[0-9a-zA-Z ]{${minChars},${maxChars}}$`);
 	return name.match(regex);
 }
 

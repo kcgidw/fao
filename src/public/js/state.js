@@ -10,6 +10,8 @@ const Store = {
 		username: '',
 		view: VIEW.HOME,
 		gameState: undefined,
+		createWarning: undefined,
+		joinWarning: undefined,
 	},
 	setUsername(username) {
 		this.state.username = username;
@@ -40,6 +42,9 @@ const Store = {
 		 && this.state.gameState.whoseTurn === this.state.username
 		 && this.state.gameState.phase === GAME_PHASE.PLAY;
 	},
+	setWarning(warningName, message) {
+		this.state[warningName] = message;
+	},
 	submitCreateGame,
 	submitJoinGame,
 	submitLeaveGame,
@@ -47,10 +52,13 @@ const Store = {
 	submitStroke,
 };
 
-function handleSocket(messageName, handler) {
+function handleSocket(messageName, handler, errHandler) {
 	socket.on(messageName, function(data) {
 		if(data.err) {
 			console.warn(data.err);
+			if(errHandler) {
+				errHandler(data.err);
+			}
 			return;
 		}
 		if(handler) {
@@ -61,11 +69,21 @@ function handleSocket(messageName, handler) {
 		}
 	});
 }
-handleSocket(MESSAGE.CREATE_ROOM, function(data) {
-	Store.setUsername(data.username);
-});
-handleSocket(MESSAGE.JOIN_ROOM, function(data) {
-});
+handleSocket(MESSAGE.CREATE_ROOM,
+	function(data) {
+		Store.setUsername(data.username);
+	},
+	function(errMsg) {
+		Store.setWarning('createWarning', errMsg);
+	}
+);
+handleSocket(MESSAGE.JOIN_ROOM,
+	function(data) {
+	},
+	function(errMsg) {
+		Store.setWarning('joinWarning', errMsg);
+	}
+);
 handleSocket(MESSAGE.USER_JOINED);
 handleSocket(MESSAGE.LEAVE_ROOM, function(data) {
 	Store.setGameState(undefined);
@@ -74,24 +92,31 @@ handleSocket(MESSAGE.USER_LEFT);
 handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
 
+const usernameWarning = 'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
 function submitCreateGame(username) {
+	username = username.trim();
 	if(Util.validateUsername(username)) {
 		socket.emit(MESSAGE.CREATE_ROOM, {
-			username: username.trim(),
+			username: username,
 		});
 		return true;
+	} else {
+		this.setWarning('createWarning', usernameWarning);
+		return false;
 	}
-	return false;
 }
 function submitJoinGame(roomCode, username) {
+	username = username.trim();
 	if(Util.validateUsername(username)) {
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
-			username: username.trim(),
+			username: username,
 		});
 		return true;
+	} else {
+		this.setWarning('joinWarning', usernameWarning);
+		return false;
 	}
-	return false;
 }
 function submitLeaveGame() {
 	socket.emit(MESSAGE.LEAVE_ROOM, {});

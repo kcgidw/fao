@@ -76,7 +76,7 @@ describe('Test Suite', function() {
 		});
 		it('reject long username', function(done) {
 			sock1.emit(Message.CREATE_ROOM, {
-				username: '12345678901234567890',
+				username: '123456789012345678901234567890',
 			});
 			sock1.once(Message.CREATE_ROOM, function(data) {
 				assert.exists(data.err);
@@ -120,7 +120,7 @@ describe('Test Suite', function() {
 		it('reject missing roomCode', function(done) {
 			sock2.emit(Message.JOIN_ROOM, {
 				username: 'nobody',
-				roomCode: 0000 // what are the chances?
+				roomCode: 1234, // what are the chances?
 			});
 			sock2.once(Message.JOIN_ROOM, function(data) {
 				assert.exists(data.err);
@@ -141,7 +141,7 @@ describe('Test Suite', function() {
 		});
 		it('reject missing username', function(done) {
 			sock2.emit(Message.JOIN_ROOM, {
-				roomCode: 0000,
+				roomCode: 1234,
 			});
 			sock2.once(Message.JOIN_ROOM, function(data) {
 				assert.exists(data.err);

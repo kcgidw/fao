@@ -8,6 +8,9 @@
     </div>
 
     <div id="create-game-menu" class="menu" v-show="tab === 'create'">
+        <div class="warning" v-show="createWarning !== undefined">
+            <p>{{createWarning}}</p>
+        </div>
         <form id="create-game-form" @submit.prevent="createGame">
             <input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
@@ -19,6 +22,9 @@
     </div>
 
     <div id="join-game-menu" class="menu" v-show="tab === 'join'">
+        <div class="warning" v-show="joinWarning !== undefined">
+            <p>{{joinWarning}}</p>
+        </div>
         <form id="join-game-form" @submit.prevent="joinGame">
             <input type="text" id="join-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
@@ -39,12 +45,12 @@ const Store = require('./state');
 
 export default {
 	name: 'home-menu',
-	props: ['initialUsername'],
+	props: ['initialUsername', 'initialRoomCode', 'createWarning', 'joinWarning'],
 	data() {
 		return {
 			username: this.initialUsername,
 			tab: 'main',
-			roomCode: undefined,
+			roomCode: this.initialRoomCode,
 		};
 	},
 	methods: {

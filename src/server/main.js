@@ -2,7 +2,8 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const SocketIO = require('socket.io');
-var compress = require('compression');
+const compress = require('compression');
+
 const app = express();
 const httpServer = http.createServer(app);
 const port = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ function startServer() {
 		const socketHandler = require('./socket-handler')(io);
 		
 		app.use(compress()); 
+		
 		app.use(express.static(path.resolve(__dirname, '..', 'public')));
 		
 		const Prompts = require('./prompts');

@@ -66,7 +66,7 @@ class GameRoom {
 		return this.strokes;
 	}
 	nextTurn() {
-		if(this.gameInProcess()) {
+		if(this.gameInProgress()) {
 			this.turn++;
 			if(this.turn - 1 >= this.users.length * 2) {
 				this.phase = GAME_PHASE.ROUND_OVER;
@@ -75,7 +75,7 @@ class GameRoom {
 		}
 		return undefined;
 	}
-	gameInProcess() {
+	gameInProgress() {
 		return this.phase === GAME_PHASE.PLAY;
 	}
 	isFull() {

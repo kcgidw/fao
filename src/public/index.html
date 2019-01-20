@@ -27,8 +27,9 @@
 				<div id="title-banner" class="chunk">
 					<h1>Fake Artist Online</h1>
 					<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
+					<p style="color:var(--artist5)">This is a work in progress! Modern web browser and stable connection strongly recommended.</p>
 				</div>
-				<home-menu :initial-username="state.username"></home-menu>
+				<home-menu :initial-username="state.username" :create-warning="state.createWarning" :join-warning="state.joinWarning"></home-menu>
 				<div id="rules" class="chunk align-left">
 					<h2>Rules</h2>
 					<p>A group of artists must work together to find the one <strong>fake artist</strong> among them, while that person tries to avoid detection.</p>
@@ -40,8 +41,7 @@
 				</div>
 				<div id="about" class="chunk align-left">
 					<h2>About</h2>
-					<p>This is an <em>unofficial</em> hobby project, and a continual work-in-progress.</p>
-					<p>Use a modern browser for best results!</p>
+					<p>This is an <em>unofficial</em> hobby project, and a continual WIP. You might encounter bugs.</p>
 					<p>I don't have a built-in voting system or chat. Enjoy this game with friends in-person or over voice chat!</p>
 					<p><a href="https://github.com/kcgidw/fao">Github</a></p>
 					<p><a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york">Official game</a> by Oink Games</p>
