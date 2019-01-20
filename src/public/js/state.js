@@ -96,6 +96,7 @@ const usernameWarning = 'Username must be 1-20 characters long, and can only con
 function submitCreateGame(username) {
 	username = username.trim();
 	if(Util.validateUsername(username)) {
+		this.setWarning('createWarning', undefined);
 		socket.emit(MESSAGE.CREATE_ROOM, {
 			username: username,
 		});
@@ -108,6 +109,7 @@ function submitCreateGame(username) {
 function submitJoinGame(roomCode, username) {
 	username = username.trim();
 	if(Util.validateUsername(username)) {
+		this.setWarning('joinWarning', undefined);
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
 			username: username,
