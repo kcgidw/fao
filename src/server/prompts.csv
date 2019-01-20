@@ -56,7 +56,6 @@ Kangaroo,Animal
 Kitten,Animal
 Koala,Animal
 Ladybug,Animal
-Ladybug,Animal
 Leopard,Animal
 Lion,Animal
 Lizard,Animal
@@ -517,24 +516,14 @@ Waitress,Profession
 Warrior,Profession
 Watchmaker,Profession
 Wrestler,Profession
-Archery,Sports
 Athletics,Sports
-Badminton,Sports
-Baseball,Sports
-Basketball,Sports
-Bowling,Sports
 Boxing,Sports
 Canoeing,Sports
 Car Racing,Sports
 Cycling,Sports
-Fencing,Sports
-Fishing,Sports
 Football,Sports
-Frisbee,Sports
-Golf,Sports
 Gymnastics,Sports
 Hang Gliding,Sports
-Hockey,Sports
 Horse Racing,Sports
 Javelin,Sports
 Jogging,Sports
@@ -549,15 +538,11 @@ Polo,Sports
 Rowing,Sports
 Rugby,Sports
 Sailing,Sports
-Scuba Diving,Sports
 Shooting,Sports
-Skiing,Sports
 Sledding,Sports
 Snow-Boarding,Sports
 Squash,Sports
 Swimming,Sports
-Table Tennis,Sports
-Tennis,Sports
 Triathlon,Sports
 Volleyball,Sports
 Weightlifting,Sports
