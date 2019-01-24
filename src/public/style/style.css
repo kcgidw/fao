@@ -55,6 +55,10 @@ div.chunk-narrow {
 
 p, ul {
 	margin: 5px 5px 5px 5px;
+	line-height: 22px;
+}
+.normal-text p:not(:last-child) {
+	margin-bottom: 9px; /* paragraph break */
 }
 p em, p strong, p span {
 	white-space: nowrap;

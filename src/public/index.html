@@ -24,13 +24,13 @@
 		<div id="wrapper">
 
 			<div id="home" v-if="state.view === 'home'">
-				<div id="title-banner" class="chunk">
+				<div id="title-banner" class="chunk normal-text">
 					<h1>Fake Artist Online</h1>
-					<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
-					<p style="color:var(--artist5)">This is a work in progress! Modern web browser and stable connection strongly recommended.</p>
+						<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
+						<p style="color:var(--artist5)">This is a work in progress! Modern web browser and stable connection strongly recommended.</p>
 				</div>
 				<home-menu :initial-username="state.username" :create-warning="state.createWarning" :join-warning="state.joinWarning"></home-menu>
-				<div id="rules" class="chunk align-left">
+				<div id="rules" class="chunk align-left normal-text">
 					<h2>Rules</h2>
 					<p>A group of artists must work together to find the one <strong>fake artist</strong> among them, while that person tries to avoid detection.</p>
 					<p>Each round, all artists receive a random keyword and its hint/category, e.g. <span>"Apple (Food)".</span></p>
@@ -39,7 +39,7 @@
 					<p>The fake artist has to bluff their way through the drawing, while the artists try to draw enough to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
 					<p>And even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
 				</div>
-				<div id="about" class="chunk align-left">
+				<div id="about" class="chunk align-left normal-text">
 					<h2>About</h2>
 					<p>This is an <em>unofficial</em> hobby project, and a continual WIP. You might encounter bugs.</p>
 					<p>I don't have a built-in voting system or chat. Enjoy this game with friends in-person or over voice chat!</p>

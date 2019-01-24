@@ -74,3 +74,6 @@ input[type="text"] {
 /* input[type="text"]:focus {
 	border-bottom-color: var(--artist4);
 } */
+input:invalid {
+	box-shadow: none;
+}
