@@ -1,7 +1,8 @@
 class GameError {
-	constructor(message) {
+	constructor(message, clientMessage) {
 		this.name = GameError.name;
 		this.message = message;
+		this.clientMessage = clientMessage || message;
 		console.log('GameError triggered: ' + this.toString());
 	}
 	static get name() {

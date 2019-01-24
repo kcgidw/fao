@@ -20,7 +20,7 @@ function handleSockets(io) {
 					// REMEMBER, any code/mutations inside the try before the error do still execute
 					if(e.name === GameError.name) {
 						sock.emit(messageName, {
-							err: e.message,
+							err: e.clientMessage,
 						});
 					} else {
 						throw e;
@@ -160,7 +160,7 @@ function joinRoom(user, room, isHost = false) {
 	room.addUser(user, isHost);
 	user.socket.join(room.roomCode);
 	user.setGameRoom(room);
-	console.log(`User ${user.name} joined room-${room.roomCode}`);
+	console.log(`User ${user.name} joined room-${room.roomCode}. Users: ${room.users.length}`);
 	return room;
 }
 
@@ -177,17 +177,17 @@ const GamePrecond = {
 	},
 	userIsInARoom(user) {
 		if(user.gameRoom === undefined) {
-			throw new GameError('User must be in a room');
+			throw new GameError(`User ${user.name} should be in a room`, 'User must be in a room');
 		}
 	},
 	userIsNotInARoom(user) {
 		if(user.gameRoom !== undefined) {
-			throw new GameError('User must not be in a room');
+			throw new GameError('User must not be in a room. User is in room ' + user.gameRoom, 'User must not be in a room');
 		}
 	},
 	roomExists(roomCode) {
 		if(Lobby.getRoomByCode(roomCode) === undefined) {
-			throw new GameError('Room unavailable');
+			throw new GameError(`Room-${roomCode} DNE`, 'This room is unavailable');
 		}
 	},
 	gameInProgress(room) {
@@ -202,12 +202,12 @@ const GamePrecond = {
 	},
 	roomIsNotFull(room) {
 		if(room.isFull()) {
-			throw new GameError('This room is full');
+			throw new GameError(`Room ${room.roomCode} is full`, 'Room unavailable');
 		}
 	},
 	lobbyIsNotFull() {
 		if(Lobby.isFull()) {
-			throw new GameError('Lobby is at max capacity');
+			throw new GameError('The lobby is at max capacity');
 		}
 	},
 	isUsersTurn(user) {
@@ -218,12 +218,12 @@ const GamePrecond = {
 	},
 	nameIsNotTakenInRoom(username, room) {
 		if(room.findUser(username)) {
-			throw new GameError("This username is taken in this room");
+			throw new GameError(`Username ${username} is taken in room ${room.roomCode}`, "This username is taken in this room");
 		}
 	},
 	nameIsTakenInRoom(username, room) {
 		if(room.findUser(username) === undefined) {
-			throw new GameError("This username doesn't exist in this room");
+			throw new GameError(`Username ${username} DNE in room ${room.roomCode}`, "This username doesn't exist in this room");
 		}
 	}
 };
