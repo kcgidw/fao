@@ -3,14 +3,17 @@ const Ajv = require('ajv');
 const ajv = new Ajv();
 const GameError = require('./game-error');
 
+const usernameMinLength = 1, usernameMaxLength = 20;
+
 const SCHEMA = {};
+
 SCHEMA[MESSAGE.CREATE_ROOM] = {
 	$id: MESSAGE.CREATE_ROOM,
 	properties: {
 		username: {
 			type: 'string',
-			minLength: 1,
-			maxLength: 20,
+			minLength: usernameMinLength,
+			maxLength: usernameMaxLength,
 		},
 	},
 	required: ['username'],
@@ -20,8 +23,8 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 	properties: {
 		username: {
 			type: 'string',
-			minLength: 1,
-			maxLength: 10,
+			minLength: usernameMinLength,
+			maxLength: usernameMaxLength,
 		},
 		roomCode: {
 			type: 'string',
