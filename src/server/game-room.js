@@ -46,8 +46,8 @@ class GameRoom {
 		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;
 		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
-		this.keyword = Util.capitalize(prompt.keyword);
-		this.hint = Util.capitalize(prompt.hint);
+		this.keyword = prompt.keyword;
+		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
 	}
