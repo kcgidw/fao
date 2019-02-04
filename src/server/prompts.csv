@@ -163,9 +163,9 @@ Fencing,Fun/Hobby
 Fishing,Fun/Hobby
 Frisbee,Fun/Hobby
 Golf,Fun/Hobby
-Gym,Fun/Hobby
 Hiking,Fun/Hobby
 Hockey,Fun/Hobby
+Horseback Riding,Fun/Hobby
 Jousting,Fun/Hobby
 Kite,Fun/Hobby
 Martial Arts,Fun/Hobby
@@ -173,6 +173,7 @@ Movies,Fun/Hobby
 Painting,Fun/Hobby
 Parachute,Fun/Hobby
 Pinball,Fun/Hobby
+Pole Vault,Fun/Hobby
 Rock Climbing,Fun/Hobby
 Roller Coaster,Fun/Hobby
 Scuba Diving,Fun/Hobby
@@ -185,6 +186,7 @@ Table Tennis,Fun/Hobby
 Tennis,Fun/Hobby
 Ventriloquism,Fun/Hobby
 Video Games,Fun/Hobby
+Volleyball,Fun/Hobby
 Yo-Yo,Fun/Hobby
 Yoga,Fun/Hobby
 Blender,Kitchen
@@ -200,6 +202,7 @@ Toaster,Kitchen
 Artist,Person
 Astronaut,Person
 Baby,Person
+Babysitter,Person
 Barber,Person
 Cashier,Person
 Chef,Person
@@ -211,6 +214,7 @@ Doctor,Person
 Farmer,Person
 Firefighter,Person
 Janitor,Person
+Judge,Person
 Knight,Person
 Magician,Person
 Mailman,Person
@@ -320,6 +324,7 @@ Boat,Vehicle
 Bulldozer,Vehicle
 Bus,Vehicle
 Car,Vehicle
+Dog Sled,Vehicle
 Helicopter,Vehicle
 Motorcycle,Vehicle
 RV,Vehicle
@@ -330,3 +335,4 @@ Tank,Vehicle
 Tractor,Vehicle
 Train,Vehicle
 Truck,Vehicle
+Unicycle,Vehicle
