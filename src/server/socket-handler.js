@@ -39,7 +39,7 @@ const MessageHandlers = {
 		let user = login(sock, data.username);
 		let newRoom = Lobby.createRoom();
 
-		joinRoom(user, newRoom, true);
+		joinRoom(user, newRoom, false, true);
 
 		io.in(newRoom.roomCode).emit(MESSAGE.CREATE_ROOM, {
 			username: user.name,
@@ -52,28 +52,33 @@ const MessageHandlers = {
 
 		GamePrecond.sockDoesNotHaveUser(sock);
 		GamePrecond.roomExists(data.roomCode);
-		GamePrecond.roomIsNotFull(roomToJoin);
 
 		let user;
 		let state;
 
 		if(data.rejoin) {
 			GamePrecond.nameIsTakenInRoom(data.username, roomToJoin);
+			GamePrecond.gameInProgress(roomToJoin);
+			user = login(sock, data.username, roomToJoin);
+			joinRoom(user, roomToJoin, true, false);
 		} else {
+			GamePrecond.roomIsNotFull(roomToJoin);
 			GamePrecond.gameNotInProgress(roomToJoin);
 			GamePrecond.nameIsNotTakenInRoom(data.username, roomToJoin);
 			user = login(sock, data.username);
-			joinRoom(user, roomToJoin, false);
-			state = CliAdapter.generateStateJson(roomToJoin);
+			joinRoom(user, roomToJoin, false, false);
 		}
+		state = CliAdapter.generateStateJson(roomToJoin);
 
 		sock.emit(MESSAGE.JOIN_ROOM, {
 			username: user.name,
 			roomState: state,
+			rejoin: data.rejoin,
 		});
 		sock.to(data.roomCode).emit(MESSAGE.USER_JOINED, {
 			username: user.name,
 			roomState: state,
+			rejoin: data.rejoin,
 		});
 	},
 
@@ -119,17 +124,27 @@ const MessageHandlers = {
 		if(user) {
 			let room = user.gameRoom;
 			logout(sock);
-			broadcastRoomState(room, MESSAGE.USER_LEFT, (res) => {
-				res.username = user.name;
-				return res;
-			});
+			if(room) {
+				console.log(`User ${user.name} disconnected from room ${room.roomCode}`);
+				broadcastRoomState(room, MESSAGE.USER_LEFT, (res) => {
+					res.username = user.name;
+					return res;
+				});
+			}
 		}
 	},
 };
 
-function login(sock, username) {
+function login(sock, username, roomToRejoin) {
 	username = username.trim();
-	let user = new User(sock, username);
+	let user;
+	if(roomToRejoin) {
+		console.log(`User ${username} is attempting a reconnect`);
+		user = roomToRejoin.findUser(username);
+		user.socket = sock;
+	} else {
+		user = new User(sock, username);
+	}
 	sock.user = user;
 	console.log(`Logged in user ${user.name}`);
 	return user;
@@ -156,11 +171,16 @@ function logout(sock) {
 	}
 }
 
-function joinRoom(user, room, isHost = false) {
-	room.addUser(user, isHost);
+function joinRoom(user, room, rejoin, isHost = false) {
+	if(rejoin) {
+		room.readdUser(user);
+		console.log(`User ${user.name} rejoined room-${room.roomCode}`);
+	} else {
+		room.addUser(user, isHost);
+		console.log(`User ${user.name} joined room-${room.roomCode}. Users: ${room.users.length}`);
+	}
 	user.socket.join(room.roomCode);
 	user.setGameRoom(room);
-	console.log(`User ${user.name} joined room-${room.roomCode}. Users: ${room.users.length}`);
 	return room;
 }
 

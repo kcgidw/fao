@@ -127,11 +127,11 @@ export default {
 				drawingPad.clearCanvas(Layer.BOTTOM);
 			}
 
-			let newStroke = this.gameState.getMostRecentStroke();
-			if(newStroke) {
-				drawingPad.drawStroke(Layer.BOTTOM, newStroke.points, this.gameState.getUserColor(newStroke.username), false);
-			}
 			drawingPad.clearCanvas(Layer.TOP);
+			// TODO draw only the strokes that haven't been drawn yet (keeping connection loss in mind)
+			for(let stroke of this.gameState.strokes) {
+				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username), false);
+			}
 			
 			if(Store.myTurn()) {
 				this.canvasState = CanvasState.EMPTY;
