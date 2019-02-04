@@ -9,15 +9,18 @@
 
 	<div class="chunk-narrow">
 		<div id="painting">
-			<canvas id="new-paint" touch-action="none" 
-			@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"></canvas>
+				<connection-overlay :gameConnection="gameConnection"></connection-overlay>
+				<canvas id="new-paint"
+					touch-action="none"
+					@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
+				></canvas>
 			<canvas id="old-paint"></canvas>
 		</div>
 	</div>
 
 	<div id="drawing-decision" class="chunk-narrow">
-		<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="canvasState !== 'PREVIEW'">Undo</button>
-		<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="canvasState !== 'PREVIEW'">Submit</button>
+		<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+		<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
 		<div style="clear: both"></div>
 		<button class="btn primary big new-round"
 		  @click="newRound" v-show="roundOver" :disabled="!roundOver">New Round</button>
@@ -30,13 +33,15 @@
 const Store = require('./state');
 const Layer = require('../../common/layer');
 const RelativePoint = require('../../common/relative-point');
-const GAME_PHASE = require("../../common/game-phase");
+const GAME_PHASE = require('../../common/game-phase');
+const GameConnection = require('./game-connection');
+import ConnectionOverlay from './connection-overlay';
 
 const CanvasState = {
-	'EMPTY': 'EMPTY',
-	'PAINT': 'PAINT',
-	'PREVIEW': 'PREVIEW',
-	'SPECTATE': 'SPECTATE',
+	EMPTY: 'EMPTY',
+	PAINT: 'PAINT',
+	PREVIEW: 'PREVIEW',
+	SPECTATE: 'SPECTATE',
 };
 
 const drawingPad = require('./drawing-pad');
@@ -87,8 +92,13 @@ const strokeTracker = {
 export default {
 	name: 'GameView',
 	components: {
+		ConnectionOverlay,
 	},
 	props: {
+		gameConnection: {
+			type: String,
+			required: true,
+		},
 		gameState: {
 			type: Object,
 			required: true,
@@ -113,12 +123,18 @@ export default {
 		},
 		roundOver() {
 			return this.gameState.phase === GAME_PHASE.ROUND_OVER;
-		}
+		},
+		actionsEnabled() {
+			return (
+				this.canvasState === 'PREVIEW' &&
+				this.gameConnection === GameConnection.CONNECT
+			);
+		},
 	},
 	watch: {
 		['gameState.turn']() {
 			this.onNewTurn();
-		}
+		},
 	},
 	methods: {
 		onNewTurn() {
@@ -126,11 +142,11 @@ export default {
 				drawingPad.clearCanvas(Layer.BOTTOM);
 			}
 
-			let newStroke = this.gameState.getMostRecentStroke();
-			if(newStroke) {
-				drawingPad.drawStroke(Layer.BOTTOM, newStroke.points, this.gameState.getUserColor(newStroke.username), false);
-			}
 			drawingPad.clearCanvas(Layer.TOP);
+			// TODO draw only the strokes that haven't been drawn yet (keeping connection loss in mind)
+			for(let stroke of this.gameState.strokes) {
+				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username), false);
+			}
 			
 			if(Store.myTurn()) {
 				this.canvasState = CanvasState.EMPTY;

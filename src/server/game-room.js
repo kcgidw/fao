@@ -3,6 +3,7 @@ const GAME_PHASE = require('../common/game-phase');
 const Util = require('../common/util');
 const Prompts = require('./prompts');
 const _ = require('lodash');
+const GameError = require('./game-error');
 
 const MAX_USERS = 10;
 
@@ -31,6 +32,14 @@ class GameRoom {
 			this.host = user;
 		}
 		return true;
+	}
+	readdUser(user) {
+		let userTargetIdx = this.users.findIndex((u) => (u.name === user.name));
+		if(userTargetIdx !== -1) {
+			this.users[userTargetIdx] = user;
+		} else {
+			throw new GameError(`Could not readd user ${user.name}. Existing user target DNE.`, 'Could not rejoin');
+		}
 	}
 	dropUser(user) {
 		let idx = this.users.indexOf(user);

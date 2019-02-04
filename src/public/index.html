@@ -50,7 +50,7 @@
 
 			<setup-view v-if="state.view === 'setup'" :room-code="state.gameState === undefined ? undefined : state.gameState.roomCode" :usernames="usernames"></setup-view>
 
-			<game-view v-if="state.view === 'game'" :game-state="state.gameState"></game-view>
+			<game-view v-if="state.view === 'game'" :game-state="state.gameState" :game-connection="state.gameConnection"></game-view>
 
 		</div>
 		

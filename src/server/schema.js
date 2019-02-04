@@ -30,6 +30,9 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 			type: 'string',
 			minLength: 1,
 		},
+		rejoin: {
+			type: 'boolean'
+		}
 	},
 	required: ['username', 'roomCode'],
 };

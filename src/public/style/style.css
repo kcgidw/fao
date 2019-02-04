@@ -130,7 +130,7 @@ canvas#old-paint {
 	z-index: 1;
 }
 canvas#new-paint {
-	z-index: 2;
+	z-index: 2; /* ensure pointer events hit the top layer, not the bottom layer */
 }
 
 /* ============================================================================
@@ -161,4 +161,18 @@ canvas#new-paint {
 #game-info span:not(.label) {
 	font-weight: bold;
 	color: var(--standard-dark);
+}
+
+#conn-overlay {
+	background-color: rgba(240, 240, 240, 0.9);
+	height: 100%;
+	width: 100%;
+
+	/* see position and z-idxes for the drawing pad layers */
+	position: absolute;
+	z-index: 3;
+
+	display: flex;
+    justify-content: center;
+	align-items: center;
 }

@@ -4,6 +4,7 @@ const VIEW = require('./view');
 const ClientGame = require('../../common/cli-game');
 const Util = require('../../common/util');
 const GAME_PHASE = require('../../common/game-phase');
+const GameConnection = require('./game-connection');
 
 const Store = {
 	state: {
@@ -12,6 +13,7 @@ const Store = {
 		gameState: undefined,
 		createWarning: undefined,
 		joinWarning: undefined,
+		gameConnection: GameConnection.DISCONNECT,
 	},
 	setUsername(username) {
 		this.state.username = username;
@@ -22,9 +24,11 @@ const Store = {
 	setGameState(newGameState) {
 		if(newGameState === undefined) {
 			this.state.gameState = undefined;
+			this.setGameConnection(GameConnection.DISCONNECT);
 			this.setView(VIEW.HOME);
 			return;
 		}
+		this.setGameConnection(GameConnection.CONNECT);
 
 		if(this.state.gameState === undefined) {
 			this.state.gameState = ClientGame.generateClientGameState();
@@ -37,10 +41,13 @@ const Store = {
 			this.setView(VIEW.GAME);
 		}
 	},
+	setGameConnection(cs) {
+		this.state.gameConnection = cs;
+	},
 	myTurn() {
 		return this.state.gameState
-		 && this.state.gameState.whoseTurn === this.state.username
-		 && this.state.gameState.phase === GAME_PHASE.PLAY;
+			&& this.state.gameState.whoseTurn === this.state.username
+			&& this.state.gameState.phase === GAME_PHASE.PLAY;
 	},
 	setWarning(warningName, message) {
 		this.state[warningName] = message;
@@ -79,6 +86,9 @@ handleSocket(MESSAGE.CREATE_ROOM,
 );
 handleSocket(MESSAGE.JOIN_ROOM,
 	function(data) {
+		if(data.rejoin === true) {
+			console.log('Game reconnect success');
+		}
 	},
 	function(errMsg) {
 		Store.setWarning('joinWarning', errMsg);
@@ -86,7 +96,8 @@ handleSocket(MESSAGE.JOIN_ROOM,
 );
 handleSocket(MESSAGE.USER_JOINED);
 handleSocket(MESSAGE.LEAVE_ROOM, function(data) {
-	Store.setGameState(undefined);
+	// let the socket disconnect handler take care of the rest
+	// Store.setGameState(undefined);
 });
 handleSocket(MESSAGE.USER_LEFT);
 handleSocket(MESSAGE.START_GAME);
@@ -132,5 +143,40 @@ function submitStroke(points) {
 	});
 }
 
+socket.on('disconnect', function() {
+	Store.state.gameConnection = GameConnection.DISCONNECT;
+	let existingGameState = Store.state.gameState;
+	if(existingGameState && existingGameState.phase === GAME_PHASE.SETUP) {
+		// if user was in room setup, just forget about the gamestate altogether
+		// No need to handle reconnection, user should just join the room normally again
+		Store.setGameState(undefined);
+	}
+});
+socket.on('connect', reconnectToGame);
+socket.on('reconnect', reconnectToGame);
+function reconnectToGame() {
+	let existingGameState = Store.state.gameState;
+	let username = Store.state.username;
+	if(existingGameState && username) {
+		Store.state.gameConnection = GameConnection.RECONNECT;
+		console.log('Attempting game rejoin.');
+		socket.emit(MESSAGE.JOIN_ROOM, {
+			roomCode: existingGameState.roomCode,
+			username: username,
+			rejoin: true,
+		});
+	}
+}
+window.faodbg = {
+	dcon() {
+		socket.disconnect();
+	},
+	recon() {
+		reconnectToGame();
+	},
+	con() {
+		socket.connect();
+	}
+};
 
 module.exports = Store;

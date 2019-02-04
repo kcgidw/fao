@@ -1,10 +1,12 @@
-disconnection handing / reconnection
-better errors sent to client
+notify if reconnect fails
+notify when another player DCs/reconnects
 view all players and colors
 
 more setup options
 
 better room codes
+
+voting system
 
 game-master mode
 kick player rights
