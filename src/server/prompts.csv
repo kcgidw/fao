@@ -16,6 +16,7 @@ Animal,Cobra
 Animal,Cockroach
 Animal,Cow
 Animal,Crab
+Animal,Crane
 Animal,Crocodile
 Animal,Deer
 Animal,Dog
@@ -67,10 +68,12 @@ Animal,Squid
 Animal,Squirrel
 Animal,Starfish
 Animal,Stegosaur
+Animal,Stork
 Animal,Swan
 Animal,Swordfish
 Animal,T-Rex
 Animal,Triceratops
+Animal,Tuna
 Animal,Turkey
 Animal,Turtle
 Animal,Velociraptor
@@ -147,6 +150,13 @@ Food/Drink,Honey
 Food/Drink,Lobster
 Food/Drink,Martini
 Food/Drink,Shrimp
+Food/Drink,Bread
+Food/Drink,Crepe
+Food/Drink,Champagne
+Food/Drink,Choclate
+Food/Drink,Camembert
+Food/Drink,Beer
+Food/Drink,French Fries
 Kitchen,Blender
 Kitchen,Colander
 Kitchen,Dish Rack
@@ -234,6 +244,17 @@ Place,Subway
 Place,Theater
 Place,USA
 Place,Zoo
+Place,Disco
+Place,Opera House
+Place,Lighthouse
+Place,Barn
+Place,Prison
+Place,Courthouse
+Place,Fire Station
+Place,Saw Mill
+Place,Cathedral
+Place,Temple
+Place,Palace
 Recreation,American Football
 Recreation,Archery
 Recreation,Badminton
