@@ -1,4 +1,4 @@
-const Stroke = require('../common/drawing-pad-objects').Stroke;
+const Stroke = require('../common/stroke');
 const GAME_PHASE = require('../common/game-phase');
 const Util = require('../common/util');
 const Prompts = require('./prompts');

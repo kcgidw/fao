@@ -28,9 +28,8 @@
 
 <script>
 const Store = require('./state');
-const drawingPadObjects = require('../../common/drawing-pad-objects');
-const RelativePoint = drawingPadObjects.RelativePoint;
-const Layer = drawingPadObjects.Layer;
+const Layer = require('../../common/layer');
+const RelativePoint = require('../../common/relative-point');
 const GAME_PHASE = require("../../common/game-phase");
 
 const CanvasState = {
