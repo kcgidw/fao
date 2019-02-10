@@ -1,6 +1,5 @@
-const drawingPadObjs = require('../../common/drawing-pad-objects');
-const RelativePoint = drawingPadObjs.RelativePoint;
-const Layer = drawingPadObjs.Layer;
+const Layer = require('../../common/layer');
+const RelativePoint = require('../../common/relative-point');
 
 /* Canvas scaling */
 const HEIGHT_RATIO = 8/6;
