@@ -28,9 +28,16 @@ module.exports = (env) => {
 							options: {
 								presets: ['@babel/preset-env']
 							}
-						}
+						},
 					] 
-				}
+				},
+				{
+					test: /\.css$/,
+					use: [
+						'vue-style-loader',
+						'css-loader',
+					]
+				},
 			],
 		},
 		resolve: {
@@ -48,7 +55,7 @@ module.exports = (env) => {
 			stats: 'minimal',
 			optimization: {
 				minimize: true,
-				minimizer: [new UglifyJsPlugin({sourceMap: true})]
+				minimizer: [new UglifyJsPlugin({sourceMap: true}),]
 			},
 			externals: {
 				'vue': 'Vue', // importing 'vue' to resolve to external cdn

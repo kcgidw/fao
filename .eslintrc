@@ -36,6 +36,10 @@
 		"constructor-super": "warn",
 		"valid-typeof": "warn",
 		"no-dupe-keys": "warn",
-		"semi": "warn"
+		"semi": "warn",
+		"comma-dangle": ["warn", {
+			"arrays": "ignore",
+			"objects": "ignore"
+		}]
 	}
 }

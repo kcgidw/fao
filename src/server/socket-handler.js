@@ -9,7 +9,7 @@ const GameError = require('./game-error');
 function handleSockets(io) {
 	io.on('connection', function(sock) {
 		if(process.env.NODE_ENV !== 'production') {
-			console.log('Socket conncted: ' + sock.id);
+			console.log('Socket connected: ' + sock.id);
 		}
 		Object.keys(MessageHandlers).forEach((messageName) => {
 			sock.on(messageName, function(data) {
@@ -177,7 +177,7 @@ function joinRoom(user, room, rejoin, isHost = false) {
 		console.log(`User ${user.name} rejoined room-${room.roomCode}`);
 	} else {
 		room.addUser(user, isHost);
-		console.log(`User ${user.name} joined room-${room.roomCode}. Users: ${room.users.length}`);
+		console.log(`User ${user.name} joined room-${room.roomCode}. Room users: ${room.users.length}`);
 	}
 	user.socket.join(room.roomCode);
 	user.setGameRoom(room);
