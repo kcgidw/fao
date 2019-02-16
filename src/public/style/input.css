@@ -59,7 +59,7 @@ button.btn.big {
 	min-width: 170px;
 }
 
-input[type="text"] {
+input[type="text"], input[type="tel"], input[type="number"] {
 	border-style: hidden;
 	border-bottom: solid 2px;
 	border-bottom-color: var(--artist4);

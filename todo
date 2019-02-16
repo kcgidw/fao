@@ -1,6 +1,6 @@
-notify if reconnect fails
-notify when another player DCs/reconnects
-view all players and colors
+view all players, colors, connection statuses
+
+validate against incompatible browsers or devices
 
 more setup options
 

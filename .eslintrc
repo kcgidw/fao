@@ -22,6 +22,7 @@
 		"func-names": 0,
 		"space-before-function-paren": ["warn", "never"],
 		"space-before-blocks": ["warn", {"functions":"always", "keywords":"always"}],
+		"no-trailing-spaces": "warn",
 		"brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
 		"indent": ["warn", "tab", {"SwitchCase":1}],
 		"vars-on-top": 0,
