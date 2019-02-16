@@ -1,8 +1,9 @@
 node_modules/
 package-lock.json
+.DS_Store
+.vscode/
 .env
 *.log
-.vscode/
 *.bundle.js
 *.min.js
 *.gz
