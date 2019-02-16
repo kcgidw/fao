@@ -28,7 +28,7 @@
         <form id="join-game-form" @submit.prevent="joinGame">
             <input type="text" id="join-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
-            <input type="text" id="join-code" placeholder="Game Code" required autocomplete="off" v-model="roomCode"/>
+            <input type="number" id="join-code" placeholder="Game Code" required autocomplete="off" v-model="roomCode"/>
             <div style="clear: both"></div>
             <div class="form-actions">
                 <button type="button" id="join-game-back-btn" class="btn back secondary" @click="goto('main')">Back</button>
