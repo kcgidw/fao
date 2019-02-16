@@ -86,6 +86,7 @@ handleSocket(MESSAGE.CREATE_ROOM,
 );
 handleSocket(MESSAGE.JOIN_ROOM,
 	function(data) {
+		Store.setWarning('joinWarning', undefined);
 		if(data.rejoin === true) {
 			console.log('Game reconnect success');
 		}
@@ -157,7 +158,7 @@ socket.on('reconnect', reconnectToGame);
 function reconnectToGame() {
 	let existingGameState = Store.state.gameState;
 	let username = Store.state.username;
-	if(existingGameState && username) {
+	if(existingGameState && username && Store.state.gameConnection === GameConnection.DISCONNECT) {
 		Store.state.gameConnection = GameConnection.RECONNECT;
 		console.log('Attempting game rejoin.');
 		socket.emit(MESSAGE.JOIN_ROOM, {

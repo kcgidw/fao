@@ -1,9 +1,11 @@
 <template>
 	<div id="conn-overlay" v-show="!connected">
-		<div id="reconnecting-message">Reconnecting...</div>
+		<div id="reconnecting-message">{{message}}</div>
 	</div>
 </template>
 <script>
+
+const Store = require('./state');
 const GameConnection = require(`./game-connection`);
 
 export default {
@@ -19,6 +21,12 @@ export default {
 		connected() {
 			return this.gameConnection === GameConnection.CONNECT;
 		},
+		message() {
+			if(Store.state.joinWarning) {
+				return Store.state.joinWarning;
+			}
+			return 'Reconnecting...';
+		}
 	},
 };
 </script>

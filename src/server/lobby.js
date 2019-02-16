@@ -9,6 +9,12 @@ function getRoomByCode(roomCode) {
 	return rooms.get(roomCode);
 }
 
+const delayUntilTeardown = 1000 * 60;
+function triggerDelayedRoomTeardown(room) {
+	setTimeout(function() {
+		teardownRoom(room);
+	}, delayUntilTeardown);
+}
 function teardownRoom(room) {
 	rooms.delete(room.roomCode);
 	console.log(`Teardown for room ${room.roomCode}. Room count: ${rooms.size}`);
@@ -50,5 +56,5 @@ function createRoom(hostUser) {
 }
 
 module.exports = {
-	createRoom, getRoomByCode, teardownRoom, isFull
+	createRoom, getRoomByCode, triggerDelayedRoomTeardown, teardownRoom, isFull
 };

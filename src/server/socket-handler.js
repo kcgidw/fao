@@ -164,7 +164,7 @@ function logout(sock) {
 				console.log(`Dropped user ${user.name} from room ${room.roomCode}`);
 			}
 			if(room.isDead()) {
-				Lobby.teardownRoom(room);
+				Lobby.triggerDelayedRoomTeardown(room);
 			}
 		}
 		console.log(`Logged out user ${user.name}`);
