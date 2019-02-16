@@ -1,4 +1,4 @@
-const Layer = require('../../common/layer');
+const Layer = require('./layer');
 const RelativePoint = require('../../common/relative-point');
 
 /* Canvas scaling */

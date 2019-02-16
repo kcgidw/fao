@@ -31,7 +31,7 @@
 
 <script>
 const Store = require('./state');
-const Layer = require('../../common/layer');
+const Layer = require('./layer');
 const RelativePoint = require('../../common/relative-point');
 const GAME_PHASE = require('../../common/game-phase');
 const GameConnection = require('./game-connection');
