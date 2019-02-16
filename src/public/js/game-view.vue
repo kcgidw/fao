@@ -192,9 +192,12 @@ export default {
 			if(this.canvasState === CanvasState.PAINT && Store.myTurn()) {
 				if(strokeTracker.validateStrokeDistance()) {
 					this.canvasState = CanvasState.PREVIEW;
+					let lastPt = strokeTracker.lastPoint();
 					let newPt = drawingPad.getRelativePointFromPointerEvent(e);
-					strokeTracker.addPoint(newPt);
-					drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', true);
+					if(!lastPt.matches(newPt)) {
+						strokeTracker.addPoint(newPt);
+						drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', true);
+					}
 				} else {
 					drawingPad.clearCanvas(Layer.TOP);
 					this.canvasState = CanvasState.EMPTY;
