@@ -64,8 +64,12 @@ export default {
 			Store.submitJoinGame(this.roomCode, Store.state.username);
 		}
 	},
+	mounted() {
+    		if(localStorage.username) this.username = localStorage.username;
+	},
 	watch: {
 		username(val) {
+			localStorage.username = val;
 			Store.setUsername(val);
 		}
 	}
