@@ -69,17 +69,7 @@ const MessageHandlers = {
 			joinRoom(user, roomToJoin, false, false);
 		}
 		state = CliAdapter.generateStateJson(roomToJoin);
-
-		sock.emit(MESSAGE.JOIN_ROOM, {
-			username: user.name,
-			roomState: state,
-			rejoin: data.rejoin,
-		});
-		sock.to(data.roomCode).emit(MESSAGE.USER_JOINED, {
-			username: user.name,
-			roomState: state,
-			rejoin: data.rejoin,
-		});
+		broadcastRoomState(io, roomToJoin, MESSAGE.JOIN_ROOM);
 	},
 
 	[MESSAGE.LEAVE_ROOM](io, sock, data) {
@@ -91,7 +81,7 @@ const MessageHandlers = {
 
 		sock.emit(MESSAGE.LEAVE_ROOM, {});
 		// also, tell other players in room that this player has left
-		broadcastRoomState(room, MESSAGE.USER_LEFT, (res) => {
+		broadcastRoomState(io, room, MESSAGE.USER_LEFT, (res) => {
 			res.username = user.name;
 			return res;
 		});
@@ -104,7 +94,7 @@ const MessageHandlers = {
 		let rm = sock.user.gameRoom;
 		rm.startNewRound();
 
-		broadcastRoomState(rm, MESSAGE.START_GAME);
+		broadcastRoomState(io, rm, MESSAGE.START_GAME);
 	},
 
 	[MESSAGE.SUBMIT_STROKE](io, sock, data) {
@@ -116,7 +106,7 @@ const MessageHandlers = {
 		rm.addStroke(sock.user.name, data.points);
 		rm.nextTurn();
 
-		broadcastRoomState(rm, MESSAGE.NEW_TURN);
+		broadcastRoomState(io, rm, MESSAGE.NEW_TURN);
 	},
 
 	disconnect(io, sock, data) {
@@ -126,7 +116,7 @@ const MessageHandlers = {
 			logout(sock);
 			if(room) {
 				console.log(`User ${user.name} disconnected from room ${room.roomCode}`);
-				broadcastRoomState(room, MESSAGE.USER_LEFT, (res) => {
+				broadcastRoomState(io, room, MESSAGE.USER_LEFT, (res) => {
 					res.username = user.name;
 					return res;
 				});
@@ -249,11 +239,19 @@ const GamePrecond = {
 };
 
 // send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
-function broadcastRoomState(room, messageName, addtlProcessFn) {
+function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 	let state = CliAdapter.generateStateJson(room);
 	if(addtlProcessFn) {
 		state = addtlProcessFn(state);
 	}
+
+	if(room.phase === GAME_PHASE.SETUP) {
+		io.in(room.roomCode).emit(messageName, {
+			roomState: state,
+		});
+		return;
+	}
+
 	let artistView = CliAdapter.hideFaker(state);
 	let fakerView = CliAdapter.hideKeyword(state);
 

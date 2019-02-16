@@ -86,6 +86,9 @@ handleSocket(MESSAGE.CREATE_ROOM,
 );
 handleSocket(MESSAGE.JOIN_ROOM,
 	function(data) {
+		if(data.username !== Store.state.username) {
+			return;
+		}
 		Store.setWarning('joinWarning', undefined);
 		if(data.rejoin === true) {
 			console.log('Game reconnect success');
@@ -95,7 +98,6 @@ handleSocket(MESSAGE.JOIN_ROOM,
 		Store.setWarning('joinWarning', errMsg);
 	}
 );
-handleSocket(MESSAGE.USER_JOINED);
 handleSocket(MESSAGE.LEAVE_ROOM, function(data) {
 	// let the socket disconnect handler take care of the rest
 	// Store.setGameState(undefined);

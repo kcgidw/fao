@@ -27,7 +27,7 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 			maxLength: usernameMaxLength,
 		},
 		roomCode: {
-			type: 'string',
+			type: ['string', 'number'],
 			minLength: 1,
 		},
 		rejoin: {
@@ -81,7 +81,7 @@ function validateMessageFromClient(messageName, json) {
 	if(!SCHEMA[messageName]) {
 		return true;
 	}
-	
+
 	let res = ajv.validate(messageName, json);
 	if(!res) {
 		console.warn(ajv.errorsText());
