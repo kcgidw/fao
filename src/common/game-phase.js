@@ -2,7 +2,7 @@
 const GAME_PHASE = {
 	'SETUP': 'SETUP',
 	'PLAY': 'PLAY',
-	'ROUND_OVER': 'ROUND_OVER',
+	'VOTE': 'VOTE',
 };
 
 module.exports = GAME_PHASE;

@@ -54,7 +54,6 @@ const MessageHandlers = {
 		GamePrecond.roomExists(data.roomCode);
 
 		let user;
-		let state;
 
 		if(data.rejoin) {
 			GamePrecond.nameIsTakenInRoom(data.username, roomToJoin);
@@ -68,7 +67,6 @@ const MessageHandlers = {
 			user = login(sock, data.username);
 			joinRoom(user, roomToJoin, false, false);
 		}
-		state = CliAdapter.generateStateJson(roomToJoin);
 		broadcastRoomState(io, roomToJoin, MESSAGE.JOIN_ROOM);
 	},
 
@@ -90,7 +88,6 @@ const MessageHandlers = {
 	[MESSAGE.START_GAME](io, sock, data) {
 		GamePrecond.sockHasUser(sock);
 		GamePrecond.userIsInARoom(sock.user);
-		GamePrecond.gameNotInProgress(sock.user.gameRoom);
 		let rm = sock.user.gameRoom;
 		rm.startNewRound();
 
@@ -148,16 +145,18 @@ function logout(sock) {
 		let room = user.gameRoom;
 		if(room) {
 			sock.leave(room.roomCode);
-			if(room.phase !== GAME_PHASE.PLAY) {
-				// if room has no game in progress, drop the user from the room altogether
+			if(room.phase === GAME_PHASE.SETUP) {
+				// if room has no game yet, remove the user from the room completely
 				room.dropUser(user);
-				console.log(`Dropped user ${user.name} from room ${room.roomCode}`);
+				console.log(`Removed user ${user.name} from room ${room.roomCode}`);
+			} else {
+				console.log(`Logged out user ${user.name}`);
 			}
 			if(room.isDead()) {
+				console.log(`Triggering delayed room teardown for room-${room.roomCode}`);
 				Lobby.triggerDelayedRoomTeardown(room);
 			}
 		}
-		console.log(`Logged out user ${user.name}`);
 	}
 }
 
@@ -262,7 +261,7 @@ function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 		}
 
 		let res;
-		if(room.phase === GAME_PHASE.PLAY || room.phase === GAME_PHASE.ROUND_OVER) {
+		if(room.phase === GAME_PHASE.PLAY || room.phase === GAME_PHASE.VOTE) {
 			res = {
 				roomState: room.faker && room.faker.name === u.name ? fakerView : artistView,
 			};

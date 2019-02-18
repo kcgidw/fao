@@ -78,14 +78,14 @@ class GameRoom {
 		if(this.gameInProgress()) {
 			this.turn++;
 			if(this.turn - 1 >= this.users.length * 2) {
-				this.phase = GAME_PHASE.ROUND_OVER;
+				this.phase = GAME_PHASE.VOTE;
 			}
 			return this.turn;
 		}
 		return undefined;
 	}
 	gameInProgress() {
-		return this.phase === GAME_PHASE.PLAY;
+		return this.phase === GAME_PHASE.PLAY || this.phase === GAME_PHASE.VOTE;
 	}
 	isFull() {
 		return this.users.length >= MAX_USERS;

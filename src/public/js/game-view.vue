@@ -116,13 +116,13 @@ export default {
 			return `${this.gameState.keyword} (${this.gameState.hint})`;
 		},
 		whoseTurnText() {
-			return this.gameState.phase === GAME_PHASE.ROUND_OVER ? 'Voting time!' : `${this.gameState.whoseTurn}'s turn`;
+			return this.gameState.phase === GAME_PHASE.VOTE ? 'Voting time!' : `${this.gameState.whoseTurn}'s turn`;
 		},
 		userColor() {
 			return this.gameState.getUserColor(this.gameState.whoseTurn);
 		},
 		roundOver() {
-			return this.gameState.phase === GAME_PHASE.ROUND_OVER;
+			return this.gameState.phase === GAME_PHASE.VOTE;
 		},
 		actionsEnabled() {
 			return (

@@ -37,7 +37,7 @@ const Store = {
 
 		if(this.state.gameState.phase === GAME_PHASE.SETUP) {
 			this.setView(VIEW.SETUP);
-		} else if(this.state.gameState.phase === GAME_PHASE.PLAY || this.state.gameState.phase === GAME_PHASE.ROUND_OVER) {
+		} else if(this.state.gameState.phase === GAME_PHASE.PLAY || this.state.gameState.phase === GAME_PHASE.VOTE) {
 			this.setView(VIEW.GAME);
 		}
 	},
