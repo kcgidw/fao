@@ -1,6 +1,5 @@
 <template>
 <div id="menu" class="chunk">
-
     <div id="first-prompt-menu" class="menu" v-show="tab === 'main'">
         <button id="goto-create-menu" class="btn big primary" @click="goto('create')">New Game</button>
         <div style="clear: both"></div>
@@ -15,8 +14,8 @@
             <input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="username"/>
             <div style="clear: both"></div>
             <div class="form-actions">
-                <button type="button" id="create-game-back-btn" class="btn back secondary" @click="goto('main')">Back</button>
-                <button type="submit" id="create-game-btn" class="btn create primary" value="" :disabled="!Boolean(username)">Create</button>
+                <button type="button" id="create-game-back-btn" class="btn tertiary" @click="goto('main')">Back</button>
+                <button type="submit" id="create-game-btn" class="btn primary" value="" :disabled="!Boolean(username)">Create</button>
             </div>
         </form>
     </div>
@@ -31,8 +30,8 @@
             <input type="tel" id="join-code" placeholder="Game Code" required autocomplete="off" v-model="roomCode"/>
             <div style="clear: both"></div>
             <div class="form-actions">
-                <button type="button" id="join-game-back-btn" class="btn back secondary" @click="goto('main')">Back</button>
-                <button type="submit" id="join-game-btn" class="btn join primary" :disabled="!Boolean(username && roomCode)">Join</button>
+                <button type="button" id="join-game-back-btn" class="btn tertiary" @click="goto('main')">Back</button>
+                <button type="submit" id="join-game-btn" class="btn primary" :disabled="!Boolean(username && roomCode)">Join</button>
             </div>
         </form>
     </div>

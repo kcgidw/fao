@@ -26,6 +26,17 @@
 	color: var(--blue4);
 	border-color: var(--blue4);
 }
+.btn.tertiary {
+	color: var(--blue4);
+	background: none;
+	border-radius: 0;
+	border: hidden;
+	border-top: solid 2px #0000;
+	border-bottom: solid 2px var(--blue4);
+	padding: 0 2px;
+	line-height: 20px;
+	min-width: 0;
+}
 /* .btn:not(:disabled) {
 	box-shadow: 0 2px 5px 0 var(--grey3);
 } */
@@ -47,6 +58,12 @@
 		/* background-color: var(--blue3); */
 		color: var(--blue5);
 		border-color: var(--blue5);
+	}
+	.btn.tertiary:not(:disabled):hover {
+		background-color: var(--grey2);
+	}
+	.btn.tertiary:not(:disabled):active {
+		background-color: var(--grey3);
 	}
 }
 .btn:disabled {

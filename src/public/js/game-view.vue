@@ -1,6 +1,6 @@
 <template>
 <div id="in-game" class="view">
-	
+
 	<div class="toggle-game-info"></div>
 	<div id="game-info" class="chunk-narrow">
 		<h2 class="prompt">{{promptText}}</h2>
@@ -22,8 +22,9 @@
 		<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
 		<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
 		<div style="clear: both"></div>
-		<button class="btn primary big new-round"
+		<button class="btn primary big"
 		  @click="newRound" v-show="roundOver" :disabled="!roundOver">New Round</button>
+		<!-- <button class="btn tertiary">Options</button> -->
 	</div>
 
 </div>
@@ -147,7 +148,7 @@ export default {
 			for(let stroke of this.gameState.strokes) {
 				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username), false);
 			}
-			
+
 			if(Store.myTurn()) {
 				this.canvasState = CanvasState.EMPTY;
 			} else {
@@ -209,7 +210,7 @@ export default {
 	mounted() {
 		this.$nextTick(function() {
 			drawingPad.init();
-			this.onNewTurn(); 
+			this.onNewTurn();
 		});
 	}
 };

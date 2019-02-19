@@ -2,21 +2,24 @@
 <div id="room-setup" class="view">
 
 	<div class="chunk game-code">
-		<div>Your game code is:</div>
+		<div id="setup-header">Your game code is:</div>
 		<h1>{{ roomCode }}</h1>
 	</div>
 
 	<div class="chunk users">
-		<h3>Users:</h3>
-		<ul class="users username">
+		<div id="setup-header">Players:</div>
+		<ul class="users">
 			<li v-for="username in usernames" :key="'0' + username">{{username}}</li>
 		</ul>
 	</div>
 
 	<div class="chunk actions">
-		<button class="btn primary big start" @click="start">Start Game</button>
+		<div class="tip" style="margin-bottom: 10px;">
+			New players can't join once a game is in progress.
+		</div>
+		<button class="btn primary big" @click="start">Start Game</button>
 		<div style="clear: both"/>
-		<button class="btn secondary leave" @click="leave">Leave</button>
+		<button class="btn tertiary" @click="leave">Leave</button>
 	</div>
 
 </div>

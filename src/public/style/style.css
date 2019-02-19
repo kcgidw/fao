@@ -1,6 +1,6 @@
 :root {
 	--shadow-config: 0px 2px 4px 0px;
-	--header-font: 'Palanquin Dark', sans-serif;
+	--header-font: 'Poppins', sans-serif;
 	--body-font: 'Niramit', sans-serif;
 	--button-font: 'Poppins', sans-serif;
 }
@@ -13,7 +13,7 @@ html, body {
 	margin: 0 0;
 	font-size: 15px;
 	font-weight: normal;
-	line-height: 1.2;
+	line-height: 1.35;
 }
 
 h1, h2, h3 {
@@ -55,16 +55,20 @@ div.chunk-narrow {
 
 p, ul {
 	margin: 5px 5px 5px 5px;
-	line-height: 22px;
 }
-.normal-text p:not(:last-child) {
-	margin-bottom: 9px; /* paragraph break */
+div.normal-text :not(:last-child) { /* normal-text identifies a section of both header and text */
+	margin-bottom: 10px; /* paragraph break */
 }
 p em, p strong, p span {
 	white-space: nowrap;
 }
 a {
 	color: var(--blue4);
+}
+.tip {
+	font-size: 13px;
+	font-style: italic;
+	color: var(--grey5);
 }
 
 .error {
@@ -83,30 +87,31 @@ div.warning {
 }
 
 /* ============================================================================
-	Waiting room
+	Setup room
 ============================================================================ */
 
-div.game-code {
+div#room-setup div.game-code {
 	margin-top: 10px;
 }
-div.game-code h1 {
+div#room-setup div.game-code h1 {
+	margin-top: 0;
 	font-family: var(--button-font);
 }
-div.chunk.users {
+div#room-setup div.chunk.users {
 	max-width: 250px;
 	margin-left: auto;
 	margin-right: auto;
 }
-ul.users {
+div#room-setup ul.users {
 	list-style: none;
-	height: calc((16px + 3px) * 10); /* <li> size * number of rows */
+	height: calc((21px) * 10); /* <li> height * number of rows */
 	padding-left: 0;
+	margin-top: 0;
 }
-.username {
+div#room-setup li {
+	font-weight: bold;
 	font-family: var(--header-font);
-}
-li {
-	margin-bottom: 3px;
+	line-height: 1.4;
 }
 
 /* ============================================================================
@@ -130,7 +135,7 @@ canvas#old-paint {
 	z-index: 1;
 }
 canvas#new-paint {
-	z-index: 2; /* ensure pointer events hit the top layer, not the bottom layer */
+	z-index: 2; /* ensures pointer events hit the top layer, not the bottom layer */
 }
 
 /* ============================================================================
@@ -138,7 +143,7 @@ canvas#new-paint {
 ============================================================================ */
 
 #game-info {
-	--maxCanvasWidth: 500px; /* default value. Override in game-view.vue */
+	--maxCanvasWidth: 500px; /* default value. Override in drawing-pad.js */
 	text-align: left;
 	max-width: calc(var(--maxCanvasWidth) + 4px + 4px); /* canvas + borders */
 	margin-left: auto;
