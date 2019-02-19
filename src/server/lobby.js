@@ -12,7 +12,12 @@ function getRoomByCode(roomCode) {
 const delayUntilTeardown = 1000 * 60;
 function triggerDelayedRoomTeardown(room) {
 	setTimeout(function() {
-		teardownRoom(room);
+		// ensure room really is dead and hasn't already been torn down
+		if(getRoomByCode(room.roomCode) && room.isDead()) {
+			teardownRoom(room);
+		} else {
+			console.log(`Cancel teardown for room-${room.roomCode}`);
+		}
 	}, delayUntilTeardown);
 }
 function teardownRoom(room) {
