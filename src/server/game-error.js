@@ -9,7 +9,7 @@ class GameError {
 		return 'GameError';
 	}
 	toString() {
-		return this.name + ': ' + this.message;
+		return this.message;
 	}
 }
 

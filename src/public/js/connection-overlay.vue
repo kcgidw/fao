@@ -3,6 +3,7 @@
 		<div id="reconnecting-message">{{message}}</div>
 	</div>
 </template>
+
 <script>
 
 const Store = require('./state');
@@ -23,7 +24,7 @@ export default {
 		},
 		message() {
 			if(Store.state.joinWarning) {
-				return Store.state.joinWarning;
+				return 'Reconnection failure: ' + Store.state.joinWarning;
 			}
 			return 'Reconnecting...';
 		}

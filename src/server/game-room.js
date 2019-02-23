@@ -51,6 +51,7 @@ class GameRoom {
 	}
 
 	startNewRound() {
+		console.log(`Room-${this.roomCode} new round`);
 		this.shuffleUsers();
 		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;

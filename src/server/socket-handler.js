@@ -6,11 +6,15 @@ const Lobby = require('./lobby');
 const GAME_PHASE = require('../common/game-phase');
 const GameError = require('./game-error');
 
+function debugLog(str) {
+	if (process.env.NODE_ENV !== 'production') {
+		console.log(str);
+	}
+}
+
 function handleSockets(io) {
 	io.on('connection', function(sock) {
-		if(process.env.NODE_ENV !== 'production') {
-			console.log('Socket connected: ' + sock.id);
-		}
+		debugLog('Socket connected: ' + sock.id);
 		Object.keys(MessageHandlers).forEach((messageName) => {
 			sock.on(messageName, function(data) {
 				try {
@@ -133,7 +137,7 @@ function login(sock, username, roomToRejoin) {
 		user = new User(sock, username);
 	}
 	sock.user = user;
-	console.log(`Logged in user ${user.name}`);
+	debugLog(`Logged in user ${user.name}`);
 	return user;
 }
 function logout(sock) {
@@ -148,9 +152,9 @@ function logout(sock) {
 			if(room.phase === GAME_PHASE.SETUP) {
 				// if room has no game yet, remove the user from the room completely
 				room.dropUser(user);
-				console.log(`Removed user ${user.name} from room ${room.roomCode}`);
+				console.log(`User ${user.name} manually left room ${room.roomCode}`);
 			} else {
-				console.log(`Logged out user ${user.name}`);
+				debugLog(`Logged out user ${user.name}`);
 			}
 			if(room.isDead()) {
 				console.log(`Triggering delayed room teardown for room-${room.roomCode}`);
