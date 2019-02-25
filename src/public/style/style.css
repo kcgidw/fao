@@ -142,12 +142,13 @@ canvas#new-paint {
 	Game
 ============================================================================ */
 
-#game-info {
+#in-game-container {
 	--maxCanvasWidth: 500px; /* default value. Override in drawing-pad.js */
+	max-width: calc(var(--maxCanvasWidth) + calc(5px * 2)); /* canvas + borders */
+	margin: 0 auto;
+}
+#game-info {
 	text-align: left;
-	max-width: calc(var(--maxCanvasWidth) + 4px + 4px); /* canvas + borders */
-	margin-left: auto;
-	margin-right: auto;
 	font-size: 16px;
 	font-family: var(--header-font);
 }

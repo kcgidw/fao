@@ -1,32 +1,32 @@
 <template>
 <div id="in-game" class="view">
+	<div id="in-game-container">
+		<div class="toggle-game-info"></div>
+		<div id="game-info" class="chunk-narrow">
+			<h2 class="prompt">{{promptText}}</h2>
+			<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
+		</div>
 
-	<div class="toggle-game-info"></div>
-	<div id="game-info" class="chunk-narrow">
-		<h2 class="prompt">{{promptText}}</h2>
-		<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
-	</div>
+		<div class="chunk-narrow">
+			<div id="painting">
+					<connection-overlay :gameConnection="gameConnection"></connection-overlay>
+					<canvas id="new-paint"
+						touch-action="none"
+						@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
+					></canvas>
+				<canvas id="old-paint"></canvas>
+			</div>
+		</div>
 
-	<div class="chunk-narrow">
-		<div id="painting">
-				<connection-overlay :gameConnection="gameConnection"></connection-overlay>
-				<canvas id="new-paint"
-					touch-action="none"
-					@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
-				></canvas>
-			<canvas id="old-paint"></canvas>
+		<div id="drawing-decision" class="chunk-narrow">
+			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
+			<div style="clear: both"></div>
+			<button class="btn primary big"
+			@click="newRound" v-show="roundOver" :disabled="!roundOver">New Round</button>
+			<!-- <button class="btn tertiary">Options</button> -->
 		</div>
 	</div>
-
-	<div id="drawing-decision" class="chunk-narrow">
-		<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
-		<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
-		<div style="clear: both"></div>
-		<button class="btn primary big"
-		  @click="newRound" v-show="roundOver" :disabled="!roundOver">New Round</button>
-		<!-- <button class="btn tertiary">Options</button> -->
-	</div>
-
 </div>
 </template>
 
@@ -140,13 +140,13 @@ export default {
 	methods: {
 		onNewTurn() {
 			if(this.gameState.turn === 1) {
-				drawingPad.clearCanvas(Layer.BOTTOM);
+				drawingPad.clearLayer(Layer.BOTTOM);
 			}
 
-			drawingPad.clearCanvas(Layer.TOP);
+			drawingPad.clearLayer(Layer.TOP);
 			// TODO draw only the strokes that haven't been drawn yet (keeping connection loss in mind)
 			for(let stroke of this.gameState.strokes) {
-				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username), false);
+				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username));
 			}
 
 			if(Store.myTurn()) {
@@ -157,7 +157,7 @@ export default {
 		},
 		undo() {
 			this.stroke.reset();
-			drawingPad.clearCanvas(Layer.TOP);
+			drawingPad.clearLayer(Layer.TOP);
 			this.canvasState = CanvasState.EMPTY;
 		},
 		submit() {
@@ -185,7 +185,7 @@ export default {
 				let newPt = drawingPad.getRelativePointFromPointerEvent(e);
 				if(!lastPt.matches(newPt)) {
 					strokeTracker.addPoint(newPt);
-					drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', false);
+					drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black');
 				}
 			}
 		},
@@ -197,21 +197,34 @@ export default {
 					let newPt = drawingPad.getRelativePointFromPointerEvent(e);
 					if(!lastPt.matches(newPt)) {
 						strokeTracker.addPoint(newPt);
-						drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black', true);
+						drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black');
 					}
 				} else {
-					drawingPad.clearCanvas(Layer.TOP);
+					drawingPad.clearLayer(Layer.TOP);
 					this.canvasState = CanvasState.EMPTY;
 					strokeTracker.reset();
 				}
 			}
 		},
+		resize() {
+			drawingPad.adjustSize();
+			drawingPad.clearLayer(Layer.TOP);
+			drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black');
+			drawingPad.clearLayer(Layer.BOTTOM);
+			for(let stroke of this.gameState.strokes) {
+				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username));
+			}
+		}
 	},
 	mounted() {
 		this.$nextTick(function() {
-			drawingPad.init();
+			drawingPad.adjustSize();
 			this.onNewTurn();
 		});
+		window.addEventListener('resize', this.resize);
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.resize);
 	}
 };
 </script>

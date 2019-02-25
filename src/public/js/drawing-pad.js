@@ -19,10 +19,10 @@ const drawingPad = {
 	canvasWidth: undefined,
 	canvasHeight: undefined,
 	strokeWidth: undefined,
-    
-	init() {
+
+	adjustSize() {
 		this.canvasDiv = document.getElementById('painting');
-        
+
 		this[Layer.TOP].canvas = document.getElementById('new-paint');
 		this[Layer.BOTTOM].canvas = document.getElementById('old-paint');
 		this[Layer.TOP].context = this[Layer.TOP].canvas.getContext('2d');
@@ -41,24 +41,21 @@ const drawingPad = {
 		this[Layer.BOTTOM].canvas.width = this.canvasWidth;
 		this[Layer.BOTTOM].canvas.height = this.canvasHeight;
 
-		document.getElementById('game-info').style['--maxCanvasWidth'] = drawingPad.canvasWidth;
+		document.getElementById('in-game-container').style['--maxCanvasWidth'] = drawingPad.canvasWidth;
 	},
-    
+
 	getRelativePointFromPointerEvent(e) {
 		let pointerX = e.pageX - this.canvasDiv.offsetLeft;
 		let pointerY = e.pageY - this.canvasDiv.offsetTop;
 		let relPt = new RelativePoint(pointerX / this.canvasWidth, pointerY / this.canvasHeight);
 		return relPt;
 	},
-    
-	clearCanvas(layer) {
+
+	clearLayer(layer) {
 		this[layer].context.clearRect(0,0, this.canvasWidth, this.canvasHeight);
 	},
-    
-	drawStroke(layer, points, color, clearCanvasFirst) {
-		if(clearCanvasFirst) {
-			this.clearCanvas(layer);
-		}
+
+	drawStroke(layer, points, color) {
 		let context = this[layer].context;
 		context.strokeStyle = color;
 		context.lineJoin = 'round';
