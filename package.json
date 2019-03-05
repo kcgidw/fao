@@ -7,8 +7,7 @@
     "test": "mocha --exit",
     "build": "webpack --env.production",
     "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
-    "start": "node ./src/server/main.js",
-    "full": "npm run build && npm run start"
+    "start": "node ./src/server/main.js"
   },
   "author": "",
   "license": "ISC",
