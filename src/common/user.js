@@ -5,7 +5,7 @@ class User {
 		if(!Util.validateUsername(name)) {
 			return undefined;
 		}
-		
+
 		this.socket = socket;
 		this.name = name;
 		this.gameRoom = undefined;
@@ -16,6 +16,9 @@ class User {
 	}
 	get connected() {
 		return Boolean(this.socket && this.socket.connected);
+	}
+	get logName() {
+		return `<${this.name}>`;
 	}
 }
 

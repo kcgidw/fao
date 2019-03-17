@@ -13,6 +13,7 @@ class GameRoom {
 		this.users = [];
 		this.host = host;
 
+		this.round = 0;
 		this.phase = GAME_PHASE.SETUP;
 
 		this.turn = -1;
@@ -38,7 +39,7 @@ class GameRoom {
 		if(userTargetIdx !== -1) {
 			this.users[userTargetIdx] = user;
 		} else {
-			throw new GameError(`Could not readd user ${user.name}. Existing user target DNE.`, 'Could not rejoin');
+			throw new GameError(`Could not readd ${user.logName}. Existing user target DNE.`, 'Could not rejoin');
 		}
 	}
 	dropUser(user) {
@@ -51,7 +52,7 @@ class GameRoom {
 	}
 
 	startNewRound() {
-		console.log(`Room-${this.roomCode} new round`);
+		this.round++;
 		this.shuffleUsers();
 		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;
@@ -60,6 +61,7 @@ class GameRoom {
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
+		console.log(`New round: Room-${this.roomCode} start round ${this.round}`);
 	}
 	whoseTurn() {
 		if(this.phase === GAME_PHASE.PLAY) {

@@ -116,7 +116,7 @@ const MessageHandlers = {
 			let room = user.gameRoom;
 			logout(sock);
 			if(room) {
-				console.log(`User ${user.name} disconnected from room ${room.roomCode}`);
+				console.log(`Disconnect: ${user.logName} from room-${room.roomCode}`);
 				broadcastRoomState(io, room, MESSAGE.USER_LEFT, (res) => {
 					res.username = user.name;
 					return res;
@@ -130,14 +130,14 @@ function login(sock, username, roomToRejoin) {
 	username = username.trim();
 	let user;
 	if(roomToRejoin) {
-		console.log(`User ${username} is attempting a reconnect`);
+		debugLog(`Attempt reconnect: <${username}>`);
 		user = roomToRejoin.findUser(username);
 		user.socket = sock;
 	} else {
 		user = new User(sock, username);
 	}
 	sock.user = user;
-	debugLog(`Logged in user ${user.name}`);
+	debugLog(`Login: ${user.logName}`);
 	return user;
 }
 function logout(sock) {
@@ -152,9 +152,9 @@ function logout(sock) {
 			if(room.phase === GAME_PHASE.SETUP) {
 				// if room has no game yet, remove the user from the room completely
 				room.dropUser(user);
-				console.log(`User ${user.name} manually left room ${room.roomCode}`);
+				console.log(`Left room: ${user.logName}from room-${room.roomCode}`);
 			} else {
-				debugLog(`Logged out user ${user.name}`);
+				debugLog(`Logout ${user.logName}`);
 			}
 			if(room.isDead()) {
 				console.log(`Triggering delayed room teardown for room-${room.roomCode}`);
@@ -167,10 +167,10 @@ function logout(sock) {
 function joinRoom(user, room, rejoin, isHost = false) {
 	if(rejoin) {
 		room.readdUser(user);
-		console.log(`User ${user.name} rejoined room-${room.roomCode}`);
+		console.log(`Rejoin: ${user.logName} to room-${room.roomCode}`);
 	} else {
 		room.addUser(user, isHost);
-		console.log(`User ${user.name} joined room-${room.roomCode}. Room users: ${room.users.length}`);
+		console.log(`Join: ${user.logName} to room-${room.roomCode}. Room users: ${room.users.length}`);
 	}
 	user.socket.join(room.roomCode);
 	user.setGameRoom(room);
