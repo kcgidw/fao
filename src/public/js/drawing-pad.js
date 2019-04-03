@@ -3,8 +3,11 @@ const RelativePoint = require('../../common/relative-point');
 
 /* Canvas scaling */
 const HEIGHT_RATIO = 8/6;
-const maxCanvasWidth = 500;
+const maxCanvasWidth = 650;
 const maxCanvasHeight = maxCanvasWidth * HEIGHT_RATIO;
+const baseStrokeWidth = 10;
+const canvasHorizontalMargin = 25;
+const canvasVerticalMargin = 100;
 
 const drawingPad = {
 	[Layer.TOP]: {
@@ -20,28 +23,33 @@ const drawingPad = {
 	canvasHeight: undefined,
 	strokeWidth: undefined,
 
-	adjustSize() {
-		this.canvasDiv = document.getElementById('painting');
-
+	init() {
+		this.canvasDiv = document.getElementById('drawing-pad');
 		this[Layer.TOP].canvas = document.getElementById('new-paint');
 		this[Layer.BOTTOM].canvas = document.getElementById('old-paint');
 		this[Layer.TOP].context = this[Layer.TOP].canvas.getContext('2d');
 		this[Layer.BOTTOM].context = this[Layer.BOTTOM].canvas.getContext('2d');
-
-		let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - 50), maxCanvasWidth);
-		let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - 200), maxCanvasHeight) / HEIGHT_RATIO;
+	},
+	adjustSize() {
+		let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - canvasHorizontalMargin * 2), maxCanvasWidth);
+		let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - canvasVerticalMargin * 2), maxCanvasHeight) / HEIGHT_RATIO;
 		this.canvasWidth = Math.min(canvasWidthScaledByViewportWidth, canvasWidthScaledByViewportHeight);
-		this.canvasHeight = this.canvasWidth * HEIGHT_RATIO;
-		this.strokeWidth = (this.canvasWidth/maxCanvasWidth) * 9;
-
-		this.canvasDiv.style.width = this.canvasWidth + 'px';
-		this.canvasDiv.style.height = this.canvasHeight + 'px';
 		this[Layer.TOP].canvas.width = this.canvasWidth;
-		this[Layer.TOP].canvas.height = this.canvasHeight;
 		this[Layer.BOTTOM].canvas.width = this.canvasWidth;
-		this[Layer.BOTTOM].canvas.height = this.canvasHeight;
+		let targetHeight = this.canvasWidth * HEIGHT_RATIO;
 
-		document.getElementById('in-game-container').style['--maxCanvasWidth'] = drawingPad.canvasWidth;
+		Array.from(document.getElementsByClassName('canvas-aligned')).forEach((el) => {
+			el.style.width = this.canvasWidth + 'px';
+		});
+		this.canvasHeight = targetHeight;
+		this.canvasDiv.style.width = this.canvasWidth + 'px';
+		this.canvasDiv.style.height = targetHeight + 'px';
+		this[Layer.TOP].canvas.height = targetHeight;
+		this[Layer.BOTTOM].canvas.height = targetHeight;
+		this[Layer.TOP].canvas.style.height = targetHeight + 'px';
+		this[Layer.BOTTOM].canvas.style.height = targetHeight + 'px';
+
+		this.strokeWidth = baseStrokeWidth * this.canvasWidth / maxCanvasWidth;
 	},
 
 	getRelativePointFromPointerEvent(e) {

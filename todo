@@ -3,6 +3,7 @@ view all players, colors, connection statuses, room code
 validate against incompatible browsers or devices
 voting system
 prevent long prompts from making webapp scroll
+sass
 
 more setup options
 more tests

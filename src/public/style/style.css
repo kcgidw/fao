@@ -6,10 +6,9 @@
 }
 
 html, body {
-	height: 100%;
 	font-family: var(--body-font);
-	background-color: var(--grey1);
-	color: var(--grey6);
+	background-color: white;
+	color: var(--beige6);
 	margin: 0 0;
 	font-size: 15px;
 	font-weight: normal;
@@ -18,10 +17,10 @@ html, body {
 
 h1, h2, h3 {
 	font-family: var(--header-font);
-	color: var(--grey7);
+	color: var(--beige7);
 }
 h1 {
-	font-size: 30px;
+	font-size: 36px;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -35,19 +34,23 @@ h3 {
 }
 
 #wrapper {
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
 	height: calc(100% - 20px);
-	max-width: 600px;
-	padding: 15px 15px 0 15px;
 }
 
-div.chunk {
-	margin-bottom: 30px;
+div.stripe {
+	margin: 0 0;
+	padding: 10px 10px;
+}
+div.stripe-content {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 650px;
 }
 div.chunk-narrow {
 	margin-bottom: 15px;
+}
+.align-center {
+	text-align: center;
 }
 .align-left {
 	text-align: left;
@@ -68,7 +71,7 @@ a {
 .tip {
 	font-size: 13px;
 	font-style: italic;
-	color: var(--grey5);
+	color: var(--beige5);
 }
 
 .error {
@@ -86,15 +89,32 @@ div.warning {
 	display: inline-block; /* Div box width to equal inner content width */
 }
 
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+#menu {
+	min-height: 200px;
+	margin: 10px 0; /* some extra breathing space for the menu */
+}
+
+/* hero patterns */
+.bg-dots {
+	background-color: #ffffff;
+	background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23e5007e' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+.bg-texture {
+	background-color: #ffffff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23e5007e' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
 /* ============================================================================
 	Setup room
 ============================================================================ */
 
-div#room-setup div.game-code {
-	margin-top: 10px;
-}
 div#room-setup div.game-code h1 {
-	margin-top: 0;
 	font-family: var(--button-font);
 }
 div#room-setup div.chunk.users {
@@ -118,17 +138,17 @@ div#room-setup li {
 	Canvas
 ============================================================================ */
 
-#painting {
+#drawing-pad {
 	position: relative;
-	margin-left: auto;
-	margin-right: auto;
 	border: solid 5px var(--artist4);
-	box-shadow: 0px 3px 5px 0px var(--grey4);
+	box-shadow: 0px 3px 5px 0px var(--beige4);
+	width: 100%;
 }
 canvas {
 	position: absolute;
 	top: 0;
 	left: 0;
+	width: 100%;
 }
 canvas#old-paint {
 	background-color: white;
@@ -142,31 +162,26 @@ canvas#new-paint {
 	Game
 ============================================================================ */
 
-#in-game-container {
-	--maxCanvasWidth: 500px; /* default value. Override in drawing-pad.js */
-	max-width: calc(var(--maxCanvasWidth) + calc(5px * 2)); /* canvas + borders */
-	margin: 0 auto;
-}
 #game-info {
 	text-align: left;
-	font-size: 16px;
 	font-family: var(--header-font);
 }
-#game-info .prompt {
+#game-info h1.prompt {
 	color: var(--artist4);
 	font-size: 26px;
 	margin: 0 0 0 0;
 }
+@media screen and (max-width: 480px) {
+	#game-info h1.prompt {
+		font-size: 20px;
+	}
+	#game-info h3 {
+		font-size: 16px;
+	}
+}
 #game-info .current-turn {
 	margin-left: 10px;
 	margin: 0 0 0 10px;
-}
-#game-info span.label {
-	font-weight: normal;
-}
-#game-info span:not(.label) {
-	font-weight: bold;
-	color: var(--standard-dark);
 }
 
 #conn-overlay {

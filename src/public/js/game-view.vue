@@ -1,29 +1,30 @@
 <template>
 <div id="in-game" class="view">
-	<div id="in-game-container">
-		<div class="toggle-game-info"></div>
-		<div id="game-info" class="chunk-narrow">
-			<h2 class="prompt">{{promptText}}</h2>
+	<div class="stripe">
+		<div id="game-info" class="stripe-content canvas-aligned">
+			<h1 class="prompt">{{promptText}}</h1>
 			<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
 		</div>
-
-		<div class="chunk-narrow">
-			<div id="painting">
-					<connection-overlay :gameConnection="gameConnection"></connection-overlay>
-					<canvas id="new-paint"
-						touch-action="none"
-						@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
-					></canvas>
-				<canvas id="old-paint"></canvas>
-			</div>
+	</div>
+	<div class="stripe flex-center">
+		<div id="drawing-pad" class="stripe-content canvas-aligned">
+			<connection-overlay :gameConnection="gameConnection"></connection-overlay>
+			<canvas id="new-paint"
+				touch-action="none"
+				@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
+			></canvas>
+			<canvas id="old-paint"></canvas>
 		</div>
-
-		<div id="drawing-decision" class="chunk-narrow">
+	</div>
+	<div id="drawing-actions" class="stripe flex-center">
+		<div class="stripe-content">
 			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
 			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
 			<div style="clear: both"></div>
 			<button class="btn primary big"
-			@click="newRound" v-show="roundOver" :disabled="!roundOver">New Round</button>
+				@click="newRound" v-show="roundOver" :disabled="!roundOver">
+					New Round
+			</button>
 			<!-- <button class="btn tertiary">Options</button> -->
 		</div>
 	</div>
@@ -218,6 +219,7 @@ export default {
 	},
 	mounted() {
 		this.$nextTick(function() {
+			drawingPad.init();
 			drawingPad.adjustSize();
 			this.onNewTurn();
 		});
