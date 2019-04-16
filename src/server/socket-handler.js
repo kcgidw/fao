@@ -110,6 +110,14 @@ const MessageHandlers = {
 		broadcastRoomState(io, rm, MESSAGE.NEW_TURN);
 	},
 
+	[MESSAGE.RETURN_TO_SETUP](io, sock, data) {
+		GamePrecond.sockHasUser(sock);
+		GamePrecond.userIsInARoom(sock.user);
+		let rm = sock.user.gameRoom;
+		rm.invokeSetup();
+		broadcastRoomState(io, rm, MESSAGE.RETURN_TO_SETUP);
+	},
+
 	disconnect(io, sock, data) {
 		let user = sock.user;
 		if(user) {

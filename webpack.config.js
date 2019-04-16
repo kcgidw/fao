@@ -18,7 +18,7 @@ module.exports = (env) => {
 					loader: 'vue-loader'
 				},
 				{
-					test: /\.js$/, 
+					test: /\.js$/,
 					use: [
 						{
 							loader: 'source-map-loader'
@@ -29,7 +29,7 @@ module.exports = (env) => {
 								presets: ['@babel/preset-env']
 							}
 						},
-					] 
+					]
 				},
 				{
 					test: /\.css$/,

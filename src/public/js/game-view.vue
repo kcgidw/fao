@@ -17,15 +17,25 @@
 		</div>
 	</div>
 	<div id="drawing-actions" class="stripe flex-center">
-		<div class="stripe-content">
-			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
-			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
-			<div style="clear: both"></div>
+		<div class="stripe-content flex-center">
 			<button class="btn primary big"
 				@click="newRound" v-show="roundOver" :disabled="!roundOver">
 					New Round
 			</button>
-			<!-- <button class="btn tertiary">Options</button> -->
+			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
+			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+			<game-menu>
+                <!-- <li @click="togglePrompt">
+                    Toggle prompt visibility
+                </li> -->
+                <!-- <li @click="skip">
+                    <span>Skip Round</span>
+                </li> -->
+                <li @click="setup">
+                    Back to Setup
+                </li>
+			</game-menu>
+			<div style="clear: both"></div>
 		</div>
 	</div>
 </div>
@@ -38,6 +48,7 @@ const RelativePoint = require('../../common/relative-point');
 const GAME_PHASE = require('../../common/game-phase');
 const GameConnection = require('./game-connection');
 import ConnectionOverlay from './connection-overlay';
+import GameMenu from './game-menu';
 
 const CanvasState = {
 	EMPTY: 'EMPTY',
@@ -95,6 +106,7 @@ export default {
 	name: 'GameView',
 	components: {
 		ConnectionOverlay,
+		GameMenu,
 	},
 	props: {
 		gameConnection: {
@@ -215,7 +227,16 @@ export default {
 			for(let stroke of this.gameState.strokes) {
 				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username));
 			}
-		}
+		},
+		togglePrompt() {
+
+		},
+		skip() {
+
+		},
+		setup() {
+			Store.submitReturnToSetup();
+		},
 	},
 	mounted() {
 		this.$nextTick(function() {

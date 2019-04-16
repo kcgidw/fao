@@ -63,6 +63,14 @@ class GameRoom {
 		this.strokes = [];
 		console.log(`New round: Room-${this.roomCode} start round ${this.round}`);
 	}
+	invokeSetup() {
+		this.phase = GAME_PHASE.SETUP;
+		console.log(`Force setup: Room-${this.roomCode}`);
+		this.turn = -1;
+		this.keyword = undefined;
+		this.hint = undefined;
+		this.faker = undefined;
+	}
 	whoseTurn() {
 		if(this.phase === GAME_PHASE.PLAY) {
 			let idx = ((this.turn - 1) % this.users.length);

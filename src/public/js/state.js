@@ -57,6 +57,7 @@ const Store = {
 	submitLeaveGame,
 	submitStartGame,
 	submitStroke,
+	submitReturnToSetup,
 };
 
 function handleSocket(messageName, handler, errHandler) {
@@ -105,6 +106,7 @@ handleSocket(MESSAGE.LEAVE_ROOM, function(data) {
 handleSocket(MESSAGE.USER_LEFT);
 handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
+handleSocket(MESSAGE.RETURN_TO_SETUP);
 
 const usernameWarning = 'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
 function submitCreateGame(username) {
@@ -144,6 +146,9 @@ function submitStroke(points) {
 	socket.emit(MESSAGE.SUBMIT_STROKE, {
 		points: points,
 	});
+}
+function submitReturnToSetup() {
+	socket.emit(MESSAGE.RETURN_TO_SETUP);
 }
 
 socket.on('disconnect', function() {

@@ -24,6 +24,11 @@ h1 {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+@media screen and (max-width: 480px) {
+	h1 {
+		font-size: 30px;
+	}
+}
 h2 {
 	font-size: 20px;
 	margin: 5px 5px 10px 5px;
@@ -94,6 +99,7 @@ div.warning {
 	justify-content: center;
 	align-items: center;
 	text-align: center;
+	flex-wrap: wrap;
 }
 #menu {
 	min-height: 200px;
@@ -116,6 +122,7 @@ div.warning {
 
 div#room-setup div.game-code h1 {
 	font-family: var(--button-font);
+	margin-top: 0;
 }
 div#room-setup div.chunk.users {
 	max-width: 250px;
@@ -141,7 +148,7 @@ div#room-setup li {
 #drawing-pad {
 	position: relative;
 	border: solid 5px var(--artist4);
-	box-shadow: 0px 3px 5px 0px var(--beige4);
+	box-shadow: 0px 3px 6px 0px var(--shade);
 	width: 100%;
 }
 canvas {
@@ -184,6 +191,10 @@ canvas#new-paint {
 	margin: 0 0 0 10px;
 }
 
+#drawing-actions {
+	direction: rtl; /* handle vertical button order for super-narrow viewports */
+}
+
 #conn-overlay {
 	background-color: rgba(240, 240, 240, 0.9);
 	height: 100%;
@@ -196,4 +207,15 @@ canvas#new-paint {
 	display: flex;
     justify-content: center;
 	align-items: center;
+}
+
+
+.feather {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
 }

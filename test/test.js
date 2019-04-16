@@ -4,6 +4,7 @@ const assert = chai.assert;
 const io = require('socket.io-client');
 const Message = require('../src/common/message');
 const A = require('async');
+const GAME_PHASE = require('../src/common/game-phase');
 
 describe('Test Suite', function() {
 	var sock1, sock2, sock3;
@@ -47,7 +48,7 @@ describe('Test Suite', function() {
 		});
 		done();
 	});
-    
+
 	describe('CREATE_ROOM', function() {
 		it('accept valid login', function(done) {
 			sock1.emit(Message.CREATE_ROOM, {
@@ -164,6 +165,31 @@ describe('Test Suite', function() {
 					done();
 				});
 			});
+		});
+	});
+
+	describe('RETURN_TO_SETUP', function() {
+		it('works mid-game', function(done) {
+			sock1.emit(Message.CREATE_ROOM, {
+				username: 'bob',
+			});
+			sock1.once(Message.CREATE_ROOM, function(data) {
+				let roomCode = data.roomState.roomCode;
+				assert.notExists(data.err);
+				sock1.emit(Message.START_GAME);
+				sock1.once(Message.START_GAME, function(data) {
+					sock1.emit(Message.RETURN_TO_SETUP);
+					sock1.once(Message.RETURN_TO_SETUP, function(data) {
+						assert.notExists(data.err);
+						assert.equal(data.roomState.phase, GAME_PHASE.SETUP);
+						done();
+					});
+				});
+			});
+		});
+		it('works between rounds', function(done) {
+			// TODO
+			done();
 		});
 	});
 });

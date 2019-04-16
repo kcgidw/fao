@@ -1,6 +1,9 @@
 {
   "name": "fake-artist-online",
   "version": "1.0.0",
+  "engines": {
+    "node": "^10.14.0"
+  },
   "description": "",
   "main": "src/server/main.js",
   "scripts": {
@@ -18,6 +21,7 @@
     "babel-loader": "^8.0.4",
     "compression": "^1.7.3",
     "compression-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.0",
     "csv": "^4.0.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
@@ -41,7 +45,7 @@
     "async": "^2.6.1",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
-    "css-loader": "^2.1.0",
+    "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.1.0",
     "mocha": "^5.2.0",
     "vue": "^2.5.21"

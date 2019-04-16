@@ -1,5 +1,5 @@
-option to end round and return to setup, or to force new round
-view all players, colors, connection statuses, room code
+option to skip round
+view all players, colors, connection statuses
 validate against incompatible browsers or devices
 voting system
 prevent long prompts from making webapp scroll
