@@ -252,7 +252,7 @@ export default {
 			this.promptVisible = !this.promptVisible;
 		},
 		skip() {
-
+			Store.submitSkipRound();
 		},
 		setup() {
 			Store.submitReturnToSetup();

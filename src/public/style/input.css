@@ -142,10 +142,11 @@ ul.dropup-list {
 	margin: 0;
 }
 ul.dropup-list li {
-	padding: 10px;
-    border-radius: 4px;
-	cursor: pointer;
+	color: var(--beige7);
 	font-family: var(--header-font);
+    border-radius: 4px;
+	padding: 10px;
+	cursor: pointer;
 }
 ul.dropup-list li:not(:last-child) {
 	margin-bottom: 4px;

@@ -57,6 +57,7 @@ const Store = {
 	submitLeaveGame,
 	submitStartGame,
 	submitStroke,
+	submitSkipRound,
 	submitReturnToSetup,
 };
 
@@ -146,6 +147,9 @@ function submitStroke(points) {
 	socket.emit(MESSAGE.SUBMIT_STROKE, {
 		points: points,
 	});
+}
+function submitSkipRound() {
+	socket.emit(MESSAGE.SKIP_ROUND);
 }
 function submitReturnToSetup() {
 	socket.emit(MESSAGE.RETURN_TO_SETUP);
