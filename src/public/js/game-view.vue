@@ -24,18 +24,7 @@
 			</button>
 			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
 			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
-			<game-menu :items="menuItems">
-                <!-- <li @click="togglePrompt">
-                    Toggle prompt visibility
-                </li>
-				<hr> -->
-                <!-- <li @click="skip">
-                    <span>Skip Round</span>
-                </li> -->
-                <!-- <li @click="setup">
-                    Back to setup
-                </li> -->
-			</game-menu>
+			<game-menu :items="menuItems"></game-menu>
 			<div style="clear: both"></div>
 		</div>
 	</div>
@@ -47,7 +36,7 @@ const Store = require('./state');
 const Layer = require('./layer');
 const RelativePoint = require('../../common/relative-point');
 const GAME_PHASE = require('../../common/game-phase');
-const GameConnection = require('./game-connection');
+const CONNECTION_STATE = require('./connection-state');
 import ConnectionOverlay from './connection-overlay';
 import GameMenu from './game-menu';
 
@@ -129,16 +118,13 @@ export default {
 				{
 					text: 'Toggle prompt visibility',
 					action: this.togglePrompt,
-				},
-				{
+				}, {
 					text: 'break1',
 					hr: true,
-				},
-				{
+				}, {
 					text: 'Skip this round',
 					action: this.skip,
-				},
-				{
+				}, {
 					text: 'Exit to setup',
 					action: this.setup,
 				},
@@ -161,7 +147,7 @@ export default {
 		actionsEnabled() {
 			return (
 				this.canvasState === 'PREVIEW' &&
-				this.gameConnection === GameConnection.CONNECT
+				this.gameConnection === CONNECTION_STATE.CONNECT
 			);
 		},
 	},

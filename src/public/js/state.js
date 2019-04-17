@@ -4,7 +4,7 @@ const VIEW = require('./view');
 const ClientGame = require('../../common/cli-game');
 const Util = require('../../common/util');
 const GAME_PHASE = require('../../common/game-phase');
-const GameConnection = require('./game-connection');
+const CONNECTION_STATE = require('./connection-state');
 
 const Store = {
 	state: {
@@ -13,7 +13,7 @@ const Store = {
 		gameState: undefined,
 		createWarning: undefined,
 		joinWarning: undefined,
-		gameConnection: GameConnection.DISCONNECT,
+		gameConnection: CONNECTION_STATE.DISCONNECT,
 	},
 	setUsername(username) {
 		this.state.username = username;
@@ -24,11 +24,11 @@ const Store = {
 	setGameState(newGameState) {
 		if(newGameState === undefined) {
 			this.state.gameState = undefined;
-			this.setGameConnection(GameConnection.DISCONNECT);
+			this.setGameConnection(CONNECTION_STATE.DISCONNECT);
 			this.setView(VIEW.HOME);
 			return;
 		}
-		this.setGameConnection(GameConnection.CONNECT);
+		this.setGameConnection(CONNECTION_STATE.CONNECT);
 
 		if(this.state.gameState === undefined) {
 			this.state.gameState = ClientGame.generateClientGameState();
@@ -156,7 +156,7 @@ function submitReturnToSetup() {
 }
 
 socket.on('disconnect', function() {
-	Store.state.gameConnection = GameConnection.DISCONNECT;
+	Store.state.gameConnection = CONNECTION_STATE.DISCONNECT;
 	let existingGameState = Store.state.gameState;
 	if(existingGameState && existingGameState.phase === GAME_PHASE.SETUP) {
 		// if user was in room setup, just forget about the gamestate altogether
@@ -169,8 +169,8 @@ socket.on('reconnect', reconnectToGame);
 function reconnectToGame() {
 	let existingGameState = Store.state.gameState;
 	let username = Store.state.username;
-	if(existingGameState && username && Store.state.gameConnection === GameConnection.DISCONNECT) {
-		Store.state.gameConnection = GameConnection.RECONNECT;
+	if(existingGameState && username && Store.state.gameConnection === CONNECTION_STATE.DISCONNECT) {
+		Store.state.gameConnection = CONNECTION_STATE.RECONNECT;
 		console.log('Attempting game rejoin.');
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: existingGameState.roomCode,

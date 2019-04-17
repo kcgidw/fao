@@ -1,6 +1,6 @@
-const GameConnection = {
+const CONNECTION_STATE = {
 	'CONNECT': 'CONNECT',
 	'RECONNECT': 'RECONNECT',
 	'DISCONNECT': 'DISCONNECT',
 };
-module.exports = GameConnection;
+module.exports = CONNECTION_STATE;

@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
 const Store = require('./state');
-const GameConnection = require(`./game-connection`);
+const CONNECTION_STATE = require(`./connection-state`);
 
 export default {
 	name: `ConnectionOverlay`,
@@ -20,7 +19,7 @@ export default {
 	},
 	computed: {
 		connected() {
-			return this.gameConnection === GameConnection.CONNECT;
+			return this.gameConnection === CONNECTION_STATE.CONNECT;
 		},
 		message() {
 			if(Store.state.joinWarning) {

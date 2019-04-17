@@ -3,11 +3,11 @@ const RelativePoint = require('../../common/relative-point');
 
 /* Canvas scaling */
 const HEIGHT_RATIO = 8/6;
-const maxCanvasWidth = 650;
-const maxCanvasHeight = maxCanvasWidth * HEIGHT_RATIO;
-const baseStrokeWidth = 10;
-const canvasHorizontalMargin = 25;
-const canvasVerticalMargin = 100;
+const MAX_CANVAS_W = 650;
+const MAX_CANVAS_H = MAX_CANVAS_W * HEIGHT_RATIO;
+const BASE_STROKE_WIDTH = 10;
+const CANVAS_MARGIN_HOR = 25;
+const CANVAS_MARGIN_VER = 100;
 
 const drawingPad = {
 	[Layer.TOP]: {
@@ -31,8 +31,8 @@ const drawingPad = {
 		this[Layer.BOTTOM].context = this[Layer.BOTTOM].canvas.getContext('2d');
 	},
 	adjustSize() {
-		let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - canvasHorizontalMargin * 2), maxCanvasWidth);
-		let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - canvasVerticalMargin * 2), maxCanvasHeight) / HEIGHT_RATIO;
+		let canvasWidthScaledByViewportWidth = Math.min((window.innerWidth - CANVAS_MARGIN_HOR * 2), MAX_CANVAS_W);
+		let canvasWidthScaledByViewportHeight = Math.min((window.innerHeight - CANVAS_MARGIN_VER * 2), MAX_CANVAS_H) / HEIGHT_RATIO;
 		this.canvasWidth = Math.min(canvasWidthScaledByViewportWidth, canvasWidthScaledByViewportHeight);
 		this[Layer.TOP].canvas.width = this.canvasWidth;
 		this[Layer.BOTTOM].canvas.width = this.canvasWidth;
@@ -49,7 +49,7 @@ const drawingPad = {
 		this[Layer.TOP].canvas.style.height = targetHeight + 'px';
 		this[Layer.BOTTOM].canvas.style.height = targetHeight + 'px';
 
-		this.strokeWidth = baseStrokeWidth * this.canvasWidth / maxCanvasWidth;
+		this.strokeWidth = BASE_STROKE_WIDTH * this.canvasWidth / MAX_CANVAS_W;
 	},
 
 	getRelativePointFromPointerEvent(e) {
