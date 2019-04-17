@@ -7,7 +7,10 @@
 		</button>
         <div id="game-menu-dropdown" class="dropup-content" v-show="expanded === true">
             <ul class="dropup-list">
-				<slot></slot>
+				<div v-for="item in items" :key="item.text">
+					<li v-if="!item.hr" @click="doAction(item)">{{item.text}}</li>
+					<hr v-if="item.hr">
+				</div>
             </ul>
         </div>
     </div>
@@ -16,6 +19,14 @@
 const Store = require('./state');
 export default {
 	name: 'GameMenu',
+	props: {
+		items: Array,
+		/* item in items: {
+			text: String. Text to display. Also the item key
+			hr: Boolean. If true, this item is just a <hr>
+			action: Function. Executes on click
+		} */
+	},
 	data() {
 		return {
 			expanded: false,
@@ -27,6 +38,12 @@ export default {
 		},
 		toggleHide() {
 			this.expanded = false;
+		},
+		doAction(item) {
+			if(item.action) {
+				item.action();
+				this.toggleHide();
+			}
 		},
 		senseClickOutside(event) {
 			let clickedOutside;
@@ -42,10 +59,10 @@ export default {
 		}
 	},
 	mounted() {
-		document.addEventListener('click', this.senseClickOutside);
+		document.addEventListener('pointerdown', this.senseClickOutside);
 	},
 	beforeDestroy() {
-		document.removeEventListener('click', this.senseClickOutside);
+		document.removeEventListener('pointerdown', this.senseClickOutside);
 	}
 };
 </script>

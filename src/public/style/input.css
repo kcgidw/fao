@@ -100,7 +100,7 @@ input:invalid {
 	margin: 10px 10px;
 }
 .dropup button {
-	border: none;
+	border: solid 2px rgba(0,0,0,0);
 	border-radius: 100%;
 	background-color: white;
 	color: var(--beige6);
@@ -109,10 +109,9 @@ input:invalid {
 	height: 40px;
 	margin: 0;
 	cursor: pointer;
-	transition: background-color .15s, color .15s, border .15s;
 }
 .dropup button:hover {
-	background-color: var(--grey0);
+	border-color: var(--grey0);
 }
 .dropup button:active {
 	/* fix firefox behavior */
@@ -120,6 +119,7 @@ input:invalid {
 	padding-inline-start: 8px;
 }
 .dropup button.expanded {
+	border-color: var(--grey0);
 	background-color: var(--grey0);
 }
 .dropup-content {
@@ -141,16 +141,16 @@ ul.dropup-list {
 	padding: 0;
 	margin: 0;
 }
-ul.dropup-list > li {
+ul.dropup-list li {
 	padding: 10px;
     border-radius: 4px;
 	cursor: pointer;
 	font-family: var(--header-font);
 }
-ul.dropup-list > li:not(:last-child) {
+ul.dropup-list li:not(:last-child) {
 	margin-bottom: 4px;
 }
-ul.dropup-list > li:hover {
+ul.dropup-list li:hover {
 	background-color: var(--grey0);
 }
 

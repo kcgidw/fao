@@ -2,7 +2,7 @@
 <div id="in-game" class="view">
 	<div class="stripe">
 		<div id="game-info" class="stripe-content canvas-aligned">
-			<h1 class="prompt">{{promptText}}</h1>
+			<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
 			<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
 		</div>
 	</div>
@@ -24,16 +24,17 @@
 			</button>
 			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
 			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
-			<game-menu>
+			<game-menu :items="menuItems">
                 <!-- <li @click="togglePrompt">
                     Toggle prompt visibility
-                </li> -->
+                </li>
+				<hr> -->
                 <!-- <li @click="skip">
                     <span>Skip Round</span>
                 </li> -->
-                <li @click="setup">
-                    Back to Setup
-                </li>
+                <!-- <li @click="setup">
+                    Back to setup
+                </li> -->
 			</game-menu>
 			<div style="clear: both"></div>
 		</div>
@@ -123,6 +124,25 @@ export default {
 			canvasState: CanvasState.SPECTATE,
 			stroke: strokeTracker,
 			drawingPad: drawingPad,
+			promptVisible: true,
+			menuItems: [
+				{
+					text: 'Toggle prompt visibility',
+					action: this.togglePrompt,
+				},
+				{
+					text: 'break1',
+					hr: true,
+				},
+				{
+					text: 'Skip this round',
+					action: this.skip,
+				},
+				{
+					text: 'Exit to setup',
+					action: this.setup,
+				},
+			]
 		};
 	},
 	computed: {
@@ -229,7 +249,7 @@ export default {
 			}
 		},
 		togglePrompt() {
-
+			this.promptVisible = !this.promptVisible;
 		},
 		skip() {
 

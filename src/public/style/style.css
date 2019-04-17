@@ -94,6 +94,12 @@ div.warning {
 	display: inline-block; /* Div box width to equal inner content width */
 }
 
+hr {
+	height: 1px;
+	border: 0;
+	background-color: var(--grey1);
+}
+
 .flex-center {
 	display: flex;
 	justify-content: center;
