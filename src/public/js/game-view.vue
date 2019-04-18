@@ -1,5 +1,6 @@
 <template>
 <div id="in-game" class="view">
+	<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
 	<div class="stripe">
 		<div id="game-info" class="stripe-content canvas-aligned">
 			<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
@@ -39,6 +40,7 @@ const GAME_PHASE = require('../../common/game-phase');
 const CONNECTION_STATE = require('./connection-state');
 import ConnectionOverlay from './connection-overlay';
 import GameMenu from './game-menu';
+import PlayerStatuses from './player-statuses';
 
 const CanvasState = {
 	EMPTY: 'EMPTY',
@@ -97,6 +99,7 @@ export default {
 	components: {
 		ConnectionOverlay,
 		GameMenu,
+		PlayerStatuses,
 	},
 	props: {
 		gameConnection: {
@@ -119,6 +122,9 @@ export default {
 					text: 'Toggle prompt visibility',
 					action: this.togglePrompt,
 				}, {
+					text: 'View players',
+					action: this.showPlayerStatuses,
+				}, {
 					text: 'break1',
 					hr: true,
 				}, {
@@ -128,7 +134,8 @@ export default {
 					text: 'Exit to setup',
 					action: this.setup,
 				},
-			]
+			],
+			playerStatusesDialogVisible: false,
 		};
 	},
 	computed: {
@@ -242,6 +249,12 @@ export default {
 		},
 		setup() {
 			Store.submitReturnToSetup();
+		},
+		showPlayerStatuses() {
+			this.playerStatusesDialogVisible = true;
+		},
+		hidePlayerStatuses() {
+			this.playerStatusesDialogVisible = false;
 		},
 	},
 	mounted() {

@@ -137,8 +137,6 @@ input:invalid {
     padding: 4px;
 }
 ul.dropup-list {
-	list-style-type: none;
-	padding: 0;
 	margin: 0;
 }
 ul.dropup-list li {

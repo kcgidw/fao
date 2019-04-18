@@ -25,6 +25,9 @@ function generateClientGameState() {
 		getMostRecentStroke() {
 			return this.strokes[this.strokes.length - 1];
 		},
+		findUser(username) {
+			return this.users.find(u => u.name === username);
+		},
 	};
 }
 

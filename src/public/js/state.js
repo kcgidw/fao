@@ -158,10 +158,24 @@ function submitReturnToSetup() {
 socket.on('disconnect', function() {
 	Store.state.gameConnection = CONNECTION_STATE.DISCONNECT;
 	let existingGameState = Store.state.gameState;
-	if(existingGameState && existingGameState.phase === GAME_PHASE.SETUP) {
-		// if user was in room setup, just forget about the gamestate altogether
-		// No need to handle reconnection, user should just join the room normally again
-		Store.setGameState(undefined);
+	if(existingGameState) {
+		switch(existingGameState.phase) {
+			case GAME_PHASE.SETUP:
+				// if user was in room setup, just forget about the gamestate altogether
+				// No need to handle reconnection, user should just join the room normally again
+				Store.setGameState(undefined);
+				break;
+			case GAME_PHASE.PLAY:
+			case GAME_PHASE.VOTE:
+				let me = existingGameState.findUser(Store.state.username);
+				if(me) {
+					me.connected = false;
+				}
+				break;
+			default:
+				console.warn('Bad gamestate');
+				break;
+		}
 	}
 });
 socket.on('connect', reconnectToGame);

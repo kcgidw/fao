@@ -19,7 +19,7 @@
 
 	<div class="stripe flex-center align-center actions">
 		<div class="stripe-content">
-			<div class="tip" style="margin-bottom: 10px;">
+			<div class="tinytext tip" style="margin-bottom: 10px;">
 				Additional players won't be able to join while a game is in progress.
 			</div>
 			<button class="btn primary big" @click="start">Start Game</button>
