@@ -1,4 +1,4 @@
-view all players, colors, connection statuses
+when a new prompt is loaded, revert prompt hiding
 validate against incompatible browsers or devices
 voting system
 prevent long prompts from making webapp scroll
