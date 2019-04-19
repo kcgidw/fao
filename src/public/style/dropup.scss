@@ -1,0 +1,61 @@
+.dropup {
+	position: relative;
+    display: inline-block;
+	margin: 10px 10px;
+
+	button {
+		border: solid 2px rgba(0,0,0,0);
+		border-radius: 100%;
+		background-color: white;
+		color: var(--beige6);
+		line-height: 40px;
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		margin: 0;
+		flex-shrink: 0;
+		cursor: pointer;
+
+		@media(any-hover: hover) {
+			&:hover {
+				border-color: var(--grey0);
+			}
+		}
+		&.expanded {
+			border-color: var(--grey0);
+			background-color: var(--grey0);
+		}
+	}
+
+	.dropup-content {
+		border: solid 1px var(--grey1);
+		border-radius: 4px;
+		background-color: white;
+		box-shadow: 0px 3px 6px 0px var(--shade);
+		text-align: left;
+		font-size: 13px;
+		position: absolute;
+		bottom: 100%;
+		left: 0;
+		z-index: 3;
+		white-space: nowrap;
+		padding: 4px;
+	}
+
+	ul.dropup-list {
+		margin: 0;
+		li {
+			color: var(--beige7);
+			font-family: var(--header-font);
+			border-radius: 4px;
+			padding: 10px;
+			cursor: pointer;
+			&:not(:last-child) {
+				margin-bottom: 4px;
+			}
+			&:hover {
+				background-color: var(--grey0);
+			}
+		}
+	}
+}

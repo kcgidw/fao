@@ -1,7 +1,6 @@
 validate against incompatible browsers or devices
 voting system
 prevent long prompts from making webapp scroll
-sass
 dark theme
 l10n support
 
@@ -13,3 +12,4 @@ game-master mode
 kick player rights
 join via url
 colorblind aids
+more css transitions on desktop

@@ -1,5 +1,5 @@
 <template>
-<div id="menu" class="flex-center">
+<div id="home-menu" class="flex-center">
     <div id="first-prompt-menu" class="menu" v-show="tab === 'main'">
         <button id="goto-create-menu" class="btn big primary" @click="goto('create')">New Game</button>
         <div style="clear: both"></div>

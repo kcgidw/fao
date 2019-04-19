@@ -1,5 +1,5 @@
 <template>
-	<div id="conn-overlay" v-show="!connected">
+	<div id="conn-overlay" class="flex-center" v-show="!connected">
 		<div id="reconnecting-message">{{message}}</div>
 	</div>
 </template>

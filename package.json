@@ -8,8 +8,10 @@
   "main": "src/server/main.js",
   "scripts": {
     "test": "mocha --exit",
-    "build": "webpack --env.production",
+    "build": "webpack --env.production && npm run sass",
     "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
+    "sass": "node-sass src/public/style/style.scss src/public/style/style.css --output-style compressed",
+    "sass-dev": "sass --watch src/public/style/style.scss:src/public/style/style.css --style compressed",
     "start": "node ./src/server/main.js"
   },
   "author": "",
@@ -26,6 +28,7 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
+    "node-sass": "^4.11.0",
     "socket.io": "^2.1.1",
     "source-map-loader": "^0.2.3",
     "uglifyjs-webpack-plugin": "^2.0.1",

@@ -8,3 +8,5 @@ package-lock.json
 *.min.js
 *.gz
 *.js.map
+*.css.map
+style.css

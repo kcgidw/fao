@@ -23,9 +23,7 @@ h1 {
 	font-size: 36px;
 	margin-top: 10px;
 	margin-bottom: 10px;
-}
-@media screen and (max-width: 480px) {
-	h1 {
+	@media screen and (max-width: 480px) {
 		font-size: 30px;
 	}
 }
@@ -116,7 +114,7 @@ hr {
 	text-align: center;
 	flex-wrap: wrap;
 }
-#menu {
+#home-menu {
 	min-height: 200px;
 	margin: 10px 0; /* some extra breathing space for the menu */
 }
@@ -135,23 +133,25 @@ hr {
 	Setup room
 ============================================================================ */
 
-div#room-setup div.game-code h1 {
-	font-family: var(--button-font);
-	margin-top: 0;
-}
-div#room-setup div.chunk.users {
-	max-width: 250px;
-	margin-left: auto;
-	margin-right: auto;
-}
-div#room-setup ul.users {
-	height: calc((21px) * 10); /* <li> height * number of rows */
-	margin-top: 0;
-}
-div#room-setup li {
-	font-weight: bold;
-	font-family: var(--header-font);
-	line-height: 1.4;
+div#room-setup {
+	div.game-code h1 {
+		font-family: var(--button-font);
+		margin-top: 0;
+	}
+	div.chunk.users {
+		max-width: 250px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	ul.users {
+		height: calc((21px) * 10); /* <li> height * number of rows */
+		margin-top: 0;
+	}
+	li {
+		font-weight: bold;
+		font-family: var(--header-font);
+		line-height: 1.4;
+	}
 }
 
 /* ============================================================================
@@ -185,23 +185,26 @@ canvas#new-paint {
 #game-info {
 	text-align: left;
 	font-family: var(--header-font);
-}
-#game-info h1.prompt {
-	color: var(--artist4);
-	font-size: 26px;
-	margin: 0 0 0 0;
-}
-@media screen and (max-width: 480px) {
-	#game-info h1.prompt {
-		font-size: 20px;
+	
+	h1.prompt {
+		color: var(--artist4);
+		font-size: 26px;
+		margin: 0 0 0 0;
 	}
-	#game-info h3 {
-		font-size: 16px;
+
+	@media screen and (max-width: 480px) {
+		h1.prompt {
+			font-size: 20px;
+		}
+		h3 {
+			font-size: 16px;
+		}
 	}
-}
-#game-info .current-turn {
-	margin-left: 10px;
-	margin: 0 0 0 10px;
+	
+	.current-turn {
+		margin-left: 10px;
+		margin: 0 0 0 10px;
+	}
 }
 
 #drawing-actions {
@@ -216,51 +219,19 @@ canvas#new-paint {
 	/* see position and z-idxes for the drawing pad layers */
 	position: absolute;
 	z-index: 3;
-
-	display: flex;
-    justify-content: center;
-	align-items: center;
 }
 
 .feather {
-  width: 24px;
-  height: 24px;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
+	width: 24px;
+	height: 24px;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	fill: none;
 }
 
-/* ============================================================================
-	Dialogs
-============================================================================ */
-
-.dialog-overlay {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	background-color: var(--shade1);
-	z-index: 5;
-}
-.dialog-window {
-	z-index: 5;
-	background-color: white;
-	border: solid 1px var(--grey1);
-	border-radius: 4px;
-  padding: 10px 20px;
-	box-shadow: 0px 3px 6px 0px var(--shade);
-}
-#player-statuses ul {
-	text-align: left;
-}
-#player-statuses li {
-	display: flex;
-}
-#player-statuses li > span {
-	align-self: center;
-}
-.grow-space {
-	flex-grow: 1;
-	min-width: 10px;
-}
+@import 'colors';
+@import 'input';
+@import 'dropup';
+@import 'dialog';
