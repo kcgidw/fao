@@ -112,6 +112,7 @@ const ClientAdapter = {
 		let res = {
 			roomCode: gameRoom.roomCode,
 			users: _.map(gameRoom.users, (u) => ({name: u.name, connected: u.connected})),
+			round: gameRoom.round,
 			phase: gameRoom.phase,
 			turn: gameRoom.turn,
 			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : null, // null, so the empty value still gets passed to the client

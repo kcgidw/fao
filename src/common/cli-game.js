@@ -4,6 +4,7 @@ function generateClientGameState() {
 	return {
 		roomCode: undefined,
 		users: [],
+		round: undefined,
 		phase: undefined,
 		turn: undefined,
 		whoseTurn: undefined,

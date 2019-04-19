@@ -1,9 +1,9 @@
-when a new prompt is loaded, revert prompt hiding
 validate against incompatible browsers or devices
 voting system
 prevent long prompts from making webapp scroll
 sass
 dark theme
+l10n support
 
 more setup options
 more tests

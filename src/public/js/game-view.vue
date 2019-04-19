@@ -162,6 +162,9 @@ export default {
 		['gameState.turn']() {
 			this.onNewTurn();
 		},
+		['gameState.round']() {
+			this.promptVisible = true;
+		},
 	},
 	methods: {
 		onNewTurn() {
