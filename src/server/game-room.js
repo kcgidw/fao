@@ -64,12 +64,14 @@ class GameRoom {
 		console.log(`New round: Room-${this.roomCode} start round ${this.round}`);
 	}
 	invokeSetup() {
-		this.phase = GAME_PHASE.SETUP;
 		console.log(`Force setup: Room-${this.roomCode}`);
+		this.phase = GAME_PHASE.SETUP;
+		// Reset game state
 		this.turn = -1;
 		this.keyword = undefined;
 		this.hint = undefined;
 		this.faker = undefined;
+		this.users = this.users.filter(u => u.connected); // If anyone disconnected during the game, forget about them during setup
 	}
 	whoseTurn() {
 		if(this.phase === GAME_PHASE.PLAY) {
