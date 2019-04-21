@@ -18,11 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.4.3",
+    "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "ajv": "^6.10.0",
     "babel-loader": "^8.0.5",
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^2.0.0",
+    "core-js": "^3.0.1",
     "css-loader": "^2.1.1",
     "csv": "^4.0.0",
     "dotenv": "^6.2.0",

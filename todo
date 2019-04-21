@@ -3,6 +3,7 @@ voting system
 prevent long prompts from making webapp scroll
 dark theme
 l10n support
+fix imports
 
 more setup options
 more tests

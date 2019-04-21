@@ -3,10 +3,14 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const _ = require('lodash');
+// require('@babel/polyfill'); corejs polyfill
 
 module.exports = (env) => {
 	const config = {
-		entry: path.resolve(__dirname, 'src', 'public', 'js', 'client.js'),
+		entry: [
+			// '@babel/polyfill', corejs polyfill
+			path.resolve(__dirname, 'src', 'public', 'js', 'client.js')
+		],
 		output: {
 			path: path.resolve(__dirname, 'src', 'public', 'js'),
 			filename: 'index.bundle.min.js'
@@ -19,6 +23,7 @@ module.exports = (env) => {
 				},
 				{
 					test: /\.js$/,
+					exclude: /node_modules/,
 					use: [
 						{
 							loader: 'source-map-loader'
@@ -26,7 +31,16 @@ module.exports = (env) => {
 						{
 							loader: 'babel-loader',
 							options: {
-								presets: ['@babel/preset-env']
+								presets: [
+									[
+										'@babel/preset-env',
+										// corejs polyfill
+										// {
+										// 	"useBuiltIns": "entry",
+										// 	'corejs': 3
+										// }
+									]
+								],
 							}
 						},
 					]
@@ -67,7 +81,7 @@ module.exports = (env) => {
 			devtool: 'source-map',
 			resolve: {
 				alias: {
-					'vue$': 'vue/dist/vue.js', // importing 'vue' to reference local development version
+					'vue$': 'vue/dist/vue.js', // importing 'vue' to reference local development version (allows for vue devtools)
 				}
 			}
 		});

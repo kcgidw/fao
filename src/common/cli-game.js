@@ -14,13 +14,13 @@ function generateClientGameState() {
 		strokes: [],
 
 		getUsernames() {
-			return _.map(this.users, (u) => (u.name));
+			return this.users.map(u => u.name);
 		},
 		adoptJson(json) {
 			return Object.assign(this, json);
 		},
 		getUserColor(username) {
-			let userIdx = _.findIndex(this.getUsernames(), (u) => (u === username));
+			let userIdx = _.findIndex(this.getUsernames(), (u) => (u === username)); // needs es6 polyfill
 			return userIdx >= 0 ? COLOR.HEX[COLOR.ORDER[userIdx]] || 'var(--beige6)' : 'var(--beige6)';
 		},
 		getMostRecentStroke() {
