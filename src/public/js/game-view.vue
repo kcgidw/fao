@@ -1,6 +1,20 @@
 <template>
 <div id="in-game" class="view">
 	<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
+	<confirmation id="confirm-skip-dialog" v-show="skipRoundConfirmationDialogVisible" @close="hideSkipRoundConfirmationDialog" @confirm="skip">
+		<h3>Skip This Round</h3>
+		<div>
+			This will end the current round.
+		</div>
+	</confirmation>
+	<confirmation id="confirm-setup-dialog" v-show="setupConfirmationDialogVisible" @close="hideSetupConfirmationDialog" @confirm="setup">
+		<h3>Exit to Setup</h3>
+		<div>
+			By returning to setup, you can add/remove players.
+			<br>
+			This will end the current round.
+		</div>
+	</confirmation>
 	<div class="stripe">
 		<div id="game-info" class="stripe-content canvas-aligned">
 			<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
@@ -41,6 +55,7 @@ const CONNECTION_STATE = require('./connection-state');
 import ConnectionOverlay from './connection-overlay';
 import GameMenu from './game-menu';
 import PlayerStatuses from './player-statuses';
+import Confirmation from './confirmation';
 
 const CanvasState = {
 	EMPTY: 'EMPTY',
@@ -100,6 +115,7 @@ export default {
 		ConnectionOverlay,
 		GameMenu,
 		PlayerStatuses,
+		Confirmation,
 	},
 	props: {
 		gameConnection: {
@@ -117,6 +133,8 @@ export default {
 			stroke: strokeTracker,
 			drawingPad: drawingPad,
 			promptVisible: true,
+			skipRoundConfirmationDialogVisible: false,
+			setupConfirmationDialogVisible: false,
 			menuItems: [
 				{
 					text: 'Toggle prompt visibility',
@@ -129,10 +147,10 @@ export default {
 					hr: true,
 				}, {
 					text: 'Skip this round',
-					action: this.skip,
+					action: this.showSkipRoundConfirmationDialog,
 				}, {
 					text: 'Exit to setup',
-					action: this.setup,
+					action: this.showSetupConfirmationDialog,
 				},
 			],
 			playerStatusesDialogVisible: false,
@@ -247,11 +265,25 @@ export default {
 		togglePrompt() {
 			this.promptVisible = !this.promptVisible;
 		},
+		showSkipRoundConfirmationDialog() {
+			this.skipRoundConfirmationDialogVisible = true;
+		},
+		showSetupConfirmationDialog() {
+			this.setupConfirmationDialogVisible = true;
+		},
+		hideSkipRoundConfirmationDialog() {
+			this.skipRoundConfirmationDialogVisible = false;
+		},
+		hideSetupConfirmationDialog() {
+			this.setupConfirmationDialogVisible = false;
+		},
 		skip() {
 			Store.submitSkipRound();
+			this.hideSkipRoundConfirmationDialog();
 		},
 		setup() {
 			Store.submitReturnToSetup();
+			this.hideSetupConfirmationDialog();
 		},
 		showPlayerStatuses() {
 			this.playerStatusesDialogVisible = true;

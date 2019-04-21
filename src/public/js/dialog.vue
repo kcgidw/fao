@@ -4,15 +4,18 @@
             <div class="stripe">
                 <div class="stripe-content flex-center">
                     <div class="dialog-window">
-                    <slot></slot>
+                        <slot></slot>
+                        <div class="dialog-actions">
+                            <slot name="actions"></slot>
+                        </div>
                     </div>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
 export default {
-    name: 'DialogComponent',
+	name: 'DialogComponent',
 };
 </script>

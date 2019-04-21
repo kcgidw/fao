@@ -7,12 +7,23 @@
 
 html, body {
 	font-family: var(--body-font);
-	background-color: white;
-	color: var(--beige6);
 	margin: 0 0;
 	font-size: 15px;
 	font-weight: normal;
 	line-height: 1.35;
+}
+
+#wrapper {
+	height: calc(100% - 20px);
+
+	&.light-theme {
+		background-color: white;
+		color: var(--beige6);
+	}
+	&.dark-theme {
+		background-color: var(--grey9);
+		color: var(--grey3);
+	}
 }
 
 h1, h2, h3 {
@@ -34,10 +45,6 @@ h2 {
 h3 {
 	font-size: 18px;
 	margin: 5px 5px 10px 5px;
-}
-
-#wrapper {
-	height: calc(100% - 20px);
 }
 
 div.stripe {

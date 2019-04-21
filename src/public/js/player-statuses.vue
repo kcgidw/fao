@@ -1,6 +1,6 @@
 <template>
 	<dialog-component id="player-statuses">
-		<h2>Players</h2>
+		<h3>Players</h3>
 		<ul>
 			<li v-for="u in users" :key="'0'+u.name">
 				<span class="color-spot" :style="{color: color(u)}">
@@ -13,9 +13,12 @@
 				<span class="connectionStatus" :class="{tinytext: true, connected: u.connected, disconnected: !u.connected}">{{connectionStatusString(u)}}</span>
 			</li>
 		</ul>
-		<div>
-			<button class="dialog-close btn secondary" @click="$emit('close')">Close</button>
-		</div>
+
+		<template #actions>
+			<div>
+				<button class="btn secondary" @click="$emit('close')">Close</button>
+			</div>
+		</template>
 	</dialog-component>
 </template>
 
