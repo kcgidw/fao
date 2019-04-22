@@ -98,6 +98,7 @@ Clothing/Accessory,Jacket
 Clothing/Accessory,Monocle
 Clothing/Accessory,Overalls
 Clothing/Accessory,Purse
+Clothing/Accessory,Scarf
 Clothing/Accessory,Sneakers
 Clothing/Accessory,Socks
 Clothing/Accessory,Sombrero
@@ -105,6 +106,19 @@ Clothing/Accessory,Suit
 Clothing/Accessory,Wallet
 Clothing/Accessory,Watch
 Clothing/Accessory,Wedding Dress
+Event,Baby Shower
+Event,Birthday
+Event,Christmas
+Event,Easter
+Event,Eclipse
+Event,Funeral
+Event,Graduation
+Event,Halloween
+Event,Hanukkah
+Event,Sleepover
+Event,St. Patrick�s Day
+Event,Thanksgiving
+Event,Wedding
 Food/Drink,Artichoke
 Food/Drink,Asparagus
 Food/Drink,Bacon
@@ -118,9 +132,13 @@ Food/Drink,Coconut
 Food/Drink,Corn
 Food/Drink,Cupcake
 Food/Drink,Dim Sum
+Food/Drink,Eggs
 Food/Drink,Garlic
+Food/Drink,Honey
 Food/Drink,Hot Dog
 Food/Drink,Ice Cream
+Food/Drink,Lobster
+Food/Drink,Martini
 Food/Drink,Mushroom
 Food/Drink,Pancakes
 Food/Drink,Peas
@@ -133,6 +151,7 @@ Food/Drink,Popsicle
 Food/Drink,Pumpkin
 Food/Drink,Ribs
 Food/Drink,Sandwich
+Food/Drink,Shrimp
 Food/Drink,Spaghetti
 Food/Drink,Strawberry
 Food/Drink,Sushi
@@ -142,11 +161,6 @@ Food/Drink,Tomato
 Food/Drink,Turnip
 Food/Drink,Waffles
 Food/Drink,Wine
-Food/Drink,Eggs
-Food/Drink,Honey
-Food/Drink,Lobster
-Food/Drink,Martini
-Food/Drink,Shrimp
 Kitchen,Blender
 Kitchen,Colander
 Kitchen,Dish Rack
@@ -157,18 +171,58 @@ Kitchen,Rice Cooker
 Kitchen,Salt Shaker
 Kitchen,Stove
 Kitchen,Toaster
+Legend,Alien
+Legend,Centaur
+Legend,Dragon
+Legend,Dwarf
+Legend,Elf
+Legend,Fairy
+Legend,Ghost
+Legend,Griffin
+Legend,Grim Reaper
+Legend,Kraken
+Legend,Leprechaun
+Legend,Loch Ness
+Legend,Mermaid
+Legend,Pegasus
+Legend,Phoenix
+Legend,Unicorn
+Legend,Vampire
+Legend,Werewolf
+Legend,Witch
+Legend,Zombie
+Medical,Band-Aid
+Medical,Blood Pressure Meter
+Medical,Brain
+Medical,Crutch
+Medical,Defibrillator
+Medical,Dental Braces
+Medical,Heart
+Medical,IV Drip
+Medical,Skull
+Medical,Stethoscope
+Medical,Stretcher
+Medical,Syringe
+Medical,Thermometer
+Medical,Wheelchair
+Medical,X-Ray
+Person,Actor
 Person,Artist
 Person,Astronaut
 Person,Baby
 Person,Babysitter
 Person,Barber
+Person,Bartender
+Person,Bouncer
 Person,Cashier
 Person,Chef
 Person,Clown
 Person,Cowboy
 Person,Dentist
 Person,Director
+Person,DJ
 Person,Doctor
+Person,Exterminator
 Person,Farmer
 Person,Firefighter
 Person,Janitor
@@ -182,15 +236,20 @@ Person,Ninja
 Person,Pirate
 Person,Plumber
 Person,Police
-Person,Protestor
+Person,Programmer
+Person,Protester
 Person,Receptionist
 Person,Robber
 Person,Royalty
 Person,Samurai
+Person,Scientist
+Person,Sniper
 Person,Teacher
 Person,Therapist
+Person,Waiter
 Place,Airport
 Place,Amusement Park
+Place,Arcade
 Place,Art Museum
 Place,Australia
 Place,Bank
@@ -210,6 +269,7 @@ Place,Farm
 Place,Forest
 Place,Gas Station
 Place,Graveyard
+Place,Grocery Store
 Place,Gym
 Place,Haunted House
 Place,Hospital
@@ -242,9 +302,12 @@ Recreation,Basketball
 Recreation,Bike
 Recreation,Billiards
 Recreation,Bowling
+Recreation,Boxing
 Recreation,Camping
 Recreation,Carousel
 Recreation,Chess
+Recreation,Choir
+Recreation,Comics
 Recreation,Disco
 Recreation,Fencing
 Recreation,Fishing
@@ -253,6 +316,7 @@ Recreation,Golf
 Recreation,Hiking
 Recreation,Hockey
 Recreation,Horseback Riding
+Recreation,Hunting
 Recreation,Jousting
 Recreation,Kite
 Recreation,Martial Arts
@@ -277,9 +341,14 @@ Recreation,Volleyball
 Recreation,Yo-Yo
 Recreation,Yoga
 Technology,Battery
+Technology,Cannon
 Technology,Camera
 Technology,Computer
 Technology,Electric Fan
+Technology,Elevator
+Technology,Dynamite
+Technology,Grenade
+Technology,Handgun
 Technology,Keyboard
 Technology,Lamp
 Technology,Laptop
@@ -294,19 +363,26 @@ Technology,Radio
 Technology,Satellite
 Technology,Sewing Machine
 Technology,Telephone
+Technology,Telephone Pole
 Technology,Television
 Technology,Vacuum Cleaner
+Technology,Water Cooler
+Technology,Wi-Fi
+Tool,Axe
 Tool,Binoculars
 Tool,Bucket
 Tool,Calculator
 Tool,Chainsaw
 Tool,Compass
 Tool,Flashlight
+Tool,Gas Mask
 Tool,Hammer
+Tool,Handcuffs
 Tool,Hand Drill
 Tool,Handsaw
 Tool,Measuring Tape
 Tool,Microscope
+Tool,Mousetrap
 Tool,Paintbrush
 Tool,Pen
 Tool,Pencil Sharpener
@@ -319,20 +395,29 @@ Tool,Umbrella
 Tool,Whisk
 Tool,Whistle
 Vehicle,Airplane
+Vehicle,Ambulance
 Vehicle,Bicycle
+Vehicle,Blimp
 Vehicle,Boat
 Vehicle,Bulldozer
 Vehicle,Bus
 Vehicle,Car
+Vehicle,Chariot
 Vehicle,Dog Sled
+Vehicle,Firetruck
 Vehicle,Helicopter
+Vehicle,Hot Air Balloon
 Vehicle,Motorcycle
 Vehicle,RV
 Vehicle,Scooter
 Vehicle,Sky Tram
+Vehicle,Spaceship
+Vehicle,Stroller
 Vehicle,Submarine
 Vehicle,Tank
 Vehicle,Tractor
 Vehicle,Train
 Vehicle,Truck
+Vehicle,UFO
 Vehicle,Unicycle
+Vehicle,Wheelbarrow

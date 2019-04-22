@@ -1,16 +1,12 @@
 validate against incompatible browsers or devices
-voting system
 prevent long prompts from making webapp scroll
 dark theme
 l10n support
-fix imports
-
+consistent imports
 more setup options
+voting system
 more tests
-
-better room codes?
-game-master mode
-kick player rights
 join via url
-colorblind aids
 more css transitions on desktop
+game-master mode (prompt selection, kicking rights)
+colorblind aids?
