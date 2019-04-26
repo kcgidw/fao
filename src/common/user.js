@@ -8,7 +8,7 @@ class User {
 
 		this.socket = socket;
 		this.name = name;
-		this.gameRoom = undefined;
+		this.gameRoom = undefined; // TODO currently this references the room obj. Change this to just the code, to avoid circular refs
 	}
 
 	setGameRoom(gameRoom) {

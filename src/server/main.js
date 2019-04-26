@@ -12,12 +12,12 @@ const io = SocketIO(httpServer);
 
 function startServer() {
 	return new Promise(function(resolve, reject) {
-		const socketHandler = require('./socket-handler')(io);
-		
-		app.use(compress()); 
-		
+		require('./socket-handler')(io); // socket.io app logic
+
+		app.use(compress()); // gzip responses
+
 		app.use(express.static(path.resolve(__dirname, '..', 'public')));
-		
+
 		const Prompts = require('./prompts');
 		Prompts.getPrompts.then((outputs) => {
 			console.log(`Prompts loaded. Counted ${outputs.length} prompts`);

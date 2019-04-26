@@ -75,7 +75,6 @@ for(let schema of Object.values(SCHEMA)) {
 	ajv.addSchema(schema, schema.$id);
 }
 console.log(`Message schemas loaded.`);
-// console.log(SCHEMA);
 
 function validateMessageFromClient(messageName, json) {
 	if(!SCHEMA[messageName]) {

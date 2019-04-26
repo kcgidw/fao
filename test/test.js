@@ -7,7 +7,7 @@ const A = require('async');
 const GAME_PHASE = require('../src/common/game-phase');
 
 describe('Test Suite', function() {
-	var sock1, sock2, sock3;
+	let sock1, sock2, sock3;
 
 	beforeEach(function(done) {
 		require('../src/server/main')
