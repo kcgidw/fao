@@ -175,22 +175,26 @@ export default {
 				this.gameConnection === CONNECTION_STATE.CONNECT
 			);
 		},
+		roundAndTurn() {
+			return this.gameState.round + '-' + this.gameState.turn;
+		}
 	},
 	watch: {
-		['gameState.turn']() {
-			this.onNewTurn();
+		roundAndTurn() {
+			this.reset();
 		},
 		['gameState.round']() {
 			this.promptVisible = true;
 		},
 	},
 	methods: {
-		onNewTurn() {
+		reset() {
 			if(this.gameState.turn === 1) {
 				drawingPad.clearLayer(Layer.BOTTOM);
 			}
 
 			drawingPad.clearLayer(Layer.TOP);
+			this.stroke.reset();
 			// TODO draw only the strokes that haven't been drawn yet (keeping connection loss in mind)
 			for(let stroke of this.gameState.strokes) {
 				drawingPad.drawStroke(Layer.BOTTOM, stroke.points, this.gameState.getUserColor(stroke.username));
@@ -296,7 +300,7 @@ export default {
 		this.$nextTick(function() {
 			drawingPad.init();
 			drawingPad.adjustSize();
-			this.onNewTurn();
+			this.reset();
 		});
 		window.addEventListener('resize', this.resize);
 	},
