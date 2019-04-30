@@ -1,5 +1,11 @@
 <template>
 <div id="room-setup" class="view">
+	<confirmation id="confirm-leave" v-show="leaveConfirmationDialogVisible" @close="leaveConfirmationDialogVisible = false" @confirm="leave">
+		<h3>Leave Game</h3>
+		<div>
+			Are you sure you want to leave this game?
+		</div>
+	</confirmation>
 
 	<div class="stripe flex-center align-center game-code">
 		<div class="stripe-content">
@@ -24,7 +30,7 @@
 			</div>
 			<button class="btn primary big" @click="start">Start Game</button>
 			<div style="clear: both"/>
-			<button class="btn tertiary" @click="leave">Leave</button>
+			<button class="btn tertiary" @click="leaveConfirmationDialogVisible = true">Leave</button>
 		</div>
 	</div>
 
@@ -34,8 +40,12 @@
 <script>
 const Store = require('./state');
 const VIEW = require('./view');
+import Confirmation from './confirmation';
 export default {
 	name: 'SetupView',
+	components: {
+		Confirmation,
+	},
 	props: {
 		roomCode: {
 			type: String,
@@ -46,6 +56,7 @@ export default {
 	},
 	data() {
 		return {
+			leaveConfirmationDialogVisible: false
 		};
 	},
 	watch: {
