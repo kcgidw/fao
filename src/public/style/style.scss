@@ -121,6 +121,9 @@ hr {
 	text-align: center;
 	flex-wrap: wrap;
 }
+.fill-space {
+	flex: 1;
+}
 #home-menu {
 	min-height: 200px;
 	margin: 10px 0; /* some extra breathing space for the menu */
@@ -189,6 +192,11 @@ canvas#new-paint {
 	Game
 ============================================================================ */
 
+.canvas-aligned {
+	// max-width set in drawing-pad.js
+	width: 100%;
+}
+
 #game-info {
 	text-align: left;
 	font-family: var(--header-font);
@@ -216,6 +224,17 @@ canvas#new-paint {
 
 #drawing-actions {
 	direction: rtl; /* handle vertical button order for super-narrow viewports */
+
+	#drawing-actions-left {
+		& > * {
+			float: left;
+		}
+	}
+	#drawing-actions-right {
+		& > * {
+			float: right;
+		}
+	}
 }
 
 #conn-overlay {

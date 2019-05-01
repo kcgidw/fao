@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div class="stripe flex-center">
-		<div id="drawing-pad" class="stripe-content canvas-aligned">
+		<div id="drawing-pad" class="stripe-content">
 			<connection-overlay :gameConnection="gameConnection"></connection-overlay>
 			<canvas id="new-paint"
 				touch-action="none"
@@ -32,15 +32,19 @@
 		</div>
 	</div>
 	<div id="drawing-actions" class="stripe flex-center">
-		<div class="stripe-content flex-center">
-			<button class="btn primary big"
-				@click="newRound" v-show="roundOver" :disabled="!roundOver">
-					New Round
-			</button>
-			<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
-			<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
-			<game-menu :items="menuItems"></game-menu>
-			<div style="clear: both"></div>
+		<div class="stripe-content flex-center canvas-aligned">
+			<div id="drawing-actions-right" class="fill-space">
+			</div>
+			<div id="drawing-actions-center">
+				<button class="btn primary big" @click="newRound" v-show="roundOver" :disabled="!roundOver">
+						New Round
+				</button>
+				<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
+				<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+			</div>
+			<div id="drawing-actions-left" class="fill-space">
+				<game-menu :items="menuItems"></game-menu>
+			</div>
 		</div>
 	</div>
 </div>

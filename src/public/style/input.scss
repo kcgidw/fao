@@ -5,7 +5,7 @@
 	border-style: solid;
 	border-radius: 4px;
 	border-width: 2px;
-	min-width: 120px;
+	min-width: 110px;
 	line-height: 40px;
 	padding: 0 15px;
 	margin: 10px 10px;
@@ -87,13 +87,19 @@ input[type="text"], input[type="tel"], input[type="number"] {
 	}
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 425px) {
 	#in-game {
 		.btn {
+			font-size: 15px;
+			padding: 0 5px;
 			margin: 5px;
-		}
-		.btn.primary, .btn.secondary { /* TODO flex-shrink? */
-			min-width: 105px;
+
+			&.primary:not(.big), &.secondary {
+				min-width: 90px;
+			}
+			&.primary.big {
+				min-width: 150px;
+			}
 		}
 	}
 }

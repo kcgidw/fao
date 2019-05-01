@@ -38,9 +38,6 @@ const drawingPad = {
 		this[Layer.BOTTOM].canvas.width = this.canvasWidth;
 		let targetHeight = this.canvasWidth * HEIGHT_RATIO;
 
-		Array.from(document.getElementsByClassName('canvas-aligned')).forEach((el) => {
-			el.style.width = this.canvasWidth + 'px';
-		});
 		this.canvasHeight = targetHeight;
 		this.canvasDiv.style.width = this.canvasWidth + 'px';
 		this.canvasDiv.style.height = targetHeight + 'px';
@@ -48,6 +45,9 @@ const drawingPad = {
 		this[Layer.BOTTOM].canvas.height = targetHeight;
 		this[Layer.TOP].canvas.style.height = targetHeight + 'px';
 		this[Layer.BOTTOM].canvas.style.height = targetHeight + 'px';
+		Array.from(document.getElementsByClassName('canvas-aligned')).forEach((el) => {
+			el.style.width = (this.canvasWidth + 40) + 'px';
+		});
 
 		this.strokeWidth = BASE_STROKE_WIDTH * this.canvasWidth / MAX_CANVAS_W;
 	},
