@@ -77,35 +77,6 @@ Animal,Velociraptor
 Animal,Walrus
 Animal,Whale
 Animal,Woodpecker
-Clothing/Accessory,Backpack
-Clothing/Accessory,Baseball Cap
-Clothing/Accessory,Belt
-Clothing/Accessory,Bib
-Clothing/Accessory,Bow-Tie
-Clothing/Accessory,Cargo Shorts
-Clothing/Accessory,Chef Hat
-Clothing/Accessory,Crocs
-Clothing/Accessory,Crown
-Clothing/Accessory,Diaper
-Clothing/Accessory,Earrings
-Clothing/Accessory,Eyepatch
-Clothing/Accessory,Glasses
-Clothing/Accessory,Gloves
-Clothing/Accessory,Graduation Cap
-Clothing/Accessory,Headphones
-Clothing/Accessory,High-Heels
-Clothing/Accessory,Jacket
-Clothing/Accessory,Monocle
-Clothing/Accessory,Overalls
-Clothing/Accessory,Purse
-Clothing/Accessory,Scarf
-Clothing/Accessory,Sneakers
-Clothing/Accessory,Socks
-Clothing/Accessory,Sombrero
-Clothing/Accessory,Suit
-Clothing/Accessory,Wallet
-Clothing/Accessory,Watch
-Clothing/Accessory,Wedding Dress
 Event,Baby Shower
 Event,Birthday
 Event,Christmas
@@ -206,6 +177,34 @@ Medical,Syringe
 Medical,Thermometer
 Medical,Wheelchair
 Medical,X-Ray
+Outfit,Backpack
+Outfit,Baseball Cap
+Outfit,Belt
+Outfit,Bib
+Outfit,Bow-Tie
+Outfit,Cargo Shorts
+Outfit,Chef Hat
+Outfit,Crocs
+Outfit,Crown
+Outfit,Diaper
+Outfit,Earrings
+Outfit,Eyepatch
+Outfit,Glasses
+Outfit,Gloves
+Outfit,Graduation Cap
+Outfit,Headphones
+Outfit,High-Heels
+Outfit,Jacket
+Outfit,Monocle
+Outfit,Overalls
+Outfit,Purse
+Outfit,Scarf
+Outfit,Sneakers
+Outfit,Socks
+Outfit,Sombrero
+Outfit,Suit
+Outfit,Wallet
+Outfit,Watch
 Person,Actor
 Person,Artist
 Person,Astronaut
