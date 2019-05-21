@@ -229,7 +229,7 @@ const GamePrecond = {
 	},
 	roomIsNotFull(room) {
 		if(room.isFull()) {
-			throw new GameError(`Room ${room.roomCode} is full`, 'Room unavailable');
+			throw new GameError(`Room ${room.roomCode} is full`, 'This room is full');
 		}
 	},
 	lobbyIsNotFull() {
