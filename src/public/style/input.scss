@@ -16,9 +16,9 @@
 		min-width: 170px;
 	}
 	&:disabled {
-		border-color: var(--beige2);
+		border-color: var(--grey1);
 		background-color: white;
-		color: var(--beige4);
+		color: var(--grey3);
 		cursor: default;
 	}
 	&.primary:not(:disabled) {
@@ -80,10 +80,13 @@ input[type="text"], input[type="tel"], input[type="number"] {
 	line-height: 40px;
 	text-align: center;
 	margin: 10px 0;
-	color: var(--beige6);
+	color: var(--grey7);
 	font-weight: normal;
 	&:invalid {
 		box-shadow: none;
+	}
+	&::placeholder {
+		opacity: 0.5;
 	}
 }
 

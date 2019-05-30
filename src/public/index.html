@@ -5,7 +5,7 @@
 		<title>Fake Artist Online</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content=
-			"An online multiplayer aid for Oink Games' tabletop game, A Fake Artist Goes to New York. Draw with your phone or a mouse." />
+			"An online game based on Oink Games' &quot;A Fake Artist Goes to New York&quot;. Draw with your phone or a mouse." />
 		<meta name="google-site-verification" content="y94kNDTuNomc5PXYaXolDC6Xu-TJVn3z32Sr_I7z2Dg" />
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
@@ -18,39 +18,28 @@
 	<body>
 		<div id="wrapper" class="light-theme">
 
-			<div id="home" v-if="state.view === 'home'">
-				<div id="title-banner" class="stripe normal-text align-center">
-					<div class="stripe-content">
-						<h1>Fake Artist Online</h1>
-						<p>An online multiplayer aid for Oink Games' tabletop game, <em>A Fake Artist Goes to New York</em>.</p>
+			<div id="home" class="view" v-if="state.view === 'home'">
+				<div class="view-container">
+					<div id="title-banner" class="stripe align-center">
+						<div class="stripe-content">
+							<h1>Fake Artist Online</h1>
+						</div>
 					</div>
-				</div>
-				<div class="stripe flex-center align-center">
-					<home-menu :initial-username="state.username" :create-warning="state.createWarning" :join-warning="state.joinWarning"></home-menu>
-				</div>
-				<div class="stripe">
-					<div id="rules" class="stripe-content align-left normal-text">
-						<h2>Rules</h2>
-						<p>A group of artists must work together to find the one <strong>fake artist</strong> among them, while that person tries to avoid detection.</p>
-						<p>Each round, all artists receive a random keyword and its hint/category, e.g. <span>"Apple (Food)".</span></p>
-						<p>But the faker <em>only receives the hint</em>.</p>
-						<p>Players take turns drawing single strokes on the drawing pad. After every player has drawn twice, everyone votes on who they think the fake artist is.</p>
-						<p>The fake artist has to bluff their way through the drawing, while the artists try to draw enough to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
-						<p>And even if the fake artist gets caught at the end, if they're able to correctly guess the keyword, <em>they still win!</em></p>
+					<div class="stripe flex-center">
+						<home-menu :initial-username="state.username" :create-warning="state.createWarning" :join-warning="state.joinWarning"></home-menu>
 					</div>
-				</div>
-				<div class="stripe">
-					<div id="about" class="stripe-content align-left normal-text">
-						<h2>About</h2>
-						<p>This is an unofficial hobby project, and a continual WIP. You might encounter bugs.</p>
-						<p>Please use a modern browser!</p>
-						<p>Right now, there's no built-in voting system.</p>
-						<p><a href="https://github.com/kcgidw/fao">Github</a></p>
-						<p><a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york">Official game</a> by Oink Games</p>
-						<p>Send bugs or feedback: <em>fakeartistonline@gmail.com</em></p>
+					<div class="stripe">
+						<div id="about-content" class="stripe-content normal-text align-center">
+							<p>Fake Artist Online is based on Oink Games' tabletop game, <a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york">A Fake Artist Goes to New York</a>.</p>
+							<p>This project is a continual WIP. Please use a modern browser!</p>
+							<p>Send bugs or feedback: <em>fakeartistonline@gmail.com</em></p>
+							<p><a href="https://github.com/kcgidw/fao">Github</a></p>
+						</div>
 					</div>
 				</div>
 			</div>
+
+			<rules-view v-if="state.view === 'rules'"></rules-view>
 
 			<setup-view v-if="state.view === 'setup'" :room-code="state.gameState === undefined ? undefined : state.gameState.roomCode" :usernames="usernames"></setup-view>
 
@@ -59,9 +48,8 @@
 		</div>
 
 		<script src="./js/index.bundle.min.js" crossorigin></script>
-		<link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Niramit" rel="stylesheet">
-		<!-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->
+		<link href="https://fonts.googleapis.com/css?family=Poppins:500,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Niramit:500,700&display=swap" rel="stylesheet">
 	</body>
 
 </html>

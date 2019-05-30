@@ -10,6 +10,7 @@ const Store = {
 	state: {
 		username: '',
 		view: VIEW.HOME,
+		previousView: VIEW.HOME,
 		gameState: undefined,
 		createWarning: undefined,
 		joinWarning: undefined,
@@ -19,6 +20,7 @@ const Store = {
 		this.state.username = username;
 	},
 	setView(view) {
+		this.state.previousView = this.state.view;
 		this.state.view = view;
 	},
 	setGameState(newGameState) {

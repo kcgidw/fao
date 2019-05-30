@@ -6,29 +6,25 @@
 }
 
 html, body {
+	height: 100%;
 	font-family: var(--body-font);
 	margin: 0 0;
-	font-size: 15px;
+	font-size: 16px;
+
 	font-weight: normal;
 	line-height: 1.35;
 }
-
 #wrapper {
-	height: calc(100% - 20px);
-
+	height: 100%;
 	&.light-theme {
 		background-color: white;
-		color: var(--beige6);
-	}
-	&.dark-theme {
-		background-color: var(--grey9);
-		color: var(--grey3);
+		color: var(--grey5);
 	}
 }
 
 h1, h2, h3 {
 	font-family: var(--header-font);
-	color: var(--beige7);
+	color: var(--grey7);
 }
 h1 {
 	font-size: 36px;
@@ -39,7 +35,7 @@ h1 {
 	}
 }
 h2 {
-	font-size: 20px;
+	font-size: 22px;
 	margin: 5px 5px 10px 5px;
 }
 h3 {
@@ -72,7 +68,7 @@ p, ul {
 div.normal-text :not(:last-child) { /* normal-text identifies a section of both header and text */
 	margin-bottom: 10px; /* paragraph break */
 }
-p em, p strong, p span {
+p em, p strong, p span, p a {
 	white-space: nowrap;
 }
 a {
@@ -87,7 +83,7 @@ ul {
 	font-style: italic;
 }
 .tip {
-	color: var(--beige5);
+	color: var(--grey4);
 }
 .disconnected {
 	color: red;
@@ -124,10 +120,6 @@ hr {
 .fill-space {
 	flex: 1;
 }
-#home-menu {
-	min-height: 200px;
-	margin: 10px 0; /* some extra breathing space for the menu */
-}
 
 /* hero patterns */
 .bg-dots {
@@ -137,6 +129,28 @@ hr {
 .bg-texture {
 	background-color: #ffffff;
 	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23e5007e' fill-opacity='0.2' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.view {
+    height: 100%;
+    display: flex;
+	flex-direction: column;
+
+	// Instead of using 'justify-content: center', use auto margin.
+	// The former leads to weird overflow behavior, until browsers support 'safe center'
+	.view-container {
+		margin: auto;
+	}
+}
+#home {
+	#home-menu {
+		min-height: 240px;
+		margin: 10px 0; /* some extra breathing space for the menu */
+	}
+	#about-content {
+		font-size: 14px; 
+		line-height: 1.2;
+	}
 }
 
 /* ============================================================================
@@ -160,6 +174,7 @@ div#room-setup {
 	li {
 		font-weight: bold;
 		font-family: var(--header-font);
+		color: var(--grey7);
 		line-height: 1.4;
 	}
 }

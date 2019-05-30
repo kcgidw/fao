@@ -1,49 +1,51 @@
 <template>
 <div id="in-game" class="view">
-	<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
-	<confirmation id="confirm-skip-dialog" v-show="skipRoundConfirmationDialogVisible" @close="hideSkipRoundConfirmationDialog" @confirm="skip">
-		<h3>Skip This Round</h3>
-		<div>
-			This will end the current round.
-		</div>
-	</confirmation>
-	<confirmation id="confirm-setup-dialog" v-show="setupConfirmationDialogVisible" @close="hideSetupConfirmationDialog" @confirm="setup">
-		<h3>Exit to Setup</h3>
-		<div>
-			By returning to setup, you can add/remove players.
-			<br>
-			This will end the current round.
-		</div>
-	</confirmation>
-	<div class="stripe">
-		<div id="game-info" class="stripe-content canvas-aligned">
-			<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
-			<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
-		</div>
-	</div>
-	<div class="stripe flex-center">
-		<div id="drawing-pad" class="stripe-content">
-			<connection-overlay :gameConnection="gameConnection"></connection-overlay>
-			<canvas id="new-paint"
-				touch-action="none"
-				@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
-			></canvas>
-			<canvas id="old-paint"></canvas>
-		</div>
-	</div>
-	<div id="drawing-actions" class="stripe flex-center">
-		<div class="stripe-content flex-center canvas-aligned">
-			<div id="drawing-actions-right" class="fill-space">
+	<div class="view-container">
+		<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
+		<confirmation id="confirm-skip-dialog" v-show="skipRoundConfirmationDialogVisible" @close="hideSkipRoundConfirmationDialog" @confirm="skip">
+			<h3>Skip This Round</h3>
+			<div>
+				This will end the current round.
 			</div>
-			<div id="drawing-actions-center">
-				<button class="btn primary big" @click="newRound" v-show="roundOver" :disabled="!roundOver">
-						New Round
-				</button>
-				<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
-				<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+		</confirmation>
+		<confirmation id="confirm-setup-dialog" v-show="setupConfirmationDialogVisible" @close="hideSetupConfirmationDialog" @confirm="setup">
+			<h3>Exit to Setup</h3>
+			<div>
+				By returning to setup, you can add/remove players.
+				<br>
+				This will end the current round.
 			</div>
-			<div id="drawing-actions-left" class="fill-space">
-				<game-menu :items="menuItems"></game-menu>
+		</confirmation>
+		<div class="stripe">
+			<div id="game-info" class="stripe-content canvas-aligned">
+				<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
+				<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
+			</div>
+		</div>
+		<div class="stripe flex-center">
+			<div id="drawing-pad" class="stripe-content">
+				<connection-overlay :gameConnection="gameConnection"></connection-overlay>
+				<canvas id="new-paint"
+					touch-action="none"
+					@pointerdown="pdown" @pointermove="pmove" @pointerup="endStroke" @pointerout="endStroke"
+				></canvas>
+				<canvas id="old-paint"></canvas>
+			</div>
+		</div>
+		<div id="drawing-actions" class="stripe flex-center">
+			<div class="stripe-content flex-center canvas-aligned">
+				<div id="drawing-actions-right" class="fill-space">
+				</div>
+				<div id="drawing-actions-center">
+					<button class="btn primary big" @click="newRound" v-show="roundOver" :disabled="!roundOver">
+							New Round
+					</button>
+					<button class="btn primary submit-drawing" @click="submit" v-show="!roundOver" :disabled="!actionsEnabled">Submit</button>
+					<button class="btn secondary undo-drawing" @click="undo" v-show="!roundOver" :disabled="!actionsEnabled">Undo</button>
+				</div>
+				<div id="drawing-actions-left" class="fill-space">
+					<game-menu :items="menuItems"></game-menu>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -52,6 +54,7 @@
 
 <script>
 const Store = require('./state');
+const VIEW = require('./view');
 const Layer = require('./layer');
 const RelativePoint = require('../../common/relative-point');
 const GAME_PHASE = require('../../common/game-phase');
@@ -150,6 +153,12 @@ export default {
 					text: 'break1',
 					hr: true,
 				}, {
+				// 	text: 'Rules',
+				// 	action: this.rules,
+				// }, {
+				// 	text: 'break2',
+				// 	hr: true,
+				// }, {
 					text: 'Skip this round',
 					action: this.showSkipRoundConfirmationDialog,
 				}, {
@@ -165,7 +174,7 @@ export default {
 			return `${this.gameState.keyword} (${this.gameState.hint})`;
 		},
 		whoseTurnText() {
-			return this.gameState.phase === GAME_PHASE.VOTE ? 'Voting time!' : `${this.gameState.whoseTurn}'s turn`;
+			return this.gameState.phase === GAME_PHASE.VOTE ? 'Time to vote!' : `${this.gameState.whoseTurn}'s turn`;
 		},
 		userColor() {
 			return this.gameState.getUserColor(this.gameState.whoseTurn);
@@ -299,6 +308,9 @@ export default {
 		hidePlayerStatuses() {
 			this.playerStatusesDialogVisible = false;
 		},
+		rules() {
+			Store.setView(VIEW.RULES);
+		}
 	},
 	mounted() {
 		this.$nextTick(function() {

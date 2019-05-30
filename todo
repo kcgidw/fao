@@ -1,14 +1,14 @@
+rules option in-game, make sure resuming works after updates to game state
 validate against incompatible browsers or devices
 prevent long prompts from making webapp scroll
-dark theme
-l10n support
-consistent imports
-more setup options
-
 voting system
+consistent imports
+
+more setup options
+l10n support
 more tests
+dark theme
 
 game-master mode (prompt selection, kicking rights)
-more css transitions on desktop
 join via url
 colorblind aids
