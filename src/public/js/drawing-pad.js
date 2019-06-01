@@ -46,7 +46,7 @@ const drawingPad = {
 		this[Layer.TOP].canvas.style.height = targetHeight + 'px';
 		this[Layer.BOTTOM].canvas.style.height = targetHeight + 'px';
 		Array.from(document.getElementsByClassName('canvas-aligned')).forEach((el) => {
-			el.style.width = (this.canvasWidth + 40) + 'px';
+			el.style.width = (this.canvasWidth) + 'px';
 		});
 
 		this.strokeWidth = BASE_STROKE_WIDTH * this.canvasWidth / MAX_CANVAS_W;

@@ -1,6 +1,5 @@
 rules option in-game, make sure resuming works after updates to game state
 validate against incompatible browsers or devices
-prevent long prompts from making webapp scroll
 voting system
 consistent imports
 
