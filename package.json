@@ -9,9 +9,9 @@
   "scripts": {
     "test": "mocha --exit",
     "build": "webpack --env.production && npm run sass",
-    "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
+    "webpack-w": "webpack --env.development -w --debug --output-path-info --display-modules",
     "sass": "node-sass src/public/style/style.scss src/public/style/style.css --output-style compressed",
-    "sass-dev": "sass --watch src/public/style/style.scss:src/public/style/style.css --style compressed",
+    "sass-w": "sass --watch src/public/style/style.scss:src/public/style/style.css --style compressed",
     "start": "node ./src/server/main.js"
   },
   "author": "",

@@ -5,7 +5,7 @@ const HEX = {
 	'BLUE':		'#0066cc',
 	'PURPLE':	'#5500cc',
 	'ORANGE':	'#f28900',
-	'LIME':		'#89e500', 
+	'LIME':		'#89e500',
 	'TEAL':		'#00bf8f',
 	'BROWN':	'#a56729',
 	'MAGENTA':	'#cc0070',
