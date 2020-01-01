@@ -39,8 +39,8 @@
 		"no-dupe-keys": "warn",
 		"semi": "warn",
 		"comma-dangle": ["warn", {
-			"arrays": "ignore",
-			"objects": "ignore"
+			"arrays": "always",
+			"objects": "always"
 		}]
 	}
 }

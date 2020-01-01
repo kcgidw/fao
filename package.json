@@ -7,6 +7,7 @@
   "description": "",
   "main": "src/server/main.js",
   "scripts": {
+    "clean": "rm src/public/js/*.min.* src/public/style/*.bundle.*",
     "test": "mocha --exit",
     "build": "webpack --env.production --output-path-info --display-modules",
     "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
@@ -35,7 +36,7 @@
     "sass-loader": "^8.0.0",
     "socket.io": "^2.1.1",
     "source-map-loader": "^0.2.3",
-    "uglifyjs-webpack-plugin": "^2.2.0",
+    "terser-webpack-plugin": "^2.3.1",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.30.0",

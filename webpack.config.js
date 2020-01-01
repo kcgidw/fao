@@ -1,6 +1,6 @@
 const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CssExtractPlugin = require('mini-css-extract-plugin');
 const _ = require('lodash');
@@ -9,24 +9,26 @@ const _ = require('lodash');
 module.exports = (env) => {
 	const config = {
 		entry: [
-			path.resolve(__dirname, 'src', 'public', 'js', 'client.js')
+			path.resolve(__dirname, 'src', 'public', 'js', 'client.js'),
 		],
+
 		output: {
 			path: path.resolve(__dirname, 'src', 'public', 'js'),
-			filename: 'index.bundle.min.js'
+			filename: 'index.bundle.min.js',
 		},
+
 		module: {
 			rules: [
 				{
 					test: /\.vue$/,
-					loader: 'vue-loader'
+					loader: 'vue-loader',
 				},
 				{
 					test: /\.js$/,
 					exclude: /node_modules/,
 					use: [
 						{
-							loader: 'source-map-loader'
+							loader: 'source-map-loader',
 						},
 						{
 							loader: 'babel-loader',
@@ -39,11 +41,11 @@ module.exports = (env) => {
 										// 	"useBuiltIns": "entry",
 										// 	'corejs': 3
 										// }
-									]
+									],
 								],
-							}
+							},
 						},
-					]
+					],
 				},
 				{
 					test:  /\.(sa|sc|c)ss$/,
@@ -55,27 +57,34 @@ module.exports = (env) => {
 							loader: "css-loader",
 							options: {
 								sourceMap: true,
-							}
+							},
 						},
 						{
 							loader: 'sass-loader',
 							options: {
 								sourceMap: true,
-							}
-						}
-					]
+							},
+						},
+					],
 				},
 			],
 		},
+
 		resolve: {
-			extensions: [".js", ".json", ".vue"],
+			extensions: [".js", ".json", ".vue",],
 		},
+
+		optimization: {
+			minimize: true,
+			minimizer: [new TerserPlugin({sourceMap: true,}),],
+		},
+
 		plugins: [
 			new CompressionPlugin(),
 			new VueLoaderPlugin(),
 			new CssExtractPlugin({
 				filename: '../style/style.bundle.css',
-				ignoreOrder: false
+				ignoreOrder: false,
 			}),
 		],
 	};
@@ -84,13 +93,10 @@ module.exports = (env) => {
 		_.merge(config, {
 			mode: 'production',
 			stats: 'minimal',
-			optimization: {
-				minimize: true,
-				minimizer: [new UglifyJsPlugin({sourceMap: true}),]
-			},
 			externals: {
-				'vue': 'Vue', // importing 'vue' to resolve to external cdn
-			}
+				// 'vue' to resolve to external cdn
+				'vue': 'Vue',
+			},
 		});
 	} else if(env.development) {
 		_.merge(config, {
@@ -98,9 +104,10 @@ module.exports = (env) => {
 			devtool: 'source-map',
 			resolve: {
 				alias: {
-					'vue$': 'vue/dist/vue.js', // importing 'vue' to reference local development version (allows for vue devtools)
-				}
-			}
+					// 'vue' to reference local development version (allows for vue devtools)
+					'vue$': 'vue/dist/vue.js',
+				},
+			},
 		});
 	} else {
 		throw new Error('Bad webpack env');
