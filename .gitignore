@@ -4,9 +4,5 @@ package-lock.json
 .vscode/
 .env
 *.log
-*.bundle.js
-*.min.js
-*.gz
-*.js.map
-*.css.map
-style.css
+*.bundle.*
+*.min.*

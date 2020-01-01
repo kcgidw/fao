@@ -2,13 +2,13 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CssExtractPlugin = require('mini-css-extract-plugin');
 const _ = require('lodash');
 // require('@babel/polyfill'); corejs polyfill
 
 module.exports = (env) => {
 	const config = {
 		entry: [
-			// '@babel/polyfill', corejs polyfill
 			path.resolve(__dirname, 'src', 'public', 'js', 'client.js')
 		],
 		output: {
@@ -46,10 +46,23 @@ module.exports = (env) => {
 					]
 				},
 				{
-					test: /\.css$/,
+					test:  /\.(sa|sc|c)ss$/,
 					use: [
-						'vue-style-loader',
-						'css-loader',
+						{
+							loader: CssExtractPlugin.loader,
+						},
+						{
+							loader: "css-loader",
+							options: {
+								sourceMap: true,
+							}
+						},
+						{
+							loader: 'sass-loader',
+							options: {
+								sourceMap: true,
+							}
+						}
 					]
 				},
 			],
@@ -60,6 +73,10 @@ module.exports = (env) => {
 		plugins: [
 			new CompressionPlugin(),
 			new VueLoaderPlugin(),
+			new CssExtractPlugin({
+				filename: '../style/style.bundle.css',
+				ignoreOrder: false
+			}),
 		],
 	};
 

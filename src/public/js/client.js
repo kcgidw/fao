@@ -6,6 +6,7 @@ const VIEW = require('./view');
 const Store = require('./state');
 
 import Vue from 'vue';
+import '../style/style.scss';
 
 import HomeMenu from './home-menu.vue';
 import SetupView from './setup-view.vue';
