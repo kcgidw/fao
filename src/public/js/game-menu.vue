@@ -16,7 +16,7 @@
     </div>
 </template>
 <script>
-const Store = require('./state');
+import Store from './state';
 export default {
 	name: 'GameMenu',
 	props: {

@@ -1,4 +1,4 @@
-const { negligible } = require("./util");
+import {negligible} from './util';
 
 /*
 X-Y points with values ranging (0, 0) to (1.0, 1.0)
@@ -13,4 +13,4 @@ class RelativePoint {
 	}
 }
 
-module.exports = RelativePoint;
+export default RelativePoint;

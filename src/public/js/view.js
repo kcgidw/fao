@@ -5,4 +5,4 @@ const VIEW = {
 	'RULES': 'rules',
 };
 
-module.exports = VIEW;
+export default VIEW;

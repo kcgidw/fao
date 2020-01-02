@@ -1,8 +1,11 @@
-const path = require('path');
-const http = require('http');
-const express = require('express');
-const SocketIO = require('socket.io');
-const compress = require('compression');
+import * as path from 'path';
+import http from 'http';
+import express from 'express';
+import SocketIO from 'socket.io';
+import compress from 'compression';
+import handleSockets from './socket-handler.js';
+import { loadedPrompts } from './prompt-api.js';
+import __dirname from './dirname.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -12,14 +15,13 @@ const io = SocketIO(httpServer);
 
 function startServer() {
 	return new Promise(function(resolve, reject) {
-		require('./socket-handler')(io); // socket.io app logic
+		handleSockets(io); // socket.io app logic
 
 		app.use(compress()); // gzip responses
 
 		app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
-		const Prompts = require('./prompts');
-		Prompts.getPrompts.then((outputs) => {
+		loadedPrompts.then((outputs) => {
 			console.log(`Prompts loaded. Counted ${outputs.length} prompts`);
 			httpServer.listen(port, function() {
 				console.log(`httpServer listening on port ${port}`);
@@ -29,4 +31,4 @@ function startServer() {
 	});
 }
 
-module.exports = startServer();
+export default startServer();

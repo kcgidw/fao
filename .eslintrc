@@ -18,6 +18,7 @@
 		"Vue": false
 	},
 	"extends": ["plugin:vue/essential"],
+	"ignorePatterns": ["*.bundle.*"],
 	"rules": {
 		"func-names": 0,
 		"space-before-function-paren": ["warn", "never"],
@@ -31,7 +32,7 @@
 		"no-param-reassign": 0,
 		"no-const-assign": "warn",
 		"no-this-before-super": "warn",
-		"no-undef": "warn",
+		"no-undef": "error",
 		"no-unreachable": "warn",
 		"no-unused-vars": "off",
 		"constructor-super": "warn",
@@ -39,8 +40,9 @@
 		"no-dupe-keys": "warn",
 		"semi": "warn",
 		"comma-dangle": ["warn", {
-			"arrays": "always",
-			"objects": "always"
+			"arrays": "never",
+			"objects": "always-multiline",
+			"exports": "always-multiline"
 		}]
 	}
 }

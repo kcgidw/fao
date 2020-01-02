@@ -5,4 +5,4 @@ class Stroke {
 	}
 }
 
-module.exports = Stroke;
+export default Stroke;

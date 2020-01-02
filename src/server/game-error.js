@@ -12,5 +12,4 @@ class GameError {
 		return this.message;
 	}
 }
-
-module.exports = GameError;
+export default GameError;

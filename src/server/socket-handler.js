@@ -1,10 +1,12 @@
-const MESSAGE = require('../common/message');
-const User = require('../common/user');
-const CliAdapter = require('./game-room').ClientAdapter;
-const Schema = require('./schema');
-const Lobby = require('./lobby');
-const GAME_PHASE = require('../common/game-phase');
-const GameError = require('./game-error');
+
+import User from '../common/user.js';
+import { ClientAdapter } from './game-room.js';
+import * as Schema from './schema.js';
+import * as Lobby from './lobby.js';
+import GAME_PHASE from '../common/game-phase.js';
+import GameError from './game-error.js';
+
+import MESSAGE from '../common/message.js';
 
 function debugLog(str) {
 	if (process.env.NODE_ENV !== 'production') {
@@ -47,7 +49,7 @@ const MessageHandlers = {
 
 		io.in(newRoom.roomCode).emit(MESSAGE.CREATE_ROOM, {
 			username: user.name,
-			roomState: CliAdapter.generateStateJson(newRoom),
+			roomState: ClientAdapter.generateStateJson(newRoom),
 		});
 	},
 
@@ -252,12 +254,12 @@ const GamePrecond = {
 		if(room.findUser(username) === undefined) {
 			throw new GameError(`Username ${username} DNE in room ${room.roomCode}`, "This username doesn't exist in this room");
 		}
-	}
+	},
 };
 
 // send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
 function broadcastRoomState(io, room, messageName, addtlProcessFn) {
-	let state = CliAdapter.generateStateJson(room);
+	let state = ClientAdapter.generateStateJson(room);
 	if(addtlProcessFn) {
 		state = addtlProcessFn(state);
 	}
@@ -269,8 +271,8 @@ function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 		return;
 	}
 
-	let artistView = CliAdapter.hideFaker(state);
-	let fakerView = CliAdapter.hideKeyword(state);
+	let artistView = ClientAdapter.hideFaker(state);
+	let fakerView = ClientAdapter.hideKeyword(state);
 
 	for(let u of room.users) {
 		let s = u.socket;
@@ -293,4 +295,4 @@ function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 	}
 }
 
-module.exports = handleSockets;
+export default handleSockets;

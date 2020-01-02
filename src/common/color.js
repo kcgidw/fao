@@ -15,6 +15,6 @@ const HEX = {
 
 const ORDER = ['RED', 'GOLD', 'FOREST', 'BLUE', 'PURPLE', 'ORANGE', 'LIME', 'TEAL', 'BROWN', 'MAGENTA'];
 
-module.exports = {
+export {
 	HEX, ORDER,
 };

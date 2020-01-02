@@ -11,4 +11,4 @@ const MESSAGE = {
 	'RETURN_TO_SETUP': 'RETURN_TO_SETUP',
 };
 
-module.exports = MESSAGE;
+export default MESSAGE;

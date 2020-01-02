@@ -1,5 +1,5 @@
-const GameRoom = require('./game-room').GameRoom;
-const Util = require('../common/util');
+import { GameRoom } from './game-room.js';
+import { randomInt } from '../common/util.js';
 
 const rooms = new Map();
 const ROOMS_LIMIT = 100;
@@ -28,7 +28,7 @@ function teardownRoom(room) {
 function generateRoomCode() {
 	let code = '';
 	for(let i=0; i<ROOM_CODE_LENGTH; i++) {
-		code += ''+Util.randomInt(10);
+		code += ''+randomInt(10);
 	}
 	return code;
 }
@@ -59,6 +59,6 @@ function createRoom() {
 	return rm;
 }
 
-module.exports = {
-	createRoom, getRoomByCode, triggerDelayedRoomTeardown, teardownRoom, isFull
+export {
+	createRoom, getRoomByCode, triggerDelayedRoomTeardown, teardownRoom, isFull,
 };

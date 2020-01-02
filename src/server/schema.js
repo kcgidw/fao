@@ -1,7 +1,7 @@
-const MESSAGE = require('../common/message');
-const Ajv = require('ajv');
+import Ajv from 'ajv';
+import MESSAGE from '../common/message.js';
+import GameError from './game-error.js';
 const ajv = new Ajv();
-const GameError = require('./game-error');
 
 const usernameMinLength = 1, usernameMaxLength = 20;
 
@@ -31,8 +31,8 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 			minLength: 1,
 		},
 		rejoin: {
-			type: 'boolean'
-		}
+			type: 'boolean',
+		},
 	},
 	required: ['username', 'roomCode'],
 };
@@ -89,6 +89,6 @@ function validateMessageFromClient(messageName, json) {
 	return res;
 }
 
-module.exports = {
-	validateMessageFromClient
+export {
+	validateMessageFromClient,
 };

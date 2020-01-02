@@ -1,9 +1,9 @@
-const Stroke = require('../common/stroke');
-const GAME_PHASE = require('../common/game-phase');
-const Util = require('../common/util');
-const Prompts = require('./prompts');
-const _ = require('lodash');
-const GameError = require('./game-error');
+import _ from 'lodash';
+import GAME_PHASE from '../common/game-phase.js';
+import GameError from './game-error.js';
+import Stroke from '../common/stroke.js';
+import * as Util from '../common/util.js';
+import * as Prompts from './prompt-api.js';
 
 const MAX_USERS = 10;
 
@@ -113,7 +113,10 @@ const ClientAdapter = {
 	generateStateJson(gameRoom, pickFields) {
 		let res = {
 			roomCode: gameRoom.roomCode,
-			users: _.map(gameRoom.users, (u) => ({name: u.name, connected: u.connected})),
+			users: _.map(gameRoom.users, (u) => ({
+				name: u.name,
+				connected: u.connected,
+			})),
 			round: gameRoom.round,
 			phase: gameRoom.phase,
 			turn: gameRoom.turn,
@@ -140,6 +143,6 @@ const ClientAdapter = {
 	},
 };
 
-module.exports = {
+export {
 	GameRoom, ClientAdapter,
 };

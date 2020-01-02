@@ -1,16 +1,14 @@
-// const assert = require('assert');
-const chai = require('chai');
-const assert = chai.assert;
-const io = require('socket.io-client');
-const MESSAGE = require('../src/common/message');
-const A = require('async');
-const GAME_PHASE = require('../src/common/game-phase');
+import { assert } from 'chai';
+import io from 'socket.io-client';
+import MESSAGE from '../src/common/message';
+import A from 'async';
+import GAME_PHASE from '../src/common/game-phase';
 
 describe('Test Suite', function() {
 	let sock1, sock2, sock3;
 
 	beforeEach(function(done) {
-		require('../src/server/main')
+		import('../src/server/server.js')
 			.then(function() {
 				sock1 = io('http://localhost:3000');
 				sock2 = io('http://localhost:3000');

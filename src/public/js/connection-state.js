@@ -3,4 +3,4 @@ const CONNECTION_STATE = {
 	'RECONNECT': 'RECONNECT',
 	'DISCONNECT': 'DISCONNECT',
 };
-module.exports = CONNECTION_STATE;
+export default CONNECTION_STATE;

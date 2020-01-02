@@ -5,8 +5,8 @@
 </template>
 
 <script>
-const Store = require('./state');
-const CONNECTION_STATE = require(`./connection-state`);
+import Store from './state';
+import CONNECTION_STATE from './connection-state';
 
 export default {
 	name: `ConnectionOverlay`,

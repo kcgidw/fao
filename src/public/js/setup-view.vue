@@ -39,8 +39,8 @@
 </template>
 
 <script>
-const Store = require('./state');
-const VIEW = require('./view');
+import Store from './state';
+import VIEW from './view';
 import Confirmation from './confirmation';
 export default {
 	name: 'SetupView',

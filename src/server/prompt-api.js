@@ -1,17 +1,17 @@
-const path = require('path');
-const fs = require('fs');
-const parse = require('csv-parse');
-const Util = require('../common/util');
+import fs from 'fs';
+import * as path from 'path';
+import parse from 'csv-parse';
+import { randomItemFrom } from '../common/util.js';
+import __dirname from './dirname.js';
 
 const filename = path.resolve(__dirname, 'prompts.csv');
 
 let prompts;
-let getPrompts = new Promise(function(resolve, reject) {
+let loadedPrompts = new Promise(function(resolve, reject) {
 	fs.readFile(filename, function(err, fileData) {
 		parse(fileData, {columns: true, trim: true}, function(err, output) {
 			if(err) {
 				throw err;
-				// reject(err);
 			} else {
 				prompts = output;
 				validatePromptHeaders(prompts);
@@ -34,9 +34,10 @@ function getRandomPrompt() {
 	if(prompts === undefined) {
 		console.error('No prompts found');
 	}
-	return Util.randomItemFrom(prompts);
+	return randomItemFrom(prompts);
 }
 
-module.exports = {
-	getPrompts, getRandomPrompt
+export {
+	loadedPrompts,
+	getRandomPrompt,
 };

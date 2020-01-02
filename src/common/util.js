@@ -7,7 +7,7 @@ function randomItemFrom(arr) {
 	return arr[idx];
 }
 
-// thanks stackOverflow
+// thanks StackOverflow
 function shuffle(array) {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
@@ -31,11 +31,11 @@ function negligible(a, b, thresh = 0.0001) {
 	return Math.abs(a - b) < thresh;
 }
 
-module.exports = {
+export {
 	randomInt,
 	randomItemFrom,
 	shuffle,
 	validateUsername,
 	capitalize,
-	negligible
+	negligible,
 };

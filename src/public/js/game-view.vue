@@ -53,16 +53,17 @@
 </template>
 
 <script>
-const Store = require('./state');
-const VIEW = require('./view');
-const Layer = require('./layer');
-const RelativePoint = require('../../common/relative-point');
-const GAME_PHASE = require('../../common/game-phase');
-const CONNECTION_STATE = require('./connection-state');
+import Store from './state';
+import VIEW from './view';
+import Layer from './layer';
+import RelativePoint from '../../common/relative-point';
+import GAME_PHASE from '../../common/game-phase';
+import CONNECTION_STATE from './connection-state';
 import ConnectionOverlay from './connection-overlay';
 import GameMenu from './game-menu';
 import PlayerStatuses from './player-statuses';
 import Confirmation from './confirmation';
+import drawingPad from './drawing-pad';
 
 const CanvasState = {
 	EMPTY: 'EMPTY',
@@ -71,7 +72,6 @@ const CanvasState = {
 	SPECTATE: 'SPECTATE',
 };
 
-const drawingPad = require('./drawing-pad');
 
 const strokeTracker = {
 	points: [],

@@ -2,18 +2,19 @@
   "name": "fake-artist-online",
   "version": "1.0.0",
   "engines": {
-    "node": "^10.14.0"
+    "node": "^13.0.0"
   },
+  "type": "module",
   "description": "",
-  "main": "src/server/main.js",
+  "main": "src/server/server.js",
   "scripts": {
     "clean": "rm src/public/js/*.min.* src/public/style/*.bundle.*",
-    "test": "mocha --exit",
+    "test": "mocha --exit --require esm",
     "build": "webpack --env.production --output-path-info --display-modules",
     "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
     "sass": "node-sass src/public/style/style.scss src/public/style/style.css --output-style compressed",
     "sass-w": "sass --watch src/public/style/style.scss:src/public/style/style.css --style compressed",
-    "start": "node ./src/server/main.js"
+    "start": "node ./src/server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -51,10 +52,11 @@
     "@types/socket.io": "^1.4.40",
     "@types/socket.io-client": "^1.4.32",
     "async": "^2.6.2",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.2.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-vue": "^6.1.2",
+    "esm": "^3.2.25",
     "mocha": "^5.2.0",
     "vue": "^2.6.10"
   }

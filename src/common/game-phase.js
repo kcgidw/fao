@@ -5,4 +5,4 @@ const GAME_PHASE = {
 	'VOTE': 'VOTE',
 };
 
-module.exports = GAME_PHASE;
+export default GAME_PHASE;

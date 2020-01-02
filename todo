@@ -3,12 +3,10 @@ rejoin game after leaving
 rules option in-game, make sure resuming works after updates to game state
 validate against incompatible browsers or devices
 voting system
-consistent imports
 
 more setup options
 l10n support
 more tests
-dark theme
 
 game-master mode (prompt selection, kicking rights)
 join via url

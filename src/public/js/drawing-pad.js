@@ -1,5 +1,5 @@
-const Layer = require('./layer');
-const RelativePoint = require('../../common/relative-point');
+import Layer from './layer';
+import RelativePoint from '../../common/relative-point';
 
 /* Canvas scaling */
 const HEIGHT_RATIO = 8/6;
@@ -77,4 +77,4 @@ const drawingPad = {
 	},
 };
 
-module.exports = drawingPad;
+export default drawingPad;

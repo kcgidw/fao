@@ -1,10 +1,12 @@
-const MESSAGE = require('../../common/message');
+import VIEW from './view';
+import CONNECTION_STATE from './connection-state';
+
+import { generateClientGameState } from '../../common/cli-game';
+import GAME_PHASE from '../../common/game-phase';
+import MESSAGE from '../../common/message';
+import { validateUsername } from '../../common/util';
+
 const socket = io();
-const VIEW = require('./view');
-const ClientGame = require('../../common/cli-game');
-const Util = require('../../common/util');
-const GAME_PHASE = require('../../common/game-phase');
-const CONNECTION_STATE = require('./connection-state');
 
 const Store = {
 	state: {
@@ -33,7 +35,7 @@ const Store = {
 		this.setGameConnection(CONNECTION_STATE.CONNECT);
 
 		if(this.state.gameState === undefined) {
-			this.state.gameState = ClientGame.generateClientGameState();
+			this.state.gameState = generateClientGameState();
 		}
 		this.state.gameState.adoptJson(newGameState);
 
@@ -114,7 +116,7 @@ handleSocket(MESSAGE.RETURN_TO_SETUP);
 const usernameWarning = 'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
 function submitCreateGame(username) {
 	username = username.trim();
-	if(Util.validateUsername(username)) {
+	if(validateUsername(username)) {
 		this.setWarning('createWarning', undefined);
 		socket.emit(MESSAGE.CREATE_ROOM, {
 			username: username,
@@ -127,7 +129,7 @@ function submitCreateGame(username) {
 }
 function submitJoinGame(roomCode, username) {
 	username = username.trim();
-	if(Util.validateUsername(username)) {
+	if(validateUsername(username)) {
 		this.setWarning('joinWarning', undefined);
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
@@ -204,7 +206,7 @@ window.faodbg = {
 	},
 	con() {
 		socket.connect();
-	}
+	},
 };
 
-module.exports = Store;
+export default Store;

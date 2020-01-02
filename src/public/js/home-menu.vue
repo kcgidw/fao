@@ -41,8 +41,8 @@
 </template>
 
 <script>
-const Store = require('./state');
-const VIEW = require('./view');
+import Store from './state';
+import VIEW from './view';
 
 export default {
 	name: 'home-menu',

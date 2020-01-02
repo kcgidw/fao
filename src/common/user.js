@@ -1,8 +1,8 @@
-const Util = require('./util');
+import { validateUsername } from '../common/util.js';
 
 class User {
 	constructor(socket, name) {
-		if(!Util.validateUsername(name)) {
+		if(!validateUsername(name)) {
 			return undefined;
 		}
 
@@ -22,4 +22,4 @@ class User {
 	}
 }
 
-module.exports = User;
+export default User;
