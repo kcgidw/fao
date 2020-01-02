@@ -10,7 +10,7 @@ const socket = io();
 
 const Store = {
 	state: {
-		username: '',
+		username: localStorage.username || '',
 		view: VIEW.HOME,
 		previousView: VIEW.HOME,
 		gameState: undefined,
@@ -20,6 +20,7 @@ const Store = {
 	},
 	setUsername(username) {
 		this.state.username = username;
+		localStorage.username = username;
 	},
 	setView(view) {
 		this.state.previousView = this.state.view;
