@@ -3,18 +3,16 @@
 	<div class="view-container">
 		<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
 		<confirmation id="confirm-skip-dialog" v-show="skipRoundConfirmationDialogVisible" @close="hideSkipRoundConfirmationDialog" @confirm="skip">
-			<h3>Skip This Round</h3>
-			<div>
+			<h3>Skip this Round?</h3>
+			<div class="normal-text"><p>
 				This will end the current round.
-			</div>
+			</p></div>
 		</confirmation>
 		<confirmation id="confirm-setup-dialog" v-show="setupConfirmationDialogVisible" @close="hideSetupConfirmationDialog" @confirm="setup">
-			<h3>Exit to Setup</h3>
-			<div>
-				By returning to setup, you can add/remove players.
-				<br>
-				This will end the current round.
-			</div>
+			<h3>Exit to Setup?</h3>
+			<div class="normal-text"><p>
+				Returning to setup will let you add/remove players. This will end the current round.
+			</p></div>
 		</confirmation>
 		<div class="stripe">
 			<div id="game-info" class="stripe-content canvas-aligned">

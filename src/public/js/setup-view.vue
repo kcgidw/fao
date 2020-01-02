@@ -1,11 +1,11 @@
 <template>
 <div id="room-setup" class="view">
 	<div class="view-container">
-		<confirmation id="confirm-leave" v-show="leaveConfirmationDialogVisible" @close="leaveConfirmationDialogVisible = false" @confirm="leave">
-			<h3>Leave Game</h3>
-			<div>
+		<confirmation id="confirm-leave" confirmText="Leave" v-show="leaveConfirmationDialogVisible" @close="leaveConfirmationDialogVisible = false" @confirm="leave">
+			<h3>Leave game</h3>
+			<div class="normal-text"><p>
 				Are you sure you want to leave this game?
-			</div>
+			</p></div>
 		</confirmation>
 
 		<div class="stripe flex-center align-center game-code">

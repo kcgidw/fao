@@ -11,18 +11,19 @@
 		<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
 		<script src="https://code.jquery.com/pep/0.4.3/pep.min.js"></script>
+		<link href="https://fonts.googleapis.com/css?family=Quicksand:500,700|Catamaran:900&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="style/normalize.css" />
 		<link rel="stylesheet" href="style/style.bundle.css" />
 	</head>
 
 	<body>
-		<div id="wrapper" class="light-theme">
+		<div id="wrapper">
 
 			<div id="home" class="view" v-if="state.view === 'home'">
 				<div class="view-container">
 					<div id="title-banner" class="stripe align-center">
 						<div class="stripe-content">
-							<h1>Fake Artist Online</h1>
+							<h1 class="title">Fake Artist Online</h1>
 						</div>
 					</div>
 					<div class="stripe flex-center">
@@ -48,8 +49,6 @@
 		</div>
 
 		<script src="./js/index.bundle.min.js" crossorigin></script>
-		<link href="https://fonts.googleapis.com/css?family=Poppins:500,700" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Niramit:500,700&display=swap" rel="stylesheet">
 	</body>
 
 </html>

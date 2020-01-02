@@ -10,9 +10,9 @@
     }
     .dialog-window {
         z-index: 10;
-        background-color: white;
+        background-color: var(--grey0);
         border: solid 1px var(--grey1);
-        border-radius: 4px;
+        border-radius: 5px;
         padding: 10px 20px;
         box-shadow: 0px 3px 6px 0px var(--shade);
     }

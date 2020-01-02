@@ -3,8 +3,8 @@
         <slot></slot>
 
 		<template #actions>
-			<button class="btn tertiary" @click="$emit('close')">Cancel</button>
-			<button class="btn primary" @click="$emit('confirm')">Confirm</button>
+			<button class="btn tertiary" @click="$emit('close')">{{cancelText}}</button>
+			<button class="btn primary" @click="$emit('confirm')">{{confirmText}}</button>
 		</template>
 
 	</dialog-component>
@@ -20,6 +20,14 @@ export default {
 		DialogComponent,
 	},
 	props: {
+		cancelText: {
+			type: String,
+			default: 'Cancel',
+		},
+		confirmText: {
+			type: String,
+			default: 'Confirm',
+		},
 	},
 	data() {
 		return {};

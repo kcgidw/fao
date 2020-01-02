@@ -1,9 +1,10 @@
 .btn {
 	font-family: var(--button-font);
 	font-size: 16px;
-	font-weight: 700;
+	letter-spacing: 0.03em;
+	font-weight: 500;
 	border-style: solid;
-	border-radius: 4px;
+	border-radius: 5px;
 	border-width: 2px;
 	min-width: 110px;
 	line-height: 40px;
@@ -17,13 +18,13 @@
 	}
 	&:disabled {
 		border-color: var(--grey1);
-		background-color: white;
+		background-color: var(--grey0);
 		color: var(--grey3);
 		cursor: default;
 	}
 	&.primary:not(:disabled) {
 		background-color: var(--artist4);
-		color: white;
+		color: var(--grey0);;
 		border-color: var(--artist4);
 		@media(any-hover: hover) {
 			&:hover {
@@ -37,7 +38,7 @@
 		}
 	}
 	&.secondary:not(:disabled) {
-		background-color: white;
+		background-color: var(--grey0);;
 		color: var(--blue4);
 		border-color: var(--blue4);
 		@media(any-hover: hover) {
@@ -76,12 +77,12 @@ input[type="text"], input[type="tel"], input[type="number"] {
 	border-style: hidden;
 	border-bottom: solid 2px;
 	border-bottom-color: var(--artist4);
-	background-color: var(--grey0);
+	background-color: var(--grey1);
 	line-height: 40px;
 	text-align: center;
 	margin: 10px 0;
 	color: var(--grey7);
-	font-weight: normal;
+	font-weight: 500;
 	&:invalid {
 		box-shadow: none;
 	}
@@ -93,7 +94,6 @@ input[type="text"], input[type="tel"], input[type="number"] {
 @media screen and (max-width: 425px) {
 	#in-game {
 		.btn {
-			font-size: 15px;
 			padding: 0 5px;
 			margin: 5px;
 

@@ -5,7 +5,7 @@
 	button {
 		border: solid 2px rgba(0,0,0,0);
 		border-radius: 100%;
-		background-color: white;
+		background-color: var(--grey0);
 		color: var(--grey7);
 		line-height: 40px;
 		width: 40px;
@@ -28,11 +28,10 @@
 
 	.dropup-content {
 		border: solid 1px var(--grey1);
-		border-radius: 4px;
-		background-color: white;
+		border-radius: 5px;
+		background-color: var(--grey0);
 		box-shadow: 0px 3px 6px 0px var(--shade);
 		text-align: left;
-		font-size: 13px;
 		position: absolute;
 		bottom: 100%;
 		left: 0;
@@ -45,15 +44,15 @@
 		margin: 0;
 		li {
 			color: var(--grey7);
-			font-family: var(--header-font);
-			border-radius: 4px;
+			font-family: var(--body-font);
+			border-radius: 5px;
 			padding: 10px;
 			cursor: pointer;
 			&:not(:last-child) {
 				margin-bottom: 4px;
 			}
 			&:hover {
-				background-color: var(--grey0);
+				background-color: var(--grey1);
 			}
 		}
 	}
