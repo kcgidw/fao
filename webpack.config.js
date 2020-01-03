@@ -3,6 +3,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const _ = require('lodash');
 // require('@babel/polyfill'); corejs polyfill
 
@@ -13,7 +14,7 @@ module.exports = (env) => {
 		],
 
 		output: {
-			path: path.resolve(__dirname, 'src', 'public', 'js'),
+			path: path.resolve(__dirname, 'dist', 'public', 'js'),
 			filename: 'index.bundle.min.js',
 		},
 
@@ -71,12 +72,12 @@ module.exports = (env) => {
 		},
 
 		resolve: {
-			extensions: [".js", ".json", ".vue",],
+			extensions: [".js", ".json", ".vue"],
 		},
 
 		optimization: {
 			minimize: true,
-			minimizer: [new TerserPlugin({sourceMap: true,}),],
+			minimizer: [new TerserPlugin({sourceMap: true})],
 		},
 
 		plugins: [
@@ -86,6 +87,9 @@ module.exports = (env) => {
 				filename: '../style/style.bundle.css',
 				ignoreOrder: false,
 			}),
+			new CopyWebpackPlugin([
+				{from: 'src/public/index.html', to: '../index.html'},
+			]),
 		],
 	};
 

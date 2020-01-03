@@ -6,3 +6,4 @@ package-lock.json
 *.log
 *.bundle.*
 *.min.*
+dist/

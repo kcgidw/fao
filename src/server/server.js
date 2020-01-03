@@ -5,7 +5,6 @@ import SocketIO from 'socket.io';
 import compress from 'compression';
 import handleSockets from './socket-handler.js';
 import { loadedPrompts } from './prompt-api.js';
-import __dirname from './dirname.js';
 
 const app = express();
 const httpServer = http.createServer(app);

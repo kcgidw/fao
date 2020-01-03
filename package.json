@@ -4,17 +4,17 @@
   "engines": {
     "node": "^13.0.0"
   },
-  "type": "module",
   "description": "",
   "main": "src/server/server.js",
   "scripts": {
-    "clean": "rm src/public/js/*.min.* src/public/style/*.bundle.*",
-    "test": "mocha --exit --require esm",
-    "build": "webpack --env.production --output-path-info --display-modules",
-    "watch": "webpack --env.development -w --debug --output-path-info --display-modules",
-    "sass": "node-sass src/public/style/style.scss src/public/style/style.css --output-style compressed",
-    "sass-w": "sass --watch src/public/style/style.scss:src/public/style/style.css --style compressed",
-    "start": "node ./src/server/server.js"
+    "clean": "rm -rf dist/ src/public/js/*.min.* src/public/style/*.bundle.*",
+    "test": "mocha --exit --require @babel/register",
+    "build": "npm run build-p && npm run build-s",
+    "start": "npm run build-s && npm run start-only",
+    "start-only": "node ./dist/server/server.js",
+    "build-p": "webpack --env.production --output-path-info --display-modules",
+    "watch-p": "webpack --env.development -w --debug --output-path-info --display-modules",
+    "build-s": "babel src/ --ignore public/ --out-dir dist/ --source-maps --copy-files"
   },
   "author": "",
   "license": "ISC",
@@ -33,7 +33,7 @@
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.0",
     "sass-loader": "^8.0.0",
     "socket.io": "^2.1.1",
     "source-map-loader": "^0.2.3",
@@ -44,6 +44,8 @@
     "webpack-cli": "^3.3.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/register": "^7.7.7",
     "@types/async": "^2.4.1",
     "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.1",
@@ -54,6 +56,7 @@
     "async": "^2.6.2",
     "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
+    "copy-webpack-plugin": "^5.1.1",
     "eslint": "^6.8.0",
     "eslint-plugin-vue": "^6.1.2",
     "esm": "^3.2.25",

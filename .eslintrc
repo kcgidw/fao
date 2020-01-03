@@ -40,7 +40,7 @@
 		"no-dupe-keys": "warn",
 		"semi": "warn",
 		"comma-dangle": ["warn", {
-			"arrays": "never",
+			"arrays": "always-multiline",
 			"objects": "always-multiline",
 			"exports": "always-multiline"
 		}]
