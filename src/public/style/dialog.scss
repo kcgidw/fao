@@ -5,19 +5,27 @@
         position: absolute;
         top: 0;
         left: 0;
-        background-color: var(--shade1);
+        background-color: var(--shade);
         z-index: 10;
     }
     .dialog-window {
         z-index: 10;
-        background-color: var(--grey0);
-        border: solid 1px var(--grey1);
-        border-radius: 5px;
+        min-width: 25em;
+        max-width: 35em;
         padding: 10px 20px;
-        box-shadow: 0px 3px 6px 0px var(--shade);
+        display: block;
+        text-align: left;
+        background-color: var(--grey0);
+        border-radius: 5px;
+        box-shadow: 0px 3px 6px var(--shade), 0px 6px 20px var(--shade);
+
+        @media screen and (max-width: 480px) {
+            min-width: 150px;
+        }
     }
     .dialog-actions {
         margin-top: 20px;
+        text-align: right;
     }
 }
 

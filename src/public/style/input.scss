@@ -1,8 +1,8 @@
 .btn {
 	font-family: var(--button-font);
-	font-size: 16px;
 	letter-spacing: 0.03em;
-	font-weight: 500;
+	font-size: 16px;
+	font-weight: 700;
 	border-style: solid;
 	border-radius: 5px;
 	border-width: 2px;
@@ -11,7 +11,7 @@
 	padding: 0 15px;
 	margin: 10px 10px;
 	cursor: pointer;
-	transition: background-color .15s, color .15s, border .15s, box-shadow .15s;
+	transition: box-shadow .15s;
 
 	&.big {
 		min-width: 170px;
@@ -26,6 +26,7 @@
 		background-color: var(--artist4);
 		color: var(--grey0);;
 		border-color: var(--artist4);
+		// box-shadow: 0 3px 5px 0 var(--shade);
 		@media(any-hover: hover) {
 			&:hover {
 				background-color: var(--artist3);
@@ -35,21 +36,24 @@
 		&:active {
 			background-color: var(--artist5);
 			border-color: var(--artist5);
+			// box-shadow: 0 2px 3px 0 var(--shade);
 		}
 	}
 	&.secondary:not(:disabled) {
-		background-color: var(--grey0);;
+		background-color: var(--grey0);
 		color: var(--blue4);
 		border-color: var(--blue4);
+		// box-shadow: 0 3px 5px 0 var(--shade);
 		@media(any-hover: hover) {
 			&:hover {
-				color: var(--blue2);
-				border-color: var(--blue2);
+				color: var(--blue3);
+				border-color: var(--blue3);
 			}
 		}
 		&:active {
 			color: var(--blue5);
 			border-color: var(--blue5);
+			// box-shadow: 0 2px 3px 0 var(--shade);
 		}
 	}
 	&.tertiary {
@@ -64,11 +68,13 @@
 		min-width: 0;
 		@media(any-hover: hover) {
 			&:hover {
-				background-color: var(--grey0);
+				color: var(--blue3);
+				border-bottom: solid 2px var(--blue3);
 			}
 		}
 		&:active {
-			background-color: var(--grey0);
+			color: var(--blue5);
+			border-bottom: solid 2px var(--blue5);
 		}
 	}
 }
@@ -82,7 +88,7 @@ input[type="text"], input[type="tel"], input[type="number"] {
 	text-align: center;
 	margin: 10px 0;
 	color: var(--grey7);
-	font-weight: 500;
+	font-weight: 600;
 	&:invalid {
 		box-shadow: none;
 	}

@@ -1,9 +1,9 @@
 <template>
 	<div id="rules" class="view">
 		<div class="view-container">
-			<div class="stripe flex-center">
+			<div class="stripe">
 				<div id="rules-content" class="stripe-content normal-text">
-					<div class="align-center">
+					<div class="align-left">
 						<h2>Rules</h2>
 					</div>
 					<div class="align-left">
@@ -14,8 +14,8 @@
 						<p>The fake artist has to bluff their way through the drawing. The others need to prove they know the keyword - but draw too obviously, and the fake artist might catch on!</p>
 						<p>If the fake artist is caught, they get a chance to guess the keyword. If they're correct, <em>they still win!</em></p>
 					</div>
-					<div class="align-center">
-						<button class="btn tertiary" @click="back()">Back</button>
+					<div class="align-right">
+						<button class="btn secondary" @click="back()">OK</button>
 					</div>
 				</div>
 			</div>
@@ -31,7 +31,7 @@ export default {
 	methods: {
 		back() {
 			Store.setView(Store.state.previousView);
-		}
+		},
 	},
 };
 </script>

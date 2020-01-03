@@ -5,3 +5,9 @@ An online multiplayer game based on Oink Games' tabletop game, _A Fake Artist Go
 Play on Heroku: https://kc-fakeartistonline.herokuapp.com/
 
 Tech: Vue, Express, Socket.io, Webpack, Mocha
+
+## Develop
+
+Watch-build public: `npm run watch-p`
+
+Build and run server: `npm run start`

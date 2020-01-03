@@ -10,13 +10,17 @@ html, body {
 	margin: 0 0;
 	font-size: 16px;
 
-	font-weight: 500;
+	font-weight: 600;
 	line-height: 1.35;
+
+	@media screen and (max-width: 480px) {
+		font-size: 14px;
+	}
 }
 #wrapper {
 	height: 100%;
 	background-color: var(--grey0);;
-	color: var(--grey5);
+	color: var(--grey6);
 }
 
 h1, h2, h3 {
@@ -33,10 +37,6 @@ h1 {
 }
 h2 {
 	font-size: 20px;
-	margin: 5px 5px 10px 5px;
-}
-h3 {
-	font-size: 16px;
 	margin: 5px 5px 10px 5px;
 }
 h1.title {
@@ -67,12 +67,12 @@ div.chunk-narrow {
 .align-left {
 	text-align: left;
 }
+.align-right {
+	text-align: right;
+}
 
 p, ul {
 	margin: 5px 5px 5px 5px;
-}
-.normal-text {
-	font-size: 14px;
 }
 div.normal-text :not(:last-child) { /* normal-text identifies a section of both header and text */
 	margin-bottom: 10px; /* paragraph break */
@@ -91,16 +91,13 @@ ul {
 	font-size: 12px;
 	font-style: italic;
 }
-.tip {
-	color: var(--grey4);
-}
 .disconnected {
 	color: red;
 }
 
 .error {
 	color: red;
-	font-weight: bold;
+	font-weight: 700;
 }
 div.warning {
 	background-color: var(--gold1);
@@ -108,8 +105,7 @@ div.warning {
 	color: var(--gold5);
 	border-radius: 5px;
 	margin: 10px 80px;
-	padding: 0 10px;
-	font-size: 14px;
+	padding: 5px 15px;
 	display: inline-block; /* Div box width to equal inner content width */
 }
 
@@ -149,6 +145,15 @@ hr {
 		min-height: 240px;
 		margin: 10px 0; /* some extra breathing space for the menu */
 	}
+	#about-content {
+		@media screen and (max-width: 425px){
+			text-align: left;
+		}
+	}
+}
+
+#rules-content {
+	max-width: 30em;
 }
 
 /* ============================================================================
@@ -171,7 +176,7 @@ div#room-setup {
 		margin-top: 0;
 	}
 	li {
-		font-weight: bold;
+		font-weight: 700;
 		font-family: var(--body-font);
 		color: var(--grey7);
 		line-height: 1.4;

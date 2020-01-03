@@ -1,6 +1,6 @@
 <template>
 	<dialog-component id="player-statuses">
-		<h3>Players</h3>
+		<h2>Players</h2>
 		<ul>
 			<li v-for="u in users" :key="'0'+u.name">
 				<svg class="feather color-spot" :style="{color: color(u)}">
@@ -44,6 +44,6 @@ export default {
 		connectionStatusString(user) {
 			return user.connected ? '' : 'Disconnected';
 		},
-	}
+	},
 };
 </script>

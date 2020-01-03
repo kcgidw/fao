@@ -3,13 +3,13 @@
 	<div class="view-container">
 		<player-statuses @close="hidePlayerStatuses" :users="gameState.users" v-show="playerStatusesDialogVisible"></player-statuses>
 		<confirmation id="confirm-skip-dialog" v-show="skipRoundConfirmationDialogVisible" @close="hideSkipRoundConfirmationDialog" @confirm="skip">
-			<h3>Skip this Round?</h3>
+			<h2>Skip this Round?</h2>
 			<div class="normal-text"><p>
 				This will end the current round.
 			</p></div>
 		</confirmation>
 		<confirmation id="confirm-setup-dialog" v-show="setupConfirmationDialogVisible" @close="hideSetupConfirmationDialog" @confirm="setup">
-			<h3>Exit to Setup?</h3>
+			<h2>Exit to Setup?</h2>
 			<div class="normal-text"><p>
 				Returning to setup will let you add/remove players. This will end the current round.
 			</p></div>
@@ -17,7 +17,7 @@
 		<div class="stripe">
 			<div id="game-info" class="stripe-content canvas-aligned">
 				<h1 class="prompt" v-show="promptVisible">{{promptText}}</h1>
-				<h3 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h3>
+				<h2 class="current-turn" :style="{color: userColor}">{{whoseTurnText}}</h2>
 			</div>
 		</div>
 		<div class="stripe flex-center">
@@ -111,7 +111,7 @@ const strokeTracker = {
 	},
 	hasPoints: function() {
 		return this.points.length > 0;
-	}
+	},
 };
 
 export default {
@@ -188,7 +188,7 @@ export default {
 		},
 		roundAndTurn() {
 			return this.gameState.round + '-' + this.gameState.turn;
-		}
+		},
 	},
 	watch: {
 		roundAndTurn() {
@@ -308,7 +308,7 @@ export default {
 		},
 		rules() {
 			Store.setView(VIEW.RULES);
-		}
+		},
 	},
 	mounted() {
 		this.$nextTick(function() {
@@ -320,6 +320,6 @@ export default {
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.resize);
-	}
+	},
 };
 </script>

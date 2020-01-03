@@ -17,12 +17,12 @@
 
 		@media(any-hover: hover) {
 			&:hover {
-				border-color: var(--grey0);
+				border-color: var(--grey1);
 			}
 		}
 		&.expanded {
-			border-color: var(--grey0);
-			background-color: var(--grey0);
+			border-color: var(--grey1);
+			background-color: var(--grey1);
 		}
 	}
 
