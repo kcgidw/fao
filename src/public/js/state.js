@@ -1,9 +1,8 @@
 import VIEW from './view';
 import CONNECTION_STATE from './connection-state';
-
-import { generateClientGameState } from '../../common/cli-game';
 import GAME_PHASE from '../../common/game-phase';
 import MESSAGE from '../../common/message';
+import { generateClientGameState } from '../../common/cli-game';
 import { validateUsername } from '../../common/util';
 
 const socket = io();

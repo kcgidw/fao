@@ -1,5 +1,6 @@
 import { GameRoom } from './game-room.js';
 import { randomInt } from '../common/util.js';
+import debugLog from './debug-log.js';
 
 const rooms = new Map();
 const ROOMS_LIMIT = 100;
@@ -16,13 +17,13 @@ function triggerDelayedRoomTeardown(room) {
 		if(getRoomByCode(room.roomCode) && room.isDead()) {
 			teardownRoom(room);
 		} else {
-			console.log(`Cancel teardown for room-${room.roomCode}`);
+			debugLog(`Cancel teardown for room-${room.roomCode}`);
 		}
 	}, TEARDOWN_DELAY_MS);
 }
 function teardownRoom(room) {
 	rooms.delete(room.roomCode);
-	console.log(`Teardown for room ${room.roomCode}. Room count: ${rooms.size}`);
+	console.log(`Rm${room.roomCode} teardown. Last round: ${room.round}. Room count: ${rooms.size}`);
 }
 
 function generateRoomCode() {
@@ -55,7 +56,7 @@ function createRoom() {
 	let code = generateUniqueRoomCode();
 	let rm = new GameRoom(code);
 	rooms.set(code, rm);
-	console.log(`Created room ${rm.roomCode}. Room count: ${rooms.size}`);
+	console.log(`Rm${rm.roomCode} created. Room count: ${rooms.size}`);
 	return rm;
 }
 

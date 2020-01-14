@@ -5,14 +5,10 @@ import * as Schema from './schema.js';
 import * as Lobby from './lobby.js';
 import GAME_PHASE from '../common/game-phase.js';
 import GameError from './game-error.js';
+import debugLog from './debug-log.js';
 
 import MESSAGE from '../common/message.js';
 
-function debugLog(str) {
-	if (process.env.NODE_ENV !== 'production') {
-		console.log(str);
-	}
-}
 
 function handleSockets(io) {
 	io.on('connection', function(sock) {
@@ -132,7 +128,7 @@ const MessageHandlers = {
 			let room = user.gameRoom;
 			logout(sock);
 			if(room) {
-				console.log(`Disconnect: ${user.logName} from room-${room.roomCode}`);
+				console.log(`Rm${room.roomCode} Disconnect: ${user.logName}`);
 				broadcastRoomState(io, room, MESSAGE.USER_LEFT, (res) => {
 					res.username = user.name;
 					return res;
@@ -168,12 +164,12 @@ function logout(sock) {
 			if(room.phase === GAME_PHASE.SETUP) {
 				// if room has no game yet, remove the user from the room completely
 				room.dropUser(user);
-				console.log(`Left room: ${user.logName}from room-${room.roomCode}`);
+				debugLog(`Rm${room.roomCode} Left room: ${user.logName}`);
 			} else {
 				debugLog(`Logout ${user.logName}`);
 			}
 			if(room.isDead()) {
-				console.log(`Triggering delayed room teardown for room-${room.roomCode}`);
+				console.log(`Rm${room.roomCode} Triggering delayed room teardown`);
 				Lobby.triggerDelayedRoomTeardown(room);
 			}
 		}
@@ -183,10 +179,10 @@ function logout(sock) {
 function joinRoom(user, room, rejoin, isHost = false) {
 	if(rejoin) {
 		room.readdUser(user);
-		console.log(`Rejoin: ${user.logName} to room-${room.roomCode}`);
+		console.log(`Rm${room.roomCode} Rejoin: ${user.logName}`);
 	} else {
 		room.addUser(user, isHost);
-		console.log(`Join: ${user.logName} to room-${room.roomCode}. Room users: ${room.users.length}`);
+		console.log(`Rm${room.roomCode} Join: ${user.logName}. Room users = ${room.users.length}`);
 	}
 	user.socket.join(room.roomCode);
 	user.setGameRoom(room);

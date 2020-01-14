@@ -61,10 +61,10 @@ class GameRoom {
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
-		console.log(`New round: Room-${this.roomCode} start round ${this.round}`);
+		console.log(`Rm${this.roomCode} New round`);
 	}
 	invokeSetup() {
-		console.log(`Force setup: Room-${this.roomCode}`);
+		console.log(`Rm${this.roomCode} Force setup`);
 		this.phase = GAME_PHASE.SETUP;
 		// Reset game state
 		this.turn = -1;
