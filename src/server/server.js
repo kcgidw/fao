@@ -4,7 +4,7 @@ import express from 'express';
 import SocketIO from 'socket.io';
 import compress from 'compression';
 import handleSockets from './socket-handler.js';
-import { loadedPrompts } from './prompt-api.js';
+import { loadedPrompts } from './prompts/prompts-api.js';
 
 const app = express();
 const httpServer = http.createServer(app);

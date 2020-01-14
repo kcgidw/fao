@@ -3,7 +3,7 @@ import GAME_PHASE from '../common/game-phase.js';
 import GameError from './game-error.js';
 import Stroke from '../common/stroke.js';
 import * as Util from '../common/util.js';
-import * as Prompts from './prompt-api.js';
+import * as Prompts from './prompts/prompts-api.js';
 
 const MAX_USERS = 10;
 

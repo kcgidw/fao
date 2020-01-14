@@ -1,7 +1,7 @@
 import fs from 'fs';
 import * as path from 'path';
 import parse from 'csv-parse';
-import { randomItemFrom } from '../common/util.js';
+import { randomItemFrom } from '../../common/util.js';
 
 const filename = path.resolve(__dirname, 'prompts.csv');
 
