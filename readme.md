@@ -11,3 +11,7 @@ Tech: Vue, Express, Socket.io, Webpack, Mocha
 Watch-build public: `npm run watch-p`
 
 Build and run server: `npm run start`
+
+## Contribute
+
+I'm not actively seeking contributors, but if you have a pull request I'm happy to take a look.
