@@ -4,20 +4,15 @@ const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const _ = require('lodash');
-// require('@babel/polyfill'); corejs polyfill
 
 module.exports = (env) => {
+	const prod = env.production;
 	const config = {
-		entry: [
-			path.resolve(__dirname, 'src', 'public', 'js', 'client.js'),
-		],
-
+		entry: [path.resolve(__dirname, 'src', 'public', 'js', 'index.js')],
 		output: {
 			path: path.resolve(__dirname, 'dist', 'public', 'js'),
 			filename: 'index.bundle.min.js',
 		},
-
 		module: {
 			rules: [
 				{
@@ -34,28 +29,19 @@ module.exports = (env) => {
 						{
 							loader: 'babel-loader',
 							options: {
-								presets: [
-									[
-										'@babel/preset-env',
-										// corejs polyfill
-										// {
-										// 	"useBuiltIns": "entry",
-										// 	'corejs': 3
-										// }
-									],
-								],
+								presets: ['@babel/preset-env'],
 							},
 						},
 					],
 				},
 				{
-					test:  /\.(sa|sc|c)ss$/,
+					test: /\.(sa|sc|c)ss$/,
 					use: [
 						{
 							loader: CssExtractPlugin.loader,
 						},
 						{
-							loader: "css-loader",
+							loader: 'css-loader',
 							options: {
 								sourceMap: true,
 							},
@@ -72,12 +58,16 @@ module.exports = (env) => {
 		},
 
 		resolve: {
-			extensions: [".js", ".json", ".vue"],
+			alias: prod ? undefined : {
+				// 'vue' to reference local development version (allows for vue devtools)
+				vue$: 'vue/dist/vue.js',
+			},
+			extensions: ['.js', '.json', '.vue'],
 		},
 
 		optimization: {
 			minimize: true,
-			minimizer: [new TerserPlugin({sourceMap: true})],
+			minimizer: [new TerserPlugin({ sourceMap: true })],
 		},
 
 		plugins: [
@@ -87,35 +77,16 @@ module.exports = (env) => {
 				filename: '../style/style.bundle.css',
 				ignoreOrder: false,
 			}),
-			new CopyWebpackPlugin([
-				{from: 'src/public/index.html', to: '../index.html'},
-			]),
+			new CopyWebpackPlugin([{ from: 'src/public/index.html', to: '../index.html' }]),
 		],
-	};
 
-	if(env.production) {
-		_.merge(config, {
-			mode: 'production',
-			stats: 'minimal',
-			externals: {
-				// 'vue' to resolve to external cdn
-				'vue': 'Vue',
-			},
-		});
-	} else if(env.development) {
-		_.merge(config, {
-			mode: 'development',
-			devtool: 'source-map',
-			resolve: {
-				alias: {
-					// 'vue' to reference local development version (allows for vue devtools)
-					'vue$': 'vue/dist/vue.js',
-				},
-			},
-		});
-	} else {
-		throw new Error('Bad webpack env');
-	}
+		mode: prod ? 'production' : 'development',
+		externals: prod ? {
+			// 'vue' to resolve to external cdn
+			vue: 'Vue',
+		} : undefined,
+		devtool: prod ? undefined : 'source-map'
+	};
 
 	return config;
 };
