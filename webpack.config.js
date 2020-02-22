@@ -2,15 +2,15 @@ const path = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const CssExtractPlugin = require('mini-css-extract-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (env) => {
 	const prod = env.production;
 	const config = {
-		entry: [path.resolve(__dirname, 'src', 'public', 'js', 'index.js')],
+		mode: prod ? 'production' : 'development',
+		entry: path.resolve(__dirname, 'src', 'public', 'js', 'index.js'),
 		output: {
-			path: path.resolve(__dirname, 'dist', 'public', 'js'),
+			path: path.resolve(__dirname, 'dist', 'public'),
 			filename: 'index.bundle.min.js',
 		},
 		module: {
@@ -35,10 +35,26 @@ module.exports = (env) => {
 					],
 				},
 				{
+					test: /\.html$/,
+					loader: [
+						{ loader: 'file-loader', options: { name: '[name].html' } },
+						'extract-loader',
+						'html-loader',
+					],
+				},
+				{
+					test: /\.svg$/,
+					loader: [
+						{ loader: 'file-loader', options: { name: '[name].svg' } },
+						'extract-loader',
+						'svg-inline-loader',
+					],
+				},
+				{
 					test: /\.(sa|sc|c)ss$/,
 					use: [
 						{
-							loader: CssExtractPlugin.loader,
+							loader: MiniCssExtractPlugin.loader,
 						},
 						{
 							loader: 'css-loader',
@@ -58,10 +74,12 @@ module.exports = (env) => {
 		},
 
 		resolve: {
-			alias: prod ? undefined : {
-				// 'vue' to reference local development version (allows for vue devtools)
-				vue$: 'vue/dist/vue.js',
-			},
+			alias: prod
+				? undefined
+				: {
+						// 'vue' to reference local development version (allows for vue devtools)
+						vue$: 'vue/dist/vue.js',
+				  },
 			extensions: ['.js', '.json', '.vue'],
 		},
 
@@ -73,19 +91,18 @@ module.exports = (env) => {
 		plugins: [
 			new CompressionPlugin(),
 			new VueLoaderPlugin(),
-			new CssExtractPlugin({
-				filename: '../style/style.bundle.css',
-				ignoreOrder: false,
+			new MiniCssExtractPlugin({
+				filename: 'style.bundle.css',
 			}),
-			new CopyWebpackPlugin([{ from: 'src/public/index.html', to: '../index.html' }]),
 		],
 
-		mode: prod ? 'production' : 'development',
-		externals: prod ? {
-			// 'vue' to resolve to external cdn
-			vue: 'Vue',
-		} : undefined,
-		devtool: prod ? undefined : 'source-map'
+		externals: prod
+			? {
+					// 'vue' to resolve to external cdn
+					vue: 'Vue',
+			  }
+			: undefined,
+		devtool: prod ? undefined : 'source-map',
 	};
 
 	return config;
