@@ -6,15 +6,14 @@
 	border-style: solid;
 	border-radius: 5px;
 	border-width: 2px;
-	min-width: 110px;
+	min-width: 96px;
 	line-height: 40px;
-	padding: 0 15px;
-	margin: 10px 10px;
+	padding: 0 16px;
+	margin: 8px;
 	cursor: pointer;
-	transition: box-shadow 0.15s;
 
 	&.big {
-		min-width: 170px;
+		min-width: 160px;
 	}
 	&:disabled {
 		border-color: var(--grey1);
@@ -26,7 +25,6 @@
 		background-color: var(--artist4);
 		color: var(--grey0);
 		border-color: var(--artist4);
-		// box-shadow: 0 3px 5px 0 var(--shade);
 		@media (any-hover: hover) {
 			&:hover {
 				background-color: var(--artist3);
@@ -36,14 +34,12 @@
 		&:active {
 			background-color: var(--artist5);
 			border-color: var(--artist5);
-			// box-shadow: 0 2px 3px 0 var(--shade);
 		}
 	}
 	&.secondary:not(:disabled) {
 		background-color: var(--grey0);
 		color: var(--blue4);
 		border-color: var(--blue4);
-		// box-shadow: 0 3px 5px 0 var(--shade);
 		@media (any-hover: hover) {
 			&:hover {
 				color: var(--blue3);
@@ -53,7 +49,6 @@
 		&:active {
 			color: var(--blue5);
 			border-color: var(--blue5);
-			// box-shadow: 0 2px 3px 0 var(--shade);
 		}
 	}
 	&.tertiary {
@@ -88,12 +83,9 @@ input[type="number"] {
 	background-color: var(--grey1);
 	line-height: 40px;
 	text-align: center;
-	margin: 10px 0;
+	margin: 8px;
 	color: var(--grey7);
 	font-weight: 500;
-	&:invalid {
-		box-shadow: none;
-	}
 	&::placeholder {
 		opacity: 0.5;
 	}
