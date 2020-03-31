@@ -4,7 +4,7 @@ import express from 'express';
 import SocketIO from 'socket.io';
 import compress from 'compression';
 import handleSockets from './socket-handler.js';
-import { loadedPrompts } from './prompts/prompts-api.js';
+import { loadPrompts } from './prompts/prompts-api.js';
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -12,21 +12,19 @@ const port = process.env.PORT || 3000;
 
 const io = SocketIO(httpServer);
 
-function startServer() {
-	return new Promise(function(resolve, reject) {
-		handleSockets(io); // socket.io app logic
+async function startServer() {
+	handleSockets(io); // socket.io app logic
 
-		app.use(compress()); // gzip responses
+	app.use(compress()); // gzip responses
 
-		app.use(express.static(path.resolve(__dirname, '..', 'public')));
+	app.use(express.static(path.resolve(__dirname, '..', 'public')));
 
-		loadedPrompts.then((outputs) => {
-			console.log(`Prompts loaded. Counted ${outputs.length} prompts`);
-			httpServer.listen(port, function() {
-				console.log(`httpServer listening on port ${port}`);
-				resolve();
-			});
-		});
+	const prompts = await loadPrompts();
+
+	console.log(`Prompts loaded. Counted ${prompts.length} prompts`);
+
+	httpServer.listen(port, function() {
+		console.log(`httpServer listening on port ${port}`);
 	});
 }
 

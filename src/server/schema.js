@@ -1,9 +1,14 @@
+/**
+ * Schemas for socket.io messages
+ */
+
 import Ajv from 'ajv';
 import MESSAGE from '../common/message.js';
 import GameError from './game-error.js';
 const ajv = new Ajv();
 
-const usernameMinLength = 1, usernameMaxLength = 20;
+const usernameMinLength = 1;
+const usernameMaxLength = 20;
 
 const SCHEMA = {};
 
@@ -38,14 +43,12 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 };
 SCHEMA[MESSAGE.LEAVE_ROOM] = {
 	$id: MESSAGE.LEAVE_ROOM,
-	properties: {
-	},
+	properties: {},
 	required: [],
 };
 SCHEMA[MESSAGE.START_GAME] = {
 	$id: MESSAGE.START_GAME,
-	properties: {
-	},
+	properties: {},
 	required: [],
 };
 SCHEMA[MESSAGE.SUBMIT_STROKE] = {
@@ -71,24 +74,22 @@ SCHEMA[MESSAGE.SUBMIT_STROKE] = {
 	required: ['points'],
 };
 
-for(let schema of Object.values(SCHEMA)) {
+for (let schema of Object.values(SCHEMA)) {
 	ajv.addSchema(schema, schema.$id);
 }
 console.log(`Message schemas loaded.`);
 
 function validateMessageFromClient(messageName, json) {
-	if(!SCHEMA[messageName]) {
+	if (!SCHEMA[messageName]) {
 		return true;
 	}
 
 	let res = ajv.validate(messageName, json);
-	if(!res) {
+	if (!res) {
 		console.warn(ajv.errorsText());
 		throw new GameError('Invalid message');
 	}
 	return res;
 }
 
-export {
-	validateMessageFromClient,
-};
+export { validateMessageFromClient };

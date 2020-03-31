@@ -24,22 +24,25 @@ class GameRoom {
 		this.strokes = [];
 	}
 	addUser(user, isHost = false) {
-		if(this.isFull()) {
+		if (this.isFull()) {
 			console.warn('Full room');
 			return false;
 		}
 		this.users.push(user);
-		if(isHost) {
+		if (isHost) {
 			this.host = user;
 		}
 		return true;
 	}
 	readdUser(user) {
-		let userTargetIdx = this.users.findIndex((u) => (u.name === user.name));
-		if(userTargetIdx !== -1) {
+		let userTargetIdx = this.users.findIndex((u) => u.name === user.name);
+		if (userTargetIdx !== -1) {
 			this.users[userTargetIdx] = user;
 		} else {
-			throw new GameError(`Could not readd ${user.logName}. Existing user target DNE.`, 'Could not rejoin');
+			throw new GameError(
+				`Could not readd ${user.logName}. Existing user target DNE.`,
+				'Could not rejoin'
+			);
 		}
 	}
 	dropUser(user) {
@@ -48,7 +51,7 @@ class GameRoom {
 		return this.users.length;
 	}
 	findUser(name) {
-		return this.users.find((p) => (p.name === name));
+		return this.users.find((p) => p.name === name);
 	}
 
 	startNewRound() {
@@ -71,11 +74,12 @@ class GameRoom {
 		this.keyword = undefined;
 		this.hint = undefined;
 		this.faker = undefined;
-		this.users = this.users.filter(u => u.connected); // If anyone disconnected during the game, forget about them during setup
+		// If anyone disconnected during the game, forget about them during setup
+		this.users = this.users.filter((u) => u.connected);
 	}
 	whoseTurn() {
-		if(this.phase === GAME_PHASE.PLAY) {
-			let idx = ((this.turn - 1) % this.users.length);
+		if (this.phase === GAME_PHASE.PLAY) {
+			let idx = (this.turn - 1) % this.users.length;
 			return this.users[idx];
 		}
 		return undefined;
@@ -88,16 +92,17 @@ class GameRoom {
 		return this.strokes;
 	}
 	nextTurn() {
-		if(this.gameInProgress()) {
+		if (this.isGameInProgress()) {
 			this.turn++;
-			if(this.turn - 1 >= this.users.length * 2) {
+			if (this.turn - 1 >= this.users.length * 2) {
+				// 2 rounds per user
 				this.phase = GAME_PHASE.VOTE;
 			}
 			return this.turn;
 		}
 		return undefined;
 	}
-	gameInProgress() {
+	isGameInProgress() {
 		return this.phase === GAME_PHASE.PLAY || this.phase === GAME_PHASE.VOTE;
 	}
 	isFull() {
@@ -105,7 +110,7 @@ class GameRoom {
 	}
 	isDead() {
 		// all users are disconnected
-		return this.users.length === 0 || _.every(this.users, u => (!u.connected));
+		return this.users.length === 0 || _.every(this.users, (u) => !u.connected);
 	}
 }
 
@@ -126,7 +131,7 @@ const ClientAdapter = {
 			fakerName: gameRoom.faker ? gameRoom.faker.name : undefined,
 			strokes: gameRoom.strokes,
 		};
-		if(pickFields) {
+		if (pickFields) {
 			res = _.pick(res, pickFields);
 		}
 		return res;
@@ -143,6 +148,4 @@ const ClientAdapter = {
 	},
 };
 
-export {
-	GameRoom, ClientAdapter,
-};
+export { GameRoom, ClientAdapter };

@@ -1,4 +1,3 @@
-
 import User from '../common/user.js';
 import { ClientAdapter } from './game-room.js';
 import * as Schema from './schema.js';
@@ -9,7 +8,6 @@ import debugLog from './debug-log.js';
 
 import MESSAGE from '../common/message.js';
 
-
 function handleSockets(io) {
 	io.on('connection', function(sock) {
 		debugLog('Socket connected: ' + sock.id);
@@ -18,9 +16,9 @@ function handleSockets(io) {
 				try {
 					Schema.validateMessageFromClient(messageName, data);
 					MessageHandlers[messageName](io, sock, data);
-				} catch(e) {
+				} catch (e) {
 					// REMEMBER, any code/mutations inside the try before the error do still execute
-					if(e.name === GameError.name) {
+					if (e.name === GameError.name) {
 						sock.emit(messageName, {
 							err: e.clientMessage,
 						});
@@ -57,7 +55,7 @@ const MessageHandlers = {
 
 		let user;
 
-		if(data.rejoin) {
+		if (data.rejoin) {
 			GamePrecond.nameIsTakenInRoom(data.username, roomToJoin);
 			GamePrecond.gameInProgress(roomToJoin);
 			user = login(sock, data.username, roomToJoin);
@@ -124,10 +122,10 @@ const MessageHandlers = {
 
 	disconnect(io, sock, data) {
 		let user = sock.user;
-		if(user) {
+		if (user) {
 			let room = user.gameRoom;
 			logout(sock);
-			if(room) {
+			if (room) {
 				console.log(`Rm${room.roomCode} Disconnect: ${user.logName}`);
 				broadcastRoomState(io, room, MESSAGE.USER_LEFT, (res) => {
 					res.username = user.name;
@@ -141,7 +139,7 @@ const MessageHandlers = {
 function login(sock, username, roomToRejoin) {
 	username = username.trim();
 	let user;
-	if(roomToRejoin) {
+	if (roomToRejoin) {
 		debugLog(`Attempt reconnect: <${username}>`);
 		user = roomToRejoin.findUser(username);
 		user.socket = sock;
@@ -154,21 +152,21 @@ function login(sock, username, roomToRejoin) {
 }
 function logout(sock) {
 	let user = sock.user;
-	if(user) {
+	if (user) {
 		sock.user = undefined;
 		user.socket = undefined;
 
 		let room = user.gameRoom;
-		if(room) {
+		if (room) {
 			sock.leave(room.roomCode);
-			if(room.phase === GAME_PHASE.SETUP) {
+			if (room.phase === GAME_PHASE.SETUP) {
 				// if room has no game yet, remove the user from the room completely
 				room.dropUser(user);
 				debugLog(`Rm${room.roomCode} Left room: ${user.logName}`);
 			} else {
 				debugLog(`Logout ${user.logName}`);
 			}
-			if(room.isDead()) {
+			if (room.isDead()) {
 				console.log(`Rm${room.roomCode} Triggering delayed room teardown`);
 				Lobby.triggerDelayedRoomTeardown(room);
 			}
@@ -177,7 +175,7 @@ function logout(sock) {
 }
 
 function joinRoom(user, room, rejoin, isHost = false) {
-	if(rejoin) {
+	if (rejoin) {
 		room.readdUser(user);
 		console.log(`Rm${room.roomCode} Rejoin: ${user.logName}`);
 	} else {
@@ -191,64 +189,73 @@ function joinRoom(user, room, rejoin, isHost = false) {
 
 const GamePrecond = {
 	sockHasUser(sock) {
-		if(sock.user === undefined) {
+		if (sock.user === undefined) {
 			throw new GameError('No user');
 		}
 	},
 	sockDoesNotHaveUser(sock) {
-		if(sock.user !== undefined) {
+		if (sock.user !== undefined) {
 			throw new GameError('Must not have user');
 		}
 	},
 	userIsInARoom(user) {
-		if(user.gameRoom === undefined) {
+		if (user.gameRoom === undefined) {
 			throw new GameError(`User ${user.name} should be in a room`, 'User must be in a room');
 		}
 	},
 	userIsNotInARoom(user) {
-		if(user.gameRoom !== undefined) {
-			throw new GameError('User must not be in a room. User is in room ' + user.gameRoom, 'User must not be in a room');
+		if (user.gameRoom !== undefined) {
+			throw new GameError(
+				'User must not be in a room. User is in room ' + user.gameRoom,
+				'User must not be in a room'
+			);
 		}
 	},
 	roomExists(roomCode) {
-		if(Lobby.getRoomByCode(roomCode) === undefined) {
+		if (Lobby.getRoomByCode(roomCode) === undefined) {
 			throw new GameError(`Room-${roomCode} DNE`, 'This room is unavailable');
 		}
 	},
 	gameInProgress(room) {
-		if(!room.gameInProgress()) {
+		if (!room.isGameInProgress()) {
 			throw new GameError('Game must be in progress');
 		}
 	},
 	gameNotInProgress(room) {
-		if(room.gameInProgress()) {
+		if (room.isGameInProgress()) {
 			throw new GameError('A game is already in progress');
 		}
 	},
 	roomIsNotFull(room) {
-		if(room.isFull()) {
+		if (room.isFull()) {
 			throw new GameError(`Room ${room.roomCode} is full`, 'This room is full');
 		}
 	},
 	lobbyIsNotFull() {
-		if(Lobby.isFull()) {
+		if (Lobby.isFull()) {
 			throw new GameError('The lobby is at max capacity');
 		}
 	},
 	isUsersTurn(user) {
 		let room = user.gameRoom;
-		if(room.whoseTurn() !== user) {
+		if (room.whoseTurn() !== user) {
 			throw new GameError("Not user's turn");
 		}
 	},
 	nameIsNotTakenInRoom(username, room) {
-		if(room.findUser(username)) {
-			throw new GameError(`Username ${username} is taken in room ${room.roomCode}`, "This username is taken in this room");
+		if (room.findUser(username)) {
+			throw new GameError(
+				`Username ${username} is taken in room ${room.roomCode}`,
+				'This username is taken in this room'
+			);
 		}
 	},
 	nameIsTakenInRoom(username, room) {
-		if(room.findUser(username) === undefined) {
-			throw new GameError(`Username ${username} DNE in room ${room.roomCode}`, "This username doesn't exist in this room");
+		if (room.findUser(username) === undefined) {
+			throw new GameError(
+				`Username ${username} DNE in room ${room.roomCode}`,
+				"This username doesn't exist in this room"
+			);
 		}
 	},
 };
@@ -256,11 +263,11 @@ const GamePrecond = {
 // send roomstate update to all users, accounting for different roles (i.e., faker vs artist)
 function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 	let state = ClientAdapter.generateStateJson(room);
-	if(addtlProcessFn) {
+	if (addtlProcessFn) {
 		state = addtlProcessFn(state);
 	}
 
-	if(room.phase === GAME_PHASE.SETUP) {
+	if (room.phase === GAME_PHASE.SETUP) {
 		io.in(room.roomCode).emit(messageName, {
 			roomState: state,
 		});
@@ -270,14 +277,15 @@ function broadcastRoomState(io, room, messageName, addtlProcessFn) {
 	let artistView = ClientAdapter.hideFaker(state);
 	let fakerView = ClientAdapter.hideKeyword(state);
 
-	for(let u of room.users) {
+	for (let u of room.users) {
 		let s = u.socket;
-		if(u.socket === undefined) {
+		if (u.socket === undefined) {
+			// disconnected user, skip
 			continue;
 		}
 
 		let res;
-		if(room.phase === GAME_PHASE.PLAY || room.phase === GAME_PHASE.VOTE) {
+		if (room.phase === GAME_PHASE.PLAY || room.phase === GAME_PHASE.VOTE) {
 			res = {
 				roomState: room.faker && room.faker.name === u.name ? fakerView : artistView,
 			};
