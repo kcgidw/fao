@@ -152,7 +152,10 @@ hr {
 #home {
 	#home-menu {
 		min-height: 240px;
-		margin: 8px 0; /* some extra breathing space for the menu */
+		margin: 12px 0; /* some extra breathing space for the menu */
+		@media screen and (max-width: 425px) {
+			margin: 0;
+		}
 	}
 	#about-content {
 		@media screen and (max-width: 425px) {

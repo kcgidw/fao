@@ -1,15 +1,14 @@
 rejoin game after leaving
-quick-join
+quick-join via url
 see room code in game
-redis store
 
 rules option in-game, make sure resuming works after updates to game state
 validate against incompatible browsers or devices
-voting system
+redis store
 
 more setup options
 l10n support
 more tests
 vue-router
-join via url
+voting system
 colorblind aids
