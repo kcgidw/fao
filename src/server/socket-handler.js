@@ -29,6 +29,7 @@ function handleSockets(io) {
 			});
 		});
 	});
+	return Lobby;
 }
 
 const MessageHandlers = {
@@ -228,7 +229,7 @@ const GamePrecond = {
 	},
 	roomIsNotFull(room) {
 		if (room.isFull()) {
-			throw new GameError(`Room ${room.roomCode} is full`, 'This room is full');
+			throw new GameError(`Room ${room.roomCode} is full`, 'This room is full', true);
 		}
 	},
 	lobbyIsNotFull() {

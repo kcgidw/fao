@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 const io = SocketIO(httpServer);
 
 async function startServer() {
-	handleSockets(io); // socket.io app logic
+	const lobby = handleSockets(io); // socket.io app logic
 
 	app.use(compress()); // gzip responses
 
@@ -26,6 +26,8 @@ async function startServer() {
 	httpServer.listen(port, function() {
 		console.log(`httpServer listening on port ${port}`);
 	});
+
+	return lobby;
 }
 
 export default startServer();

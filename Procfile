@@ -1,1 +1,1 @@
-web: npm run start-only
+web: npm run start

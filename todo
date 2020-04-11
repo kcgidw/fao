@@ -1,14 +1,14 @@
 rejoin game after leaving
-quick-join via url
-see room code in game
-
-rules option in-game, make sure resuming works after updates to game state
-validate against incompatible browsers or devices
 redis store
+see room code in game
+quick-join via url
 
-more setup options
+validate against incompatible browsers or devices
+
 l10n support
 more tests
+more setup options
+rules option in-game, make sure resuming works after updates to game state
 vue-router
 voting system
 colorblind aids

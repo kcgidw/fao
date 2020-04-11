@@ -10,8 +10,7 @@
 		"clean": "rm -rf dist/ src/public/js/*.min.* src/public/style/*.bundle.*",
 		"test": "mocha --exit --require @babel/register",
 		"build": "npm run build-p && npm run build-s",
-		"start": "npm run build-s && npm run start-only",
-		"start-only": "node ./dist/server/server.js",
+		"start": "node ./dist/server/server.js",
 		"build-p": "webpack --env.production --output-path-info --display-modules",
 		"watch-p": "webpack --env.development -w --debug --output-path-info --display-modules",
 		"build-s": "babel -D src/server -d dist/server && babel -D src/common -d dist/common"

@@ -3,13 +3,14 @@ import io from 'socket.io-client';
 import MESSAGE from '../src/common/message';
 import A from 'async';
 import GAME_PHASE from '../src/common/game-phase';
+import serverStart from '../src/server/server.js';
 
 describe('Test Suite', function() {
 	let sock1, sock2, sock3;
 
 	beforeEach(function(done) {
-		import('../src/server/server.js')
-			.then(function() {
+		serverStart
+			.then(function(lobby) {
 				sock1 = io('http://localhost:3000');
 				sock2 = io('http://localhost:3000');
 				sock3 = io('http://localhost:3000');
@@ -28,7 +29,9 @@ describe('Test Suite', function() {
 
 				A.parallel(
 					[connectSocketFn(sock1), connectSocketFn(sock2), connectSocketFn(sock3)],
-					() => { done(); }
+					() => {
+						done();
+					}
 				);
 			})
 			.catch(function(e) {
@@ -38,8 +41,7 @@ describe('Test Suite', function() {
 
 	afterEach(function(done) {
 		[sock1, sock2, sock3].forEach(function(s) {
-			if(s.connected) {
-				debugger;
+			if (s.connected) {
 				s.disconnect();
 				console.log('force disconnect');
 			}
