@@ -21,7 +21,8 @@ async function startServer() {
 
 	const prompts = await loadPrompts();
 
-	console.log(`Prompts loaded. Counted ${prompts.length} prompts`);
+	console.log(`Prompts loaded. Counted ${prompts.length} languages`);
+	console.log(`${prompts[0].length} words`);
 
 	httpServer.listen(port, function() {
 		console.log(`httpServer listening on port ${port}`);

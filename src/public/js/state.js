@@ -16,17 +16,22 @@ const Store = {
 		createWarning: undefined,
 		joinWarning: undefined,
 		gameConnection: CONNECTION_STATE.DISCONNECT,
+		language: 'en',
 	},
 	setUsername(username) {
 		this.state.username = username;
 		localStorage.username = username;
+	},
+	setLanguage(lang) {
+		this.state.language = lang;
+		localStorage.language = lang;
 	},
 	setView(view) {
 		this.state.previousView = this.state.view;
 		this.state.view = view;
 	},
 	setGameState(newGameState) {
-		if(newGameState === undefined) {
+		if (newGameState === undefined) {
 			this.state.gameState = undefined;
 			this.setGameConnection(CONNECTION_STATE.DISCONNECT);
 			this.setView(VIEW.HOME);
@@ -34,14 +39,17 @@ const Store = {
 		}
 		this.setGameConnection(CONNECTION_STATE.CONNECT);
 
-		if(this.state.gameState === undefined) {
+		if (this.state.gameState === undefined) {
 			this.state.gameState = generateClientGameState();
 		}
 		this.state.gameState.adoptJson(newGameState);
 
-		if(this.state.gameState.phase === GAME_PHASE.SETUP) {
+		if (this.state.gameState.phase === GAME_PHASE.SETUP) {
 			this.setView(VIEW.SETUP);
-		} else if(this.state.gameState.phase === GAME_PHASE.PLAY || this.state.gameState.phase === GAME_PHASE.VOTE) {
+		} else if (
+			this.state.gameState.phase === GAME_PHASE.PLAY ||
+			this.state.gameState.phase === GAME_PHASE.VOTE
+		) {
 			this.setView(VIEW.GAME);
 		}
 	},
@@ -49,9 +57,11 @@ const Store = {
 		this.state.gameConnection = cs;
 	},
 	myTurn() {
-		return this.state.gameState
-			&& this.state.gameState.whoseTurn === this.state.username
-			&& this.state.gameState.phase === GAME_PHASE.PLAY;
+		return (
+			this.state.gameState &&
+			this.state.gameState.whoseTurn === this.state.username &&
+			this.state.gameState.phase === GAME_PHASE.PLAY
+		);
 	},
 	setWarning(warningName, message) {
 		this.state[warningName] = message;
@@ -67,22 +77,23 @@ const Store = {
 
 function handleSocket(messageName, handler, errHandler) {
 	socket.on(messageName, function(data) {
-		if(data.err) {
+		if (data.err) {
 			console.warn(data.err);
-			if(errHandler) {
+			if (errHandler) {
 				errHandler(data.err);
 			}
 			return;
 		}
-		if(handler) {
+		if (handler) {
 			handler(data);
 		}
-		if(data.roomState !== undefined) {
+		if (data.roomState !== undefined) {
 			Store.setGameState(data.roomState);
 		}
 	});
 }
-handleSocket(MESSAGE.CREATE_ROOM,
+handleSocket(
+	MESSAGE.CREATE_ROOM,
 	function(data) {
 		Store.setUsername(data.username);
 	},
@@ -90,13 +101,14 @@ handleSocket(MESSAGE.CREATE_ROOM,
 		Store.setWarning('createWarning', errMsg);
 	}
 );
-handleSocket(MESSAGE.JOIN_ROOM,
+handleSocket(
+	MESSAGE.JOIN_ROOM,
 	function(data) {
-		if(data.username !== Store.state.username) {
+		if (data.username !== Store.state.username) {
 			return;
 		}
 		Store.setWarning('joinWarning', undefined);
-		if(data.rejoin === true) {
+		if (data.rejoin === true) {
 			console.log('Game reconnect success');
 		}
 	},
@@ -113,13 +125,15 @@ handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
 handleSocket(MESSAGE.RETURN_TO_SETUP);
 
-const usernameWarning = 'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
-function submitCreateGame(username) {
+const usernameWarning =
+	'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
+function submitCreateGame(username, language) {
 	username = username.trim();
-	if(validateUsername(username)) {
+	if (validateUsername(username)) {
 		this.setWarning('createWarning', undefined);
 		socket.emit(MESSAGE.CREATE_ROOM, {
 			username: username,
+			language: language,
 		});
 		return true;
 	} else {
@@ -129,7 +143,7 @@ function submitCreateGame(username) {
 }
 function submitJoinGame(roomCode, username) {
 	username = username.trim();
-	if(validateUsername(username)) {
+	if (validateUsername(username)) {
 		this.setWarning('joinWarning', undefined);
 		socket.emit(MESSAGE.JOIN_ROOM, {
 			roomCode: roomCode,
@@ -162,8 +176,8 @@ function submitReturnToSetup() {
 socket.on('disconnect', function() {
 	Store.state.gameConnection = CONNECTION_STATE.DISCONNECT;
 	let existingGameState = Store.state.gameState;
-	if(existingGameState) {
-		switch(existingGameState.phase) {
+	if (existingGameState) {
+		switch (existingGameState.phase) {
 			case GAME_PHASE.SETUP:
 				// if user was in room setup, just forget about the gamestate altogether
 				// No need to handle reconnection, user should just join the room normally again
@@ -172,7 +186,7 @@ socket.on('disconnect', function() {
 			case GAME_PHASE.PLAY:
 			case GAME_PHASE.VOTE:
 				let me = existingGameState.findUser(Store.state.username);
-				if(me) {
+				if (me) {
 					me.connected = false;
 				}
 				break;
@@ -187,7 +201,11 @@ socket.on('reconnect', reconnectToGame);
 function reconnectToGame() {
 	let existingGameState = Store.state.gameState;
 	let username = Store.state.username;
-	if(existingGameState && username && Store.state.gameConnection === CONNECTION_STATE.DISCONNECT) {
+	if (
+		existingGameState &&
+		username &&
+		Store.state.gameConnection === CONNECTION_STATE.DISCONNECT
+	) {
 		Store.state.gameConnection = CONNECTION_STATE.RECONNECT;
 		console.log('Attempting game rejoin.');
 		socket.emit(MESSAGE.JOIN_ROOM, {

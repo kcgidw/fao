@@ -1,4 +1,4 @@
-dica,palavra-chave
+hint,keyword
 Animal,Formiga
 Animal,Tatu
 Animal,Morcego
@@ -366,7 +366,8 @@ Ferramenta,Lanterna
 Ferramenta,Máscara de gás
 Ferramenta,Martelo
 Ferramenta,Algemas
-Ferramenta,Broca de Mão
+Ferramenta,Broca
+Ferramenta,Furadeira
 Ferramenta,Serrote
 Ferramenta,Fita Métrica
 Ferramenta,Microscópio
