@@ -1,0 +1,410 @@
+dica,palavra-chave
+Animal,Formiga
+Animal,Tatu
+Animal,Morcego
+Animal,Castor
+Animal,Abelha
+Animal,Touro
+Animal,Borboleta
+Animal,Camelo
+Animal,Gato
+Animal,Camaleão
+Animal,Frango
+Animal,Cobra
+Animal,Barata
+Animal,Vaca
+Animal,Caranguejo
+Animal,Crocodilo
+Animal,Veado
+Animal,Cão
+Animal,Golfinho
+Animal,Libélula
+Animal,Elefante
+Animal,Flamingo
+Animal,Sapo
+Animal,Girafa
+Animal,Cabra
+Animal,Caranguejo
+Animal,Hipopótamo
+Animal,Cavalo
+Animal,Água-viva
+Animal,Canguru
+Animal,Coala
+Animal,Joaninha
+Animal,Leão
+Animal,Lagosta
+Animal,Macaco
+Animal,Mosquito
+Animal,Polvo
+Animal,Avestruz
+Animal,Coruja
+Animal,Pavão
+Animal,Pelicano
+Animal,Pinguim
+Animal,Porco
+Animal,Ornitorrinco
+Animal,Louva-Deus
+Animal,Pterodáctilo
+Animal,Coelho
+Animal,Guaxinim
+Animal,Rinoceronte
+Animal,Escorpião
+Animal,Cavalo Marinho
+Animal,Tubarão
+Animal,Ovelha
+Animal,Camarão
+Animal,Preguiça
+Animal,Caracol
+Animal,Aranha
+Animal,Lula
+Animal,Esquilo
+Animal,Besouro
+Animal,Estrela do mar
+Animal,Cisne
+Animal,Peixe-Espada
+Animal,T-Rex
+Animal,Triceratops
+Animal,Peru
+Animal,Tartaruga
+Animal,Velociraptor
+Animal,Morsa
+Animal,Baleia
+Animal,Pica-pau
+Evento,Chá de bebê
+Evento,Aniversário
+Evento,Natal
+Evento,Páscoa
+Evento,Eclipse
+Evento,Funeral
+Evento,Graduação
+Evento,Dia das Bruxas
+Evento,Festa do pijama
+Evento,St. Patrick ́s Day
+Evento,Ação de Graças
+Evento,Casamento
+Comida/Bebida,Bacon
+Comida/Bebida,Banana
+Comida/Bebida,Hambúrguer
+Comida/Bebida,Bolo
+Comida/Bebida,Cenoura
+Comida/Bebida,Queijo
+Comida/Bebida,Coco
+Comida/Bebida,Milho
+Comida/Bebida,Cupcake
+Comida/Bebida,Ovos
+Comida/Bebida,Alho
+Comida/Bebida,Mel
+Comida/Bebida,Cachorro-quente
+Comida/Bebida,Sorvete
+Comida/Bebida,Lagosta
+Comida/Bebida,Martini
+Comida/Bebida,Cogumelo
+Comida/Bebida,Panquecas
+Comida/Bebida,Ervilhas
+Comida/Bebida,Pimenta
+Comida/Bebida,Pickles
+Comida/Bebida,Torta
+Comida/Bebida,Abacaxi
+Comida/Bebida,Pizza
+Comida/Bebida,Picolé
+Comida/Bebida,Abóbora
+Comida/Bebida,Costelas
+Comida/Bebida,Sanduíche
+Comida/Bebida,Camarão
+Comida/Bebida,Espaguete
+Comida/Bebida,Morango
+Comida/Bebida,Sushi
+Comida/Bebida,Taco
+Comida/Bebida,Chá
+Comida/Bebida,Tomate
+Comida/Bebida,Pepino
+Comida/Bebida,Waffles
+Comida/Bebida,Vinho
+Cozinha,Liquidificador
+Cozinha,Escorredor
+Cozinha,Geladeira
+Cozinha,Chaleira
+Cozinha,Panela de arroz
+Cozinha,Saleiro
+Cozinha,Fogão
+Cozinha,Garfo
+Cozinha,Faca
+Cozinha,Colher
+Cozinha,Torradeira
+Cozinha,Torneira
+Cozinha,Pia
+Cozinha,Batedeira
+Cozinha,Esponja
+Cozinha,Detergente
+Lenda,Alien
+Lenda,Centauro
+Lenda,Dragão
+Lenda,Anão
+Lenda,Elfo
+Lenda,Fada
+Lenda,Fantasma
+Lenda,Grifo
+Lenda,Ceifador
+Lenda,Kraken
+Lenda,Duende
+Lenda,Loch Ness
+Lenda,Sereia
+Lenda,Pégaso
+Lenda,Fênix
+Lenda,Unicórnio
+Lenda,Vampiro
+Lenda,Lobisomem
+Lenda,Bruxa
+Lenda,Zumbi
+Médico,Band-Aid
+Médico,Medidor de Pressão Arterial
+Médico,Cérebro
+Médico,Muleta
+Médico,Desfibrilador
+Médico,Aparelho Dental
+Médico,Coração
+Médico,Crânio
+Médico,Estetoscópio
+Médico,Maca
+Médico,Seringa
+Médico,Termômetro
+Médico,Cadeira de rodas
+Médico,Sangue
+Médico,Marca Passo
+Médico,Jaleco
+Médico,Receita Médica
+Médico,Raios X
+Roupa,Mochila
+Roupa,Boné
+Roupa,Cinto
+Roupa,Gravata borboleta
+Roupa,Shorts
+Roupa,Chapéu de Chef
+Roupa,Crocs
+Roupa,Coroa
+Roupa,Fralda
+Roupa,Brincos
+Roupa,Tapa-olho
+Roupa,Óculos
+Roupa,Luvas
+Roupa,Chapéu de Formatura
+Roupa,Fones de ouvido
+Roupa,Salto Alto
+Roupa,Jaqueta
+Roupa,Monóculo
+Roupa,Macacões
+Roupa,Bolsa
+Roupa,Lenço
+Roupa,Tênis
+Roupa,Meias
+Roupa,Sombrero
+Roupa,Terno
+Roupa,Carteira
+Roupa,Relógio
+Pessoa,Ator
+Pessoa,Artista
+Pessoa,Astronauta
+Pessoa,Babá
+Pessoa,Barbeiro
+Pessoa,Barman
+Pessoa,Caixa
+Pessoa,Chef
+Pessoa,Palhaço
+Pessoa,Cowboy
+Pessoa,Dentista
+Pessoa,Diretor
+Pessoa,DJ
+Pessoa,Médico
+Pessoa,Agricultor
+Pessoa,Bombeiro
+Pessoa,Ginasta
+Pessoa,Zelador
+Pessoa,Juiz
+Pessoa,Cavaleiro
+Pessoa,Mago
+Pessoa,Carteiro
+Pessoa,Mecânico
+Pessoa,Músico
+Pessoa,Ninja
+Pessoa,Pirata
+Pessoa,Encanador
+Pessoa,Polícia
+Pessoa,Programador
+Pessoa,Recepcionista
+Pessoa,Ladrão
+Pessoa,Samurai
+Pessoa,Cientista
+Pessoa,Sniper
+Pessoa,Professor
+Pessoa,Terapeuta
+Pessoa,Garçom
+Local,Aeroporto
+Local,Parque de Diversões
+Local,Arcade
+Local,Museu de Arte
+Local,Austrália
+Local,Banco
+Local,Banheiro
+Local,Praia
+Local,Canadá
+Local,Cassino
+Local,Caverna
+Local,China
+Local,Igreja
+Local,Circo
+Local,Cidade
+Local,Tribunal
+Local,Deserto
+Local,Egito
+Local,Fábrica
+Local,Fazenda
+Local,Floresta
+Local,Posto de Gasolina
+Local,Cemitério
+Local,Mercado
+Local,Academia
+Local,Hospital
+Local,Hotel
+Local,Casa
+Local,Índia
+Local,Itália
+Local,Japão
+Local,Biblioteca
+Local,México
+Local,Minas
+Local,Oceano
+Local,Estacionamento
+Local,Parque Infantil
+Local,Piscina
+Local,Porto
+Local,Prisão
+Local,Restaurante
+Local,Escola
+Local,Espaço
+Local,Estádio
+Local,Metrô
+Local,Teatro
+Local,EUA
+Local,Zoológico
+Recreação,Futebol Americano
+Recreação,Tiro com Arco
+Recreação,Badminton
+Recreação,Beisebol
+Recreação,Basquete
+Recreação,Bicicleta
+Recreação,Bilhar
+Recreação,Boliche
+Recreação,Boxe
+Recreação,Acampamento
+Recreação,Carrossel
+Recreação,Xadrez
+Recreação,Quadrinhos
+Recreação,Disco
+Recreação,Esgrima
+Recreação,Pesca
+Recreação,Frisbee
+Recreação,Golfe
+Recreação,Caminhada
+Recreação,Hóquei
+Recreação,Equitação
+Recreação,Caça
+Recreação,Jousting
+Recreação,Pipa
+Recreação,Artes Marciais
+Recreação,Filmes
+Recreação,Pintura
+Recreação,Pára-quedas
+Recreação,Pinball
+Recreação,Salto com Vara
+Recreação,Escalada
+Recreação,Montanha Russa
+Recreação,Mergulho
+Recreação,Skate
+Recreação,Esquiar
+Recreação,Paraquedismo
+Recreação,Futebol
+Recreação,Surf
+Recreação,Tênis de mesa
+Recreação,Tênis
+Recreação,Ventriloquismo
+Recreação,Jogos de vídeo
+Recreação,Vôlei
+Recreação,Yo-Yo
+Recreação,Ioga
+Tecnologia,Pilha
+Tecnologia,Canhão
+Tecnologia,Câmera
+Tecnologia,Computador
+Tecnologia,Ventilador
+Tecnologia,Elevador
+Tecnologia,Dinamite
+Tecnologia,Granada
+Tecnologia,Revólver
+Tecnologia,Teclado
+Tecnologia,Laptop
+Tecnologia,Lâmpada de lava
+Tecnologia,Cortador de grama
+Tecnologia,Lâmpada
+Tecnologia,Mouse
+Tecnologia,Tomada de Força
+Tecnologia,Régua de Energia
+Tecnologia,Impressora
+Tecnologia,Rádio
+Tecnologia,Satélite
+Tecnologia,Máquina de Costura
+Tecnologia,Telefone
+Tecnologia,Televisão
+Tecnologia,Aspirador
+Tecnologia,Wi-Fi
+Ferramenta,Machado
+Ferramenta,Binóculos
+Ferramenta,Balde
+Ferramenta,Calculadora
+Ferramenta,Motosserra
+Ferramenta,Bússola
+Ferramenta,Lanterna
+Ferramenta,Máscara de gás
+Ferramenta,Martelo
+Ferramenta,Algemas
+Ferramenta,Broca de Mão
+Ferramenta,Serrote
+Ferramenta,Fita Métrica
+Ferramenta,Microscópio
+Ferramenta,Ratoeira
+Ferramenta,Pincel
+Ferramenta,Caneta
+Ferramenta,Apontador de Lápis
+Ferramenta,Tesoura
+Ferramenta,Chave de Fenda
+Ferramenta,Grampeador
+Ferramenta,Fita
+Ferramenta,Telescópio
+Ferramenta,Guarda-chuva
+Ferramenta,Batedor
+Ferramenta,Apito
+Veículo,Avião
+Veículo,Ambulância
+Veículo,Bicicleta
+Veículo,Dirigível
+Veículo,Barco
+Veículo,Trator
+Veículo,Ônibus
+Veículo,Carro
+Veículo,Carruagem
+Veículo,Trenó de Cães
+Veículo,Caminhão de Bombeiros
+Veículo,Helicóptero
+Veículo,Balão de Ar Quente
+Veículo,Motocicleta
+Veículo,RV
+Veículo,Scooter
+Veículo,Teleférico
+Veículo,Nave espacial
+Veículo,Carrinho de Bebê
+Veículo,Submarino
+Veículo,Tanque
+Veículo,Trem
+Veículo,Caminhão
+Veículo,UFO
+Veículo,Monociclo
+Veículo,Carrinho de Mão
