@@ -13,7 +13,9 @@
 								Bug reports are greatly appreciated! Contact me at
 								<em>fakeartistonline@gmail.com</em>, or post an issue on Github.
 							</p>
-							<h3>I accidentally quit my browser. Can I rejoin an in-progress game?</h3>
+							<h3>
+								I accidentally quit my browser. Can I rejoin an in-progress game?
+							</h3>
 							<p>This is on the to-do list!</p>
 						</div>
 						<div class="qa">
@@ -26,7 +28,7 @@
 							<p>
 								FAO is meant to be fairly simple and adaptable for house rules, so
 								I'm not ambitious. Still, I'm open to suggestions. Reach me with the
-								email above.
+								email above, or make a request on Github.
 							</p>
 						</div>
 					</div>

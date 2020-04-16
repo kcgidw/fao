@@ -10,7 +10,7 @@ Tech: Vue, Express, Socket.io, Webpack, Mocha
 
 Watch-build public: `npm run watch-p`
 
-Build and run server: `npm run start`
+Build and run server: `npm run build-s && npm run start`
 
 ## Contribute
 
