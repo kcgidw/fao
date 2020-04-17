@@ -20,8 +20,13 @@ SCHEMA[MESSAGE.CREATE_ROOM] = {
 			minLength: usernameMinLength,
 			maxLength: usernameMaxLength,
 		},
+		language: {
+			type: 'string',
+			minLength: 2,
+			maxLength: 2,
+		},
 	},
-	required: ['username'],
+	required: ['username', 'language'],
 };
 SCHEMA[MESSAGE.JOIN_ROOM] = {
 	$id: MESSAGE.JOIN_ROOM,

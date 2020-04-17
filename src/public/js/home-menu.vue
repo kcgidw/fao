@@ -16,6 +16,12 @@
         </div>
         <form id="create-game-form" @submit.prevent="createGame">
             <input type="text" id="create-username-input" class="username-input" placeholder="Username" required autocomplete="off" v-model="store.username"/>
+            <br>
+            <select v-model="store.language">
+                <option value="en">English</option>
+                <option value="pt">Brazilian Portuguese</option>
+            </select>
+            <br>
             <div style="clear: both"></div>
             <div class="form-actions">
                 <button type="button" id="create-game-back-btn" class="btn tertiary" @click="setTab('main')">Back</button>
@@ -53,7 +59,7 @@ export default {
 	data() {
 		return {
 			store: Store.state,
-			tab: 'main',
+            tab: 'main',
 		};
 	},
 	methods: {
@@ -67,7 +73,7 @@ export default {
 			Store.setView(VIEW.FAQ);
 		},
 		createGame() {
-			Store.submitCreateGame(Store.state.username);
+			Store.submitCreateGame(Store.state.username, Store.state.language);
 		},
 		joinGame() {
 			Store.submitJoinGame(Store.state.roomCode, Store.state.username);
@@ -76,6 +82,9 @@ export default {
 	watch: {
 		'store.username'(val) {
 			Store.setUsername(val);
+        },
+        'store.language'(val) {
+			Store.setLanguage(val);
 		}
 	}
 };

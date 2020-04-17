@@ -8,7 +8,7 @@ import * as Prompts from './prompts/prompts-api.js';
 const MAX_USERS = 10;
 
 class GameRoom {
-	constructor(roomCode, host) {
+	constructor(language, roomCode, host) {
 		this.roomCode = roomCode;
 		this.users = [];
 		this.host = host;
@@ -20,6 +20,7 @@ class GameRoom {
 		this.keyword = undefined;
 		this.hint = undefined;
 		this.faker = undefined;
+		this.language = language;
 
 		this.strokes = [];
 	}
@@ -59,7 +60,7 @@ class GameRoom {
 		this.shuffleUsers();
 		this.phase = GAME_PHASE.PLAY;
 		this.turn = 1;
-		let prompt = Prompts.getRandomPrompt(); // TODO ensure no duplicate prompt
+		let prompt = Prompts.getRandomPrompt(this.language); // TODO ensure no duplicate prompt
 		this.keyword = prompt.keyword;
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);

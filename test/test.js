@@ -53,6 +53,7 @@ describe('Test Suite', function() {
 		it('accept valid login', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: 'playerA',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				assert.notExists(data.err);
@@ -69,6 +70,17 @@ describe('Test Suite', function() {
 		it('reject empty username', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: '',
+				language: 'en',
+			});
+			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
+				assert.exists(data.err);
+				done();
+			});
+		});
+
+		it('reject empty language', function(done) {
+			sock1.emit(MESSAGE.CREATE_ROOM, {
+				username: 'test',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				assert.exists(data.err);
@@ -78,6 +90,7 @@ describe('Test Suite', function() {
 		it('reject long username', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: '123456789012345678901234567890',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				assert.exists(data.err);
@@ -87,11 +100,13 @@ describe('Test Suite', function() {
 		it('reject user already in a room', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: 'playerB',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				assert.notExists(data.err);
 				sock1.emit(MESSAGE.CREATE_ROOM, {
 					username: 'playerBB',
+					language: 'en',
 				});
 				sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 					assert.exists(data.err);
@@ -105,6 +120,7 @@ describe('Test Suite', function() {
 		it('accept valid login', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: 'bob',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				let roomCode = data.roomState.roomCode;
@@ -153,6 +169,7 @@ describe('Test Suite', function() {
 		it('reject duplicate username in room', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: 'spartacus',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				let roomCode = data.roomState.roomCode;
@@ -172,6 +189,7 @@ describe('Test Suite', function() {
 		it('works mid-game', function(done) {
 			sock1.emit(MESSAGE.CREATE_ROOM, {
 				username: 'bob',
+				language: 'en',
 			});
 			sock1.once(MESSAGE.CREATE_ROOM, function(data) {
 				let roomCode = data.roomState.roomCode;

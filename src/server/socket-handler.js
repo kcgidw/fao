@@ -38,7 +38,7 @@ const MessageHandlers = {
 		GamePrecond.lobbyIsNotFull();
 
 		let user = login(sock, data.username);
-		let newRoom = Lobby.createRoom();
+		let newRoom = Lobby.createRoom(data.language);
 
 		joinRoom(user, newRoom, false, true);
 
