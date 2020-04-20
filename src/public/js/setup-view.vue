@@ -38,16 +38,20 @@
 				<div class="stripe-content">
 					<div id="setup-header">Players:</div>
 					<ul class="users">
-						<li v-for="username in usernames" :key="'0' + username">{{username}}</li>
+						<li v-for="username in usernames" :key="'0' + username">{{ username }}</li>
 					</ul>
 				</div>
 			</div>
 
 			<div class="stripe flex-center align-center actions">
 				<div class="stripe-content">
-					<button class="btn primary big" @click="startConfirmationDialogVisible = true">Start Game</button>
+					<button class="btn primary big" @click="startConfirmationDialogVisible = true">
+						Start Game
+					</button>
 					<div style="clear: both" />
-					<button class="btn tertiary" @click="leaveConfirmationDialogVisible = true">Leave</button>
+					<button class="btn tertiary" @click="leaveConfirmationDialogVisible = true">
+						Leave
+					</button>
 				</div>
 			</div>
 		</div>
@@ -55,11 +59,11 @@
 </template>
 
 <script>
-import Store from "./state";
-import VIEW from "./view";
-import Confirmation from "./confirmation";
+import Store from './state';
+import VIEW from './view';
+import Confirmation from './confirmation';
 export default {
-	name: "SetupView",
+	name: 'SetupView',
 	components: {
 		Confirmation,
 	},

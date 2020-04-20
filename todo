@@ -1,9 +1,8 @@
-rejoin game after leaving
+proper domain
+dedicated server
 redis store
-see room code in game
-quick-join via url
-
 validate against incompatible browsers or devices
+quick-join via url
 
 l10n support
 more tests
