@@ -8,20 +8,22 @@
 					</div>
 					<div class="align-left">
 						<div class="qa">
-							<h3>I found a bug!</h3>
-							<p>
-								Bug reports are greatly appreciated! Contact me at
-								<em>fakeartistonline@gmail.com</em>, or post an issue on Github.
-							</p>
 							<h3>
-								I accidentally quit my browser. Can I rejoin an in-progress game?
+								I accidentally quit my browser. How do I rejoin an in-progress game?
 							</h3>
-							<p>This is on the to-do list!</p>
+							<p>Join the room again with your username exactly as it was.</p>
 						</div>
 						<div class="qa">
 							<h3>The website connection is spotty!</h3>
 							<p>FAO's currently on Heroku's free hosting service.</p>
 							<p>(I would like to get a proper server and domain at some point!)</p>
+						</div>
+						<div class="qa">
+							<h3>I found a bug!</h3>
+							<p>
+								Bug reports are greatly appreciated! Contact me at
+								<em>fakeartistonline@gmail.com</em>, or post an issue on Github.
+							</p>
 						</div>
 						<div class="qa">
 							<h3>Will you implement ___?</h3>

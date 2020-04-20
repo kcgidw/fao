@@ -55,13 +55,16 @@ const MessageHandlers = {
 		GamePrecond.roomExists(data.roomCode);
 
 		let user;
+		const nameExistsInRoom = roomToJoin.findUser(data.username) !== undefined;
 
-		if (data.rejoin) {
+		if (nameExistsInRoom) {
+			// rejoin
 			GamePrecond.nameIsTakenInRoom(data.username, roomToJoin);
 			GamePrecond.gameInProgress(roomToJoin);
 			user = login(sock, data.username, roomToJoin);
 			joinRoom(user, roomToJoin, true, false);
 		} else {
+			// join for first time
 			GamePrecond.roomIsNotFull(roomToJoin);
 			GamePrecond.gameNotInProgress(roomToJoin);
 			GamePrecond.nameIsNotTakenInRoom(data.username, roomToJoin);
@@ -256,6 +259,14 @@ const GamePrecond = {
 			throw new GameError(
 				`Username ${username} DNE in room ${room.roomCode}`,
 				"This username doesn't exist in this room"
+			);
+		}
+	},
+	userIsDisconnected(username, room) {
+		if (!room.findUser(username).connected) {
+			throw new GameError(
+				`Username ${username} connected to ${room.roomCode}`,
+				'This username is taken in this room'
 			);
 		}
 	},

@@ -35,9 +35,6 @@ SCHEMA[MESSAGE.JOIN_ROOM] = {
 			type: ['string', 'number'],
 			minLength: 1,
 		},
-		rejoin: {
-			type: 'boolean',
-		},
 	},
 	required: ['username', 'roomCode'],
 };
