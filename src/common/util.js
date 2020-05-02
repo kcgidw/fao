@@ -1,5 +1,5 @@
-
-function randomInt(max) { // max-exclusive
+function randomInt(max) {
+	// max-exclusive
 	return Math.floor(Math.random() * max);
 }
 function randomItemFrom(arr) {
@@ -18,8 +18,8 @@ function shuffle(array) {
 function validateUsername(name) {
 	name = name.trim();
 	const minChars = 1;
-	const maxChars = 20;
-	let regex = new RegExp(`^[0-9a-zA-Z ]{${minChars},${maxChars}}$`);
+	const maxChars = 15;
+	const regex = new RegExp(`^[0-9a-zA-Z ]{${minChars},${maxChars}}$`);
 	return name.match(regex);
 }
 
@@ -31,11 +31,4 @@ function negligible(a, b, thresh = 0.0001) {
 	return Math.abs(a - b) < thresh;
 }
 
-export {
-	randomInt,
-	randomItemFrom,
-	shuffle,
-	validateUsername,
-	capitalize,
-	negligible,
-};
+export { randomInt, randomItemFrom, shuffle, validateUsername, capitalize, negligible };

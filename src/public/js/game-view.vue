@@ -166,7 +166,7 @@ const strokeTracker = {
 	},
 };
 
-const SIDE_PLAYER_STATUSES_LIST_MAX_WIDTH = 200;
+const SIDE_PLAYER_STATUSES_LIST_MIN_WIDTH = 120;
 
 export default {
 	name: 'GameView',
@@ -352,7 +352,7 @@ export default {
 		},
 		resizePlayerStatusesList() {
 			const availableWidth = window.innerWidth / 2 - drawingPad.canvasWidth / 2;
-			if (availableWidth >= SIDE_PLAYER_STATUSES_LIST_MAX_WIDTH) {
+			if (availableWidth >= SIDE_PLAYER_STATUSES_LIST_MIN_WIDTH) {
 				this.playerStatusesListMaxWidth = Math.floor(availableWidth);
 			} else {
 				this.playerStatusesListMaxWidth = 0;

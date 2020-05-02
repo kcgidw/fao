@@ -120,8 +120,8 @@ handleSocket(MESSAGE.START_GAME);
 handleSocket(MESSAGE.NEW_TURN);
 handleSocket(MESSAGE.RETURN_TO_SETUP);
 
-const usernameWarning =
-	'Username must be 1-20 characters long, and can only contain alphanumerics and spaces';
+const usernameValidationWarning =
+	'Username must be 1-15 characters long, and can only contain alphanumerics and spaces';
 function submitCreateGame(username) {
 	username = username.trim();
 	if (validateUsername(username)) {
@@ -131,7 +131,7 @@ function submitCreateGame(username) {
 		});
 		return true;
 	} else {
-		this.setWarning('createWarning', usernameWarning);
+		this.setWarning('createWarning', usernameValidationWarning);
 		return false;
 	}
 }
@@ -145,7 +145,7 @@ function submitJoinGame(roomCode, username) {
 		});
 		return true;
 	} else {
-		this.setWarning('joinWarning', usernameWarning);
+		this.setWarning('joinWarning', usernameValidationWarning);
 		return false;
 	}
 }

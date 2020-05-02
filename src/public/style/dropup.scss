@@ -3,7 +3,7 @@
 	margin: 10px 10px;
 
 	button {
-		border: solid 2px rgba(0,0,0,0);
+		border: solid 2px rgba(0, 0, 0, 0);
 		border-radius: 100%;
 		background-color: var(--grey0);
 		color: var(--grey7);
@@ -15,7 +15,7 @@
 		flex-shrink: 0;
 		cursor: pointer;
 
-		@media(any-hover: hover) {
+		@media (any-hover: hover) {
 			&:hover {
 				border-color: var(--grey1);
 			}

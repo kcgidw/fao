@@ -6,9 +6,7 @@
 			:class="{ expanded: expanded === true }"
 			@click="toggle"
 		>
-			<svg class="feather">
-				<use xlink:href="feather-sprite.svg#more-horizontal" />
-			</svg>
+			<more-vertical-icon />
 		</button>
 		<div id="game-menu-dropdown" class="dropup-content" v-show="expanded === true">
 			<ul class="dropup-list">
@@ -22,8 +20,12 @@
 </template>
 <script>
 import Store from './state';
+import { MoreVerticalIcon } from 'vue-feather-icons';
 export default {
 	name: 'GameMenu',
+	components: {
+		MoreVerticalIcon,
+	},
 	props: {
 		items: Array,
 		/* item in items: {
