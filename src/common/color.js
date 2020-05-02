@@ -1,20 +1,27 @@
 const HEX = {
-	'RED':		'#e50000',
-	'GOLD':		'#ccbc14',
-	'FOREST':	'#329900',
-	'BLUE':		'#0066cc',
-	'PURPLE':	'#5500cc',
-	'ORANGE':	'#f28900',
-	'LIME':		'#89e500',
-	'TEAL':		'#00bf8f',
-	'BROWN':	'#a56729',
-	'MAGENTA':	'#cc0070',
-	// 'GREEN':	'#76cc00',
-	// 'PINK':		'#db72e5',
+	MAGENTA: '#cc0088',
+	RED: '#e50000',
+	ORANGE: '#f28900',
+	GOLD: '#ddbb00',
+	GREEN: '#3dbb00',
+	TEAL: '#00aaaa',
+	BLUE: '#0044cc',
+	PURPLE: '#9300dd',
+	PINK: '#ee77ff',
+	BROWN: '#a56729',
 };
 
-const ORDER = ['RED', 'GOLD', 'FOREST', 'BLUE', 'PURPLE', 'ORANGE', 'LIME', 'TEAL', 'BROWN', 'MAGENTA'];
+const ORDER = [
+	'RED',
+	'GOLD',
+	'GREEN',
+	'BLUE',
+	'PURPLE',
+	'ORANGE',
+	'TEAL',
+	'PINK',
+	'MAGENTA',
+	'BROWN',
+];
 
-export {
-	HEX, ORDER,
-};
+export { HEX, ORDER };
