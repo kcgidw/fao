@@ -16,19 +16,20 @@
 							Each round, players see the round's random keyword and its category,
 							e.g. <span>"Apple (Food)".</span>
 						</p>
-						<p>But the fake artist <em>only sees the category</em>: "??? (Food)".</p>
+						<p>
+							But the fake artist <em>only</em> sees the category, e.g. "??? (Food)".
+						</p>
 						<p>
 							Players take turns drawing single strokes on a drawing pad. After
 							everyone has drawn twice, everyone votes on who they think the fake
 							artist is.
 						</p>
 						<p>
-							If the majority vote is incorrect, then the fake artist wins!
+							The fake artist wins if they don't get the majority vote.
 						</p>
 						<p>
-							But if the fake artist is caught, the other players haven't won just
-							yet. The fake artist gets a chance to guess the keyword. If they guess
-							correctly, <em>they still win!</em>
+							But even if the fake artist gets caught, they get one chance to guess
+							the keyword. If they guess correctly, <em>they still win!</em>
 						</p>
 					</div>
 					<div class="align-right">
