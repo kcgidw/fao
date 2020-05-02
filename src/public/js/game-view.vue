@@ -89,6 +89,15 @@
 				</div>
 			</div>
 		</div>
+		<div
+			id="side-player-statuses"
+			v-if="playerStatusesListMaxWidth > 0"
+			:style="{
+				maxWidth: `${playerStatusesListMaxWidth}px`,
+			}"
+		>
+			<PlayerStatusesList :users="gameState.users" />
+		</div>
 	</div>
 </template>
 
@@ -104,6 +113,7 @@ import GameMenu from './game-menu';
 import RoomInfo from './room-info';
 import Confirmation from './confirmation';
 import drawingPad from './drawing-pad';
+import PlayerStatusesList from './player-statuses-list';
 
 const CanvasState = {
 	EMPTY: 'EMPTY',
@@ -156,6 +166,8 @@ const strokeTracker = {
 	},
 };
 
+const SIDE_PLAYER_STATUSES_LIST_MAX_WIDTH = 200;
+
 export default {
 	name: 'GameView',
 	components: {
@@ -163,6 +175,7 @@ export default {
 		GameMenu,
 		RoomInfo,
 		Confirmation,
+		PlayerStatusesList,
 	},
 	props: {
 		gameConnection: {
@@ -211,6 +224,7 @@ export default {
 				},
 			],
 			roomInfoDialogVisible: false,
+			playerStatusesListMaxWidth: 0,
 		};
 	},
 	computed: {
@@ -319,7 +333,11 @@ export default {
 				}
 			}
 		},
-		resize() {
+		onWindowResize() {
+			this.resizeDrawingPad();
+			this.resizePlayerStatusesList();
+		},
+		resizeDrawingPad() {
 			drawingPad.adjustSize();
 			drawingPad.clearLayer(Layer.TOP);
 			drawingPad.drawStroke(Layer.TOP, strokeTracker.points, 'black');
@@ -330,6 +348,14 @@ export default {
 					stroke.points,
 					this.gameState.getUserColor(stroke.username)
 				);
+			}
+		},
+		resizePlayerStatusesList() {
+			const availableWidth = window.innerWidth / 2 - drawingPad.canvasWidth / 2;
+			if (availableWidth >= SIDE_PLAYER_STATUSES_LIST_MAX_WIDTH) {
+				this.playerStatusesListMaxWidth = Math.floor(availableWidth);
+			} else {
+				this.playerStatusesListMaxWidth = 0;
 			}
 		},
 		togglePrompt() {
@@ -369,12 +395,13 @@ export default {
 		this.$nextTick(function() {
 			drawingPad.init();
 			drawingPad.adjustSize();
+			this.resizePlayerStatusesList();
 			this.reset();
 		});
-		window.addEventListener('resize', this.resize);
+		window.addEventListener('resize', this.onWindowResize);
 	},
 	beforeDestroy() {
-		window.removeEventListener('resize', this.resize);
+		window.removeEventListener('resize', this.onWindowResize);
 	},
 };
 </script>

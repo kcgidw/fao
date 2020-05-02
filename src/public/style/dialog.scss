@@ -1,46 +1,30 @@
 .dialog-component {
-    .dialog-overlay {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: var(--shade);
-        z-index: 10;
-    }
-    .dialog-window {
-        z-index: 10;
-        min-width: 25em;
-        max-width: 35em;
-        padding: 10px 20px;
-        display: block;
-        text-align: left;
-        background-color: var(--grey0);
-        border-radius: 5px;
-        box-shadow: 0px 3px 6px var(--shade), 0px 6px 20px var(--shade);
+	.dialog-overlay {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: var(--shade);
+		z-index: 10;
+	}
+	.dialog-window {
+		z-index: 10;
+		min-width: 25em;
+		max-width: 35em;
+		padding: 10px 20px;
+		display: block;
+		text-align: left;
+		background-color: var(--grey0);
+		border-radius: 5px;
+		box-shadow: 0px 3px 6px var(--shade), 0px 6px 20px var(--shade);
 
-        @media screen and (max-width: 480px) {
-            min-width: 150px;
-        }
-    }
-    .dialog-actions {
-        margin-top: 20px;
-        text-align: right;
-    }
-}
-
-#player-statuses {
-    ul {
-        text-align: left;
-    }
-    li {
-        display: flex;
-    }
-    li > span {
-        align-self: center;
-    }
-    .grow-space {
-        flex-grow: 1;
-        min-width: 10px;
-    }
+		@media screen and (max-width: 480px) {
+			min-width: 150px;
+		}
+	}
+	.dialog-actions {
+		margin-top: 20px;
+		text-align: right;
+	}
 }

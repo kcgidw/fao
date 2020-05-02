@@ -1,7 +1,7 @@
 :root {
 	--shadow-config: 0px 2px 4px 0px;
-	--body-font: "Quicksand", sans-serif;
-	--button-font: "Quicksand", sans-serif;
+	--body-font: 'Quicksand', sans-serif;
+	--button-font: 'Quicksand', sans-serif;
 }
 
 html,
@@ -47,7 +47,7 @@ h3 {
 	margin: 5px 5px 5px 5px;
 }
 h1.title {
-	font-family: "Catamaran", sans-serif;
+	font-family: 'Catamaran', sans-serif;
 	font-weight: 900;
 	font-size: 48px;
 	color: var(--artist4);
@@ -246,6 +246,24 @@ canvas#new-paint {
 	}
 }
 
+#side-player-statuses {
+	position: absolute;
+	word-break: break-all;
+}
+ul.player-statuses-list {
+	text-align: left;
+	li {
+		display: flex;
+	}
+	li > span {
+		align-self: center;
+	}
+	.grow-space {
+		flex-grow: 1;
+		min-width: 10px;
+	}
+}
+
 #drawing-actions {
 	direction: rtl; /* handle vertical button order for super-narrow viewports */
 
@@ -281,7 +299,7 @@ canvas#new-paint {
 	fill: none;
 }
 
-@import "colors";
-@import "input";
-@import "dropup";
-@import "dialog";
+@import 'colors';
+@import 'input';
+@import 'dropup';
+@import 'dialog';
