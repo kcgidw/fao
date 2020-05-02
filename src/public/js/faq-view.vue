@@ -14,9 +14,14 @@
 							<p>Join the room again with your username exactly as it was.</p>
 						</div>
 						<div class="qa">
-							<h3>The website connection is spotty!</h3>
-							<p>FAO's currently on Heroku's free hosting service.</p>
-							<p>(I would like to get a proper server and domain at some point!)</p>
+							<h3>The site is slow! The site went down! Our game is gone!</h3>
+							<p>
+								FAO's currently on Heroku's free hosting service, which has its
+								limitations. One day I'd like to set up a proper server and domain!
+							</p>
+							<p>
+								I also occasionally push updates, which causes server maintenance.
+							</p>
 						</div>
 						<div class="qa">
 							<h3>I found a bug!</h3>
