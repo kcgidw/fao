@@ -75,6 +75,7 @@ const drawingPad = {
 		context.strokeStyle = color;
 		context.lineJoin = 'round';
 		context.lineWidth = this.strokeWidth;
+		context.lineCap = 'round';
 		context.beginPath();
 		// console.log(pts);
 		for (let pt of points) {
