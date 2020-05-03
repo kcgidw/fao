@@ -12,12 +12,11 @@
 			<div class="stripe">
 				<div id="about-content" class="stripe-content normal-text align-center">
 					<p>
-						Fake Artist Online is based on Oink Games' tabletop game,
+						Fake Artist Online is a drawing game based on Oink Games' tabletop game,
 						<a href="https://oinkgms.com/en/a-fake-artist-goes-to-new-york"
 							>A Fake Artist Goes to New York</a
 						>.
 					</p>
-					<p>This project is a continual WIP. Please use a modern browser!</p>
 					<p>
 						Contribute:
 						<a href="https://github.com/kcgidw/fao">Github</a>

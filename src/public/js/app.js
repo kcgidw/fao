@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Store from './state';
-// import $router from './routes/router';
 import HomeView from './home-view.vue';
 import RulesView from './rules-view.vue';
 import FaqView from './faq-view.vue';
@@ -16,11 +15,6 @@ const app = new Vue({
 		SetupView,
 		GameView,
 	},
-	// template: `
-	//     <div id="wrapper">
-	// 	    <router-view></router-view>
-	// 	</div>`,
-	// router: $router,
 	data: {
 		state: Store.state,
 	},
