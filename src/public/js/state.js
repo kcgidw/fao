@@ -2,10 +2,11 @@ import VIEW from './view';
 import CONNECTION_STATE from './connection-state';
 import GAME_PHASE from '../../common/game-phase';
 import MESSAGE from '../../common/message';
-import { generateClientGameState } from '../../common/cli-game';
+import { generateClientGameState } from './client-game';
 import { validateUsername } from '../../common/util';
 
 const socket = io();
+// const sfx = new Audio('static/sfx-shake.wav');
 
 const Store = {
 	state: {
@@ -83,7 +84,13 @@ function handleSocket(messageName, handler, errHandler) {
 			handler(data);
 		}
 		if (data.roomState !== undefined) {
+			const prevStrokesLength = Store.state.gameState
+				? Store.state.gameState.strokes.length
+				: 0;
 			Store.setGameState(data.roomState);
+			// if (prevStrokesLength < data.roomState.strokes.length) {
+			// sfx.play();
+			// }
 		}
 	});
 }

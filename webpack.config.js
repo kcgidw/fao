@@ -3,6 +3,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = (env) => {
 	const prod = env.production;
@@ -40,14 +41,6 @@ module.exports = (env) => {
 						{ loader: 'file-loader', options: { name: '[name].html' } },
 						'extract-loader',
 						'html-loader',
-					],
-				},
-				{
-					test: /\.svg$/,
-					loader: [
-						{ loader: 'file-loader', options: { name: '[name].svg' } },
-						'extract-loader',
-						'svg-inline-loader',
 					],
 				},
 				{
@@ -94,6 +87,12 @@ module.exports = (env) => {
 			new MiniCssExtractPlugin({
 				filename: 'style.bundle.css',
 			}),
+			new CopyPlugin([
+				{
+					from: path.resolve(__dirname, 'src', 'public/static'),
+					to: path.resolve(__dirname, 'dist', 'public/static'),
+				},
+			]),
 		],
 
 		externals: prod
