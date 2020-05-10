@@ -37,7 +37,7 @@
 			<div class="stripe">
 				<div id="game-info" class="stripe-content canvas-aligned">
 					<h1 class="prompt" v-show="promptVisible">{{ promptText }}</h1>
-					<h2 class="current-turn" :style="{ color: userColor }">{{ whoseTurnText }}</h2>
+					<h2 class="current-turn" :style="{ color: userColor }">{{ whoseTurnText }} {{ whichRoundText }}</h2>
 				</div>
 			</div>
 			<div class="stripe flex-center">
@@ -231,10 +231,26 @@ export default {
 		promptText() {
 			return `${this.gameState.keyword} (${this.gameState.hint})`;
 		},
+		whichRoundText() {
+			if (this.gameState.phase === GAME_PHASE.PLAY) {
+				return `Round ${Math.floor(((this.gameState.turn - 1) / this.gameState.users.length) + 1)} (out of 2)` 
+			} 
+			else if (this.gameState.phase === GAME_PHASE.VOTE) {
+				return 'Time to vote!'
+			}
+			// Should not reach this point
+			else {
+				return '';
+			}
+		},
 		whoseTurnText() {
-			return this.gameState.phase === GAME_PHASE.VOTE
-				? 'Time to vote!'
-				: `${this.gameState.whoseTurn}'s turn`;
+			if (this.gameState.phase === GAME_PHASE.PLAY) {
+				return `${this.gameState.whoseTurn}'s turn -`;
+			}
+			else {
+				return '';
+			}
+
 		},
 		userColor() {
 			return this.gameState.getUserColor(this.gameState.whoseTurn);
