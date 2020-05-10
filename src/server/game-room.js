@@ -14,6 +14,8 @@ class GameRoom {
 		this.host = host;
 
 		this.round = 0;
+		this.roundTimer = 60;
+		this.timerCutoff = undefined;
 		this.phase = GAME_PHASE.SETUP;
 
 		this.turn = -1;
@@ -64,6 +66,7 @@ class GameRoom {
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
+		this.restartTimer();
 		console.log(`Rm${this.roomCode} New round`);
 	}
 	invokeSetup() {
@@ -97,10 +100,17 @@ class GameRoom {
 			if (this.turn - 1 >= this.users.length * 2) {
 				// 2 rounds per user
 				this.phase = GAME_PHASE.VOTE;
+			} else {
+				console.log(`Rm${this.roomCode} Restarting timer`);
+				this.restartTimer();
 			}
 			return this.turn;
 		}
 		return undefined;
+	}
+	restartTimer() {
+		let currentTime = new Date();
+		this.timerCutoff = currentTime.setSeconds(currentTime.getSeconds() + this.roundTimer);
 	}
 	isGameInProgress() {
 		return this.phase === GAME_PHASE.PLAY || this.phase === GAME_PHASE.VOTE;
@@ -125,6 +135,7 @@ const ClientAdapter = {
 			round: gameRoom.round,
 			phase: gameRoom.phase,
 			turn: gameRoom.turn,
+			timerCutoff: gameRoom.timerCutoff,
 			whoseTurn: gameRoom.whoseTurn() ? gameRoom.whoseTurn().name : null, // null, so the empty value still gets passed to the client
 			keyword: gameRoom.keyword,
 			hint: gameRoom.hint,

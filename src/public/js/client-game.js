@@ -7,6 +7,8 @@ function generateClientGameState() {
 		round: undefined,
 		phase: undefined,
 		turn: undefined,
+		timerCutoff: undefined,
+		currentRoundSecondsLeft: 59,
 		whoseTurn: undefined,
 		keyword: undefined,
 		hint: undefined,

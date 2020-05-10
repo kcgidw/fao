@@ -38,6 +38,7 @@
 				<div id="game-info" class="stripe-content canvas-aligned">
 					<h1 class="prompt" v-show="promptVisible">{{ promptText }}</h1>
 					<h2 class="current-turn" :style="{ color: userColor }">{{ whoseTurnText }} {{ whichRoundText }}</h2>
+					<h2 class="current-turn" v-show="!roundOver">{{ timeLeft }} seconds left before turn passes over</h2>
 				</div>
 			</div>
 			<div class="stripe flex-center">
@@ -167,6 +168,7 @@ const strokeTracker = {
 };
 
 const SIDE_PLAYER_STATUSES_LIST_MIN_WIDTH = 120;
+let roundTimer;
 
 export default {
 	name: 'GameView',
@@ -236,6 +238,7 @@ export default {
 				return `Round ${Math.floor(((this.gameState.turn - 1) / this.gameState.users.length) + 1)} (out of 2)` 
 			} 
 			else if (this.gameState.phase === GAME_PHASE.VOTE) {
+				clearInterval(roundTimer);
 				return 'Time to vote!'
 			}
 			// Should not reach this point
@@ -250,8 +253,12 @@ export default {
 			else {
 				return '';
 			}
-
 		},
+
+		timeLeft() {
+			return this.gameState.currentRoundSecondsLeft;
+		},
+
 		userColor() {
 			return this.gameState.getUserColor(this.gameState.whoseTurn);
 		},
@@ -273,6 +280,11 @@ export default {
 		},
 		['gameState.round']() {
 			this.promptVisible = true;
+		},
+		['gameState.currentRoundSecondsLeft']() {
+			if (this.gameState.currentRoundSecondsLeft <= 0) { 
+				this.submit();
+			}
 		},
 	},
 	methods: {
@@ -297,6 +309,7 @@ export default {
 			} else {
 				this.canvasState = CanvasState.SPECTATE;
 			}
+			this.setUpTimer(this.gameState);
 		},
 		undo() {
 			this.stroke.reset();
@@ -304,9 +317,8 @@ export default {
 			this.canvasState = CanvasState.EMPTY;
 		},
 		submit() {
-			if (Store.myTurn() && this.stroke.hasPoints()) {
+			if (Store.myTurn()) {
 				Store.submitStroke(this.stroke.points);
-
 				this.stroke.reset();
 				this.canvasState = CanvasState.SPECTATE;
 			}
@@ -406,12 +418,21 @@ export default {
 		rules() {
 			Store.setView(VIEW.RULES);
 		},
-	},
+		setUpTimer(gameState) {
+			roundTimer = setInterval(function() {
+   				let currentDate = new Date();
+				let timeLeft = Math.floor((gameState.timerCutoff - currentDate.getTime()) / 1000);
+				gameState.currentRoundSecondsLeft = (timeLeft < 0) ? 0 : timeLeft;
+ 			}, 1000);
+		},
+	}, 
 	mounted() {
+		clearInterval(roundTimer);
+		this.setUpTimer(this.gameState);
 		this.$nextTick(function() {
 			drawingPad.init();
 			drawingPad.adjustSize();
-			this.resizePlayerStatusesList();
+			this.resizePlayerStatusesList(); 
 			this.reset();
 		});
 		window.addEventListener('resize', this.onWindowResize);
