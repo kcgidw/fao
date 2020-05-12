@@ -1,10 +1,9 @@
 <template>
 	<dialog-component id="room-info">
 		<div id="room-info-code">
-			<h2>Game code: {{ roomCode }}</h2>
+			<h2>Code: {{ roomCode }}</h2>
 		</div>
 		<div id="player-statuses">
-			<h2>Players:</h2>
 			<PlayerStatusesList :users="users" />
 		</div>
 

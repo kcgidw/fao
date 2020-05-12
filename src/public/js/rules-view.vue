@@ -14,10 +14,10 @@
 						</p>
 						<p>
 							Each round, players see the round's random keyword and its category,
-							e.g. <span>"Apple (Food)".</span>
+							e.g. <span>"Food: Apple".</span>
 						</p>
 						<p>
-							But the fake artist <em>only</em> sees the category, e.g. "??? (Food)".
+							But the fake artist <em>only</em> sees the category, e.g. "Food: ???".
 						</p>
 						<p>
 							Players take turns drawing single strokes on a drawing pad. After

@@ -197,11 +197,11 @@ export default {
 			setupConfirmationDialogVisible: false,
 			menuItems: [
 				{
-					text: 'Toggle prompt visibility',
+					text: 'Toggle prompt',
 					action: this.togglePrompt,
 				},
 				{
-					text: 'View room & player info',
+					text: 'Game status',
 					action: this.showRoomInfo,
 				},
 				{
@@ -229,7 +229,7 @@ export default {
 	},
 	computed: {
 		promptText() {
-			return `${this.gameState.keyword} (${this.gameState.hint})`;
+			return `${this.gameState.hint}: ${this.gameState.keyword}`;
 		},
 		whoseTurnText() {
 			return this.gameState.phase === GAME_PHASE.VOTE
