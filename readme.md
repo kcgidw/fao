@@ -12,9 +12,20 @@ Watch-build public: `npm run watch-p`
 
 Build and run server: `npm run build-s && npm run start`
 
-## Contribute
+## Contributing guidelines
 
-I'm not actively seeking contributors, but if you have a pull request I'm happy to take a look.
+I'm not actively seeking contributors, but if you have a pull request I'm happy to take a look!
+
+Some guidelines:
+
+-   I'm not seeking additional keyword prompts. There's already a lot!
+-   UI changes must reasonably accomodate iPhone 5 screens (320x568)
+-   FAO is simple, not ambitious. The old Crabhat Spyfall webapp was a huge inspiration for me, and it was pretty minimalistic.
+-   As a rule of thumb, I'm hesitant to make changes, additions, or enforcements to the _rules_ of the game. Think of the people with house rules!
+
+If you have questions, feel free to email me or create a feature request for discussion.
+
+I'm also totally cool with people hosting their own forks, as long as there's credit to the original repo.
 
 ## Support
 
