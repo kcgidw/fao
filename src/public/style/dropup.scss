@@ -20,6 +20,7 @@
 				border-color: var(--grey1);
 			}
 		}
+		&:active,
 		&.expanded {
 			border-color: var(--grey1);
 			background-color: var(--grey1);
@@ -46,7 +47,7 @@
 			color: var(--grey7);
 			font-family: var(--body-font);
 			border-radius: 5px;
-			padding: 10px;
+			padding: 8px 16px;
 			cursor: pointer;
 			&:not(:last-child) {
 				margin-bottom: 4px;
