@@ -3,7 +3,9 @@
 		<li v-for="u in users" :key="'0' + u.name">
 			<span v-if="u.connected" :style="{ color: color(u) }"><user-icon /></span>
 			<span v-else><wifi-off-icon /></span>
-			<span class="username" :style="{ color: color(u) }">{{ u.name }}</span>
+			<span :style="{ color: color(u), fontWeight: isMyTurn(u) ? 'bold' : 'normal' }">{{
+				u.name
+			}}</span>
 		</li>
 	</ul>
 </template>
@@ -25,6 +27,9 @@ export default {
 	methods: {
 		color(user) {
 			return Store.state.gameState.getUserColor(user.name);
+		},
+		isMyTurn(user) {
+			return Store.state.gameState.whoseTurn === user.name;
 		},
 	},
 };
