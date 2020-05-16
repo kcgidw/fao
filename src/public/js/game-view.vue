@@ -61,15 +61,15 @@
 						<button
 							class="btn primary big"
 							@click="newRound"
-							v-show="roundOver"
-							:disabled="!roundOver"
+							v-show="isRoundOver"
+							:disabled="!isRoundOver"
 						>
 							New Round
 						</button>
 						<button
 							class="btn primary submit-drawing"
 							@click="submit"
-							v-show="!roundOver"
+							v-show="!isRoundOver"
 							:disabled="!actionsEnabled"
 						>
 							Submit
@@ -77,7 +77,7 @@
 						<button
 							class="btn secondary undo-drawing"
 							@click="undo"
-							v-show="!roundOver"
+							v-show="!isRoundOver"
 							:disabled="!actionsEnabled"
 						>
 							Undo
@@ -195,34 +195,7 @@ export default {
 			promptVisible: true,
 			skipRoundConfirmationDialogVisible: false,
 			setupConfirmationDialogVisible: false,
-			menuItems: [
-				{
-					text: 'Toggle prompt',
-					action: this.togglePrompt,
-				},
-				{
-					text: 'Game status',
-					action: this.showRoomInfo,
-				},
-				{
-					text: 'break1',
-					hr: true,
-				},
-				{
-					// 	text: 'Rules',
-					// 	action: this.rules,
-					// }, {
-					// 	text: 'break2',
-					// 	hr: true,
-					// }, {
-					text: 'Skip this round',
-					action: this.showSkipRoundConfirmationDialog,
-				},
-				{
-					text: 'Exit to setup',
-					action: this.showSetupConfirmationDialog,
-				},
-			],
+			menuItems: this.generateMenuOptions(),
 			roomInfoDialogVisible: false,
 			playerStatusesListMaxWidth: 0,
 		};
@@ -239,7 +212,7 @@ export default {
 		userColor() {
 			return this.gameState.getUserColor(this.gameState.whoseTurn);
 		},
-		roundOver() {
+		isRoundOver() {
 			return this.gameState.phase === GAME_PHASE.VOTE;
 		},
 		actionsEnabled() {
@@ -257,6 +230,9 @@ export default {
 		},
 		['gameState.round']() {
 			this.promptVisible = true;
+		},
+		['gameState.phase']() {
+			this.menuItems = this.generateMenuOptions();
 		},
 	},
 	methods: {
@@ -389,6 +365,37 @@ export default {
 		},
 		rules() {
 			Store.setView(VIEW.RULES);
+		},
+		generateMenuOptions() {
+			const nextRoundOption =
+				this.gameState.phase === GAME_PHASE.VOTE
+					? {
+							text: 'Next round',
+							action: this.newRound,
+					  }
+					: {
+							text: 'Skip this round',
+							action: this.showSkipRoundConfirmationDialog,
+					  };
+			return [
+				{
+					text: 'Toggle prompt',
+					action: this.togglePrompt,
+				},
+				{
+					text: 'Game status',
+					action: this.showRoomInfo,
+				},
+				{
+					text: 'break1',
+					hr: true,
+				},
+				nextRoundOption,
+				{
+					text: 'Exit to setup',
+					action: this.showSetupConfirmationDialog,
+				},
+			];
 		},
 	},
 	mounted() {
