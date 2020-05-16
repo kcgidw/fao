@@ -1,5 +1,11 @@
 import debugLog from './debug-log';
 
+/**
+ * Error object for user and game state validation
+ * message: Server logs
+ * clientMessage: Sent to client (optional)
+ */
+
 class GameError {
 	constructor(message, clientMessage, debugOnly = false) {
 		this.name = GameError.name;

@@ -217,7 +217,7 @@ const GamePrecond = {
 	},
 	roomExists(roomCode) {
 		if (Lobby.getRoomByCode(roomCode) === undefined) {
-			throw new GameError(`Room-${roomCode} DNE`, 'This room is unavailable');
+			throw new GameError(`Rm${roomCode} DNE`, 'This room is unavailable');
 		}
 	},
 	gameInProgress(room) {
@@ -227,12 +227,12 @@ const GamePrecond = {
 	},
 	gameNotInProgress(room) {
 		if (room.isGameInProgress()) {
-			throw new GameError('A game is already in progress');
+			throw new GameError(`Rm${room.roomCode} A game is already in progress`);
 		}
 	},
 	roomIsNotFull(room) {
 		if (room.isFull()) {
-			throw new GameError(`Room ${room.roomCode} is full`, 'This room is full', true);
+			throw new GameError(`Rm${room.roomCode} is full`, 'This room is full', true);
 		}
 	},
 	lobbyIsNotFull() {
@@ -249,7 +249,7 @@ const GamePrecond = {
 	nameIsNotTakenInRoom(username, room) {
 		if (room.findUser(username)) {
 			throw new GameError(
-				`Username ${username} is taken in room ${room.roomCode}`,
+				`Username ${username} is taken in Rm${room.roomCode}`,
 				'This username is taken in this room'
 			);
 		}
@@ -257,7 +257,7 @@ const GamePrecond = {
 	nameIsTakenInRoom(username, room) {
 		if (room.findUser(username) === undefined) {
 			throw new GameError(
-				`Username ${username} DNE in room ${room.roomCode}`,
+				`Username ${username} DNE in Rm${room.roomCode}`,
 				"This username doesn't exist in this room"
 			);
 		}
@@ -265,7 +265,7 @@ const GamePrecond = {
 	userIsDisconnected(username, room) {
 		if (!room.findUser(username).connected) {
 			throw new GameError(
-				`Username ${username} connected to ${room.roomCode}`,
+				`Username ${username} connected to Rm${room.roomCode}`,
 				'This username is taken in this room'
 			);
 		}
