@@ -1,12 +1,11 @@
 <template>
 	<dialog-component>
-        <slot></slot>
+		<slot></slot>
 
 		<template #actions>
-			<button class="btn tertiary" @click="$emit('close')">{{cancelText}}</button>
-			<button class="btn primary" @click="$emit('confirm')">{{confirmText}}</button>
+			<button class="btn tertiary" @click="$emit('close')">{{ cancelText }}</button>
+			<button class="btn primary" @click="$emit('confirm')">{{ confirmText }}</button>
 		</template>
-
 	</dialog-component>
 </template>
 
@@ -28,11 +27,6 @@ export default {
 			type: String,
 			default: 'Confirm',
 		},
-	},
-	data() {
-		return {};
-	},
-	methods: {
 	},
 };
 </script>

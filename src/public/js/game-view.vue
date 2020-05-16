@@ -2,15 +2,15 @@
 	<div id="in-game" class="view">
 		<div class="view-container">
 			<room-info
-				@close="hideRoomInfo"
+				v-show="currentDialog === 'ROOM_INFO'"
 				:users="gameState.users"
 				:room-code="gameState.roomCode"
-				v-show="roomInfoDialogVisible"
+				@close="hideDialogs"
 			></room-info>
 			<confirmation
 				id="confirm-skip-dialog"
-				v-show="skipRoundConfirmationDialogVisible"
-				@close="hideSkipRoundConfirmationDialog"
+				v-show="currentDialog === 'SKIP_ROUND'"
+				@close="hideDialogs"
 				@confirm="skip"
 			>
 				<h2>Skip this Round?</h2>
@@ -22,8 +22,8 @@
 			</confirmation>
 			<confirmation
 				id="confirm-setup-dialog"
-				v-show="setupConfirmationDialogVisible"
-				@close="hideSetupConfirmationDialog"
+				v-show="currentDialog === 'SETUP'"
+				@close="hideDialogs"
 				@confirm="setup"
 			>
 				<h2>Exit to Setup?</h2>
@@ -34,6 +34,7 @@
 					</p>
 				</div>
 			</confirmation>
+			<!-- <vote-dialog v-show="currentDialog === 'VOTE'" @close="hideDialogs"></vote-dialog> -->
 			<div class="stripe">
 				<div id="game-info" class="stripe-content canvas-aligned">
 					<h1 class="prompt" v-show="promptVisible">{{ promptText }}</h1>
@@ -112,6 +113,7 @@ import ConnectionOverlay from './connection-overlay';
 import GameMenu from './game-menu';
 import RoomInfo from './room-info';
 import Confirmation from './confirmation';
+// import VoteDialog from './vote-dialog';
 import drawingPad from './drawing-pad';
 import PlayerStatusesList from './player-statuses-list';
 
@@ -120,6 +122,13 @@ const CanvasState = {
 	PAINT: 'PAINT',
 	PREVIEW: 'PREVIEW',
 	SPECTATE: 'SPECTATE',
+};
+
+const Dialogs = {
+	ROOM_INFO: 'ROOM_INFO',
+	SKIP_ROUND: 'SKIP_ROUND',
+	SETUP: 'SETUP',
+	VOTE: 'VOTE',
 };
 
 const strokeTracker = {
@@ -193,11 +202,9 @@ export default {
 			stroke: strokeTracker,
 			drawingPad: drawingPad,
 			promptVisible: true,
-			skipRoundConfirmationDialogVisible: false,
-			setupConfirmationDialogVisible: false,
 			menuItems: this.generateMenuOptions(),
-			roomInfoDialogVisible: false,
 			playerStatusesListMaxWidth: 0,
+			currentDialog: undefined,
 		};
 	},
 	computed: {
@@ -337,31 +344,19 @@ export default {
 		togglePrompt() {
 			this.promptVisible = !this.promptVisible;
 		},
-		showSkipRoundConfirmationDialog() {
-			this.skipRoundConfirmationDialogVisible = true;
+		showDialog(name) {
+			this.currentDialog = name;
 		},
-		showSetupConfirmationDialog() {
-			this.setupConfirmationDialogVisible = true;
-		},
-		hideSkipRoundConfirmationDialog() {
-			this.skipRoundConfirmationDialogVisible = false;
-		},
-		hideSetupConfirmationDialog() {
-			this.setupConfirmationDialogVisible = false;
+		hideDialogs() {
+			this.currentDialog = undefined;
 		},
 		skip() {
 			Store.submitSkipRound();
-			this.hideSkipRoundConfirmationDialog();
+			this.hideDialogs();
 		},
 		setup() {
 			Store.submitReturnToSetup();
-			this.hideSetupConfirmationDialog();
-		},
-		showRoomInfo() {
-			this.roomInfoDialogVisible = true;
-		},
-		hideRoomInfo() {
-			this.roomInfoDialogVisible = false;
+			this.hideDialogs();
 		},
 		rules() {
 			Store.setView(VIEW.RULES);
@@ -375,7 +370,9 @@ export default {
 					  }
 					: {
 							text: 'Skip this round',
-							action: this.showSkipRoundConfirmationDialog,
+							action: () => {
+								this.showDialog(Dialogs.SKIP_ROUND);
+							},
 					  };
 			return [
 				{
@@ -384,7 +381,9 @@ export default {
 				},
 				{
 					text: 'Game status',
-					action: this.showRoomInfo,
+					action: () => {
+						this.showDialog(Dialogs.ROOM_INFO);
+					},
 				},
 				{
 					text: 'break1',
@@ -393,7 +392,9 @@ export default {
 				nextRoundOption,
 				{
 					text: 'Exit to setup',
-					action: this.showSetupConfirmationDialog,
+					action: () => {
+						this.showDialog(Dialogs.SETUP);
+					},
 				},
 			];
 		},
