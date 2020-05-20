@@ -64,7 +64,7 @@ class GameRoom {
 		this.hint = prompt.hint;
 		this.faker = Util.randomItemFrom(this.users);
 		this.strokes = [];
-		console.log(`Rm${this.roomCode} New round`);
+		console.log(`Rm${this.roomCode} New round ${this.round}`);
 	}
 	invokeSetup() {
 		console.log(`Rm${this.roomCode} Force setup`);
