@@ -43,6 +43,12 @@
 							<h3>Misc. about</h3>
 							<p>FAO is not affiliated with Oink Games.</p>
 							<p>
+								Notification SFX from
+								<a href="https://material.io/design/sound/sound-resources.html"></a>
+								(<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a
+								>)
+							</p>
+							<p>
 								This is a one-man pet project, so I appreciate your patience for
 								fixes and features.
 							</p>

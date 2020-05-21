@@ -6,7 +6,7 @@ import { generateClientGameState } from './client-game';
 import { validateUsername } from '../../common/util';
 
 const socket = io();
-// const sfx = new Audio('static/sfx-shake.wav');
+const sfx = new Audio('static/notification_simple-01.wav');
 
 const Store = {
 	state: {
@@ -88,9 +88,9 @@ function handleSocket(messageName, handler, errHandler) {
 				? Store.state.gameState.strokes.length
 				: 0;
 			Store.setGameState(data.roomState);
-			// if (prevStrokesLength < data.roomState.strokes.length) {
-			// sfx.play();
-			// }
+			if (prevStrokesLength < data.roomState.strokes.length) {
+				sfx.play();
+			}
 		}
 	});
 }
