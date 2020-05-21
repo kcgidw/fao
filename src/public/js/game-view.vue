@@ -11,7 +11,7 @@
 				id="confirm-skip-dialog"
 				v-show="currentDialog === 'SKIP_ROUND'"
 				@close="hideDialogs"
-				@confirm="skip"
+				@confirm="nextRound"
 			>
 				<h2>Skip this Round?</h2>
 				<div class="normal-text">
@@ -61,7 +61,7 @@
 					<div id="drawing-actions-center">
 						<button
 							class="btn primary big"
-							@click="newRound"
+							@click="nextRound"
 							v-show="isRoundOver"
 							:disabled="!isRoundOver"
 						>
@@ -278,8 +278,9 @@ export default {
 				this.canvasState = CanvasState.SPECTATE;
 			}
 		},
-		newRound() {
-			Store.submitStartGame();
+		nextRound() {
+			Store.submitNextRound();
+			this.hideDialogs(); // for skip dialog
 		},
 		pdown(e) {
 			if (this.canvasState === CanvasState.EMPTY && Store.myTurn()) {
@@ -350,10 +351,6 @@ export default {
 		hideDialogs() {
 			this.currentDialog = undefined;
 		},
-		skip() {
-			Store.submitSkipRound();
-			this.hideDialogs();
-		},
 		setup() {
 			Store.submitReturnToSetup();
 			this.hideDialogs();
@@ -365,8 +362,8 @@ export default {
 			const nextRoundOption =
 				this.gameState.phase === GAME_PHASE.VOTE
 					? {
-							text: 'Next round',
-							action: this.newRound,
+							text: 'New round',
+							action: this.nextRound,
 					  }
 					: {
 							text: 'Skip this round',

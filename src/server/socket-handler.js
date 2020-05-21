@@ -96,7 +96,7 @@ const MessageHandlers = {
 		rm.startNewRound();
 		broadcastRoomState(io, rm, MESSAGE.START_GAME);
 	},
-	[MESSAGE.SKIP_ROUND](io, sock, data) {
+	[MESSAGE.NEXT_ROUND](io, sock, data) {
 		GamePrecond.sockHasUser(sock);
 		GamePrecond.userIsInARoom(sock.user);
 		let rm = sock.user.gameRoom;
