@@ -195,6 +195,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		sfxDisabled: {
+			type: Boolean,
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -202,7 +206,7 @@ export default {
 			stroke: strokeTracker,
 			drawingPad: drawingPad,
 			promptVisible: true,
-			menuItems: this.generateMenuOptions(),
+			menuItems: [],
 			playerStatusesListMaxWidth: 0,
 			currentDialog: undefined,
 		};
@@ -239,6 +243,12 @@ export default {
 			this.promptVisible = true;
 		},
 		['gameState.phase']() {
+			this.menuItems = this.generateMenuOptions();
+		},
+		['sfxDisabled']() {
+			this.menuItems = this.generateMenuOptions();
+		},
+		promptVisible() {
 			this.menuItems = this.generateMenuOptions();
 		},
 	},
@@ -345,6 +355,9 @@ export default {
 		togglePrompt() {
 			this.promptVisible = !this.promptVisible;
 		},
+		toggleSfx() {
+			Store.toggleSfx();
+		},
 		showDialog(name) {
 			this.currentDialog = name;
 		},
@@ -373,8 +386,12 @@ export default {
 					  };
 			return [
 				{
-					text: 'Toggle prompt',
+					text: this.promptVisible ? 'Hide prompt' : 'Show prompt',
 					action: this.togglePrompt,
+				},
+				{
+					text: this.sfxDisabled ? 'Unmute sound' : 'Mute sound',
+					action: this.toggleSfx,
 				},
 				{
 					text: 'Game status',
@@ -403,6 +420,7 @@ export default {
 			this.resizePlayerStatusesList();
 			this.reset();
 		});
+		this.menuItems = this.generateMenuOptions();
 		window.addEventListener('resize', this.onWindowResize);
 	},
 	beforeDestroy() {

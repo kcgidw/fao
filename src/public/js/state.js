@@ -11,6 +11,7 @@ const sfx = new Audio('static/notification_simple-01.wav');
 const Store = {
 	state: {
 		username: localStorage.username || '',
+		sfxDisabled: localStorage.sfxDisabled === 'true',
 		view: VIEW.HOME,
 		previousView: VIEW.HOME,
 		gameState: undefined,
@@ -21,6 +22,10 @@ const Store = {
 	setUsername(username) {
 		this.state.username = username;
 		localStorage.username = username;
+	},
+	toggleSfx() {
+		this.state.sfxDisabled = !this.state.sfxDisabled;
+		localStorage.sfxDisabled = this.state.sfxDisabled;
 	},
 	setView(view) {
 		this.state.previousView = this.state.view;
@@ -88,7 +93,7 @@ function handleSocket(messageName, handler, errHandler) {
 				? Store.state.gameState.strokes.length
 				: 0;
 			Store.setGameState(data.roomState);
-			if (prevStrokesLength < data.roomState.strokes.length) {
+			if (!Store.state.sfxDisabled && prevStrokesLength < data.roomState.strokes.length) {
 				sfx.play();
 			}
 		}
