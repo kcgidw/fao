@@ -2,9 +2,9 @@
 
 An online party game based on Oink Games' tabletop game, _A Fake Artist Goes to New York_. Draw with your phone or a mouse.
 
-Play on Heroku: https://kc-fakeartistonline.herokuapp.com/
+Made with Vue, Express, and Socket.io.
 
-Tech: Vue, Express, Socket.io, Webpack, Mocha
+Play on Heroku: https://kc-fakeartistonline.herokuapp.com/
 
 ## Develop
 
@@ -20,8 +20,8 @@ Some guidelines:
 
 -   I'm not seeking additional keyword prompts. There's already a lot!
 -   UI should accomodate iPhone 5 screens (320x568).
--   FAO isn't ambitious. The old Crabhat Spyfall webapp was a huge inspiration for me.
--   As a loose rule of thumb, I'm hesitant to add to or enforce game rules. This is in line with keeping things minimalistic, and also accommodates for players with house rules.
+-   FAO isn't ambitious. The old Crabhat Spyfall webapp's minimalism was a big inspiration for me.
+-   As a loose rule of thumb, I'm hesitant to add to or enforce game rules. This keeps things minimalistic and accommodates for players with house rules.
 
 If you have questions, feel free to email me or create a feature request for discussion.
 
