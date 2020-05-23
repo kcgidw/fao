@@ -1,4 +1,4 @@
-import * as Color from './playerColors';
+import * as Color from './player-colors';
 
 function generateClientGameState() {
 	return {
