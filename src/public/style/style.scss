@@ -55,10 +55,15 @@ h1.title {
 		font-size: 32px;
 	}
 }
+.normal-text h3 {
+	@media screen and (max-width: 480px) {
+		font-size: 14px;
+	}
+}
 
 div.stripe {
 	margin: 0 0;
-	padding: 10px 10px;
+	padding: 10px;
 }
 div.stripe-content {
 	margin-left: auto;
