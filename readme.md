@@ -4,7 +4,9 @@ An online party game based on Oink Games' tabletop game, _A Fake Artist Goes to 
 
 Made with Vue, Express, and Socket.io.
 
-Play on Heroku: https://kc-fakeartistonline.herokuapp.com/
+**UPDATE: I've been contacted by Oink Games and am complying with their requests. FAO will no longer be hosted online.**
+
+This repo will also be archived. Thanks for playing!
 
 ## Develop
 
@@ -24,12 +26,6 @@ Some guidelines:
 -   As a loose rule of thumb, I'm hesitant to add to or enforce game rules. This keeps things minimalistic and accommodates for players with house rules.
 
 If you have questions, feel free to email me or create a feature request for discussion.
-
-I'm also totally cool with people hosting their own forks, as long as there's credit to the original repo.
-
-## Support
-
-Enjoy the game? Send a tip: [Ko-fi](https://ko-fi.com/krackocloud).
 
 ## License
 
