@@ -2,6 +2,8 @@
 
 **If you've been playing FAO, someone else is hosting the code and I have no control over it!**
 
+This repo will also be archived. Thanks for playing!
+
 ---
 
 # Fake Artist Online
@@ -9,8 +11,6 @@
 An online party game based on Oink Games' tabletop game, _A Fake Artist Goes to New York_. Draw with your phone or a mouse.
 
 Made with Vue, Express, and Socket.io.
-
-This repo will also be archived. Thanks for playing!
 
 ## Develop
 
